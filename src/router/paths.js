@@ -176,4 +176,12 @@ export default [
       `@/views/sales/shipping_order/Create.vue`
     )
   },
+  {
+    path: '/ordenes-de-envios/ver/:uuid?',
+    meta: { breadcrumb: true },
+    name: 'shipOrderView',
+    component: () => import(
+      `@/views/sales/shipping_order/View.vue`
+    )
+  },
 ];

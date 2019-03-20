@@ -4,16 +4,43 @@
             <v-stepper v-model="e1">
             
                 <v-stepper-header>
-                    <v-stepper-step :complete="e1 > 1" step="1">Origen</v-stepper-step>
+                    <v-stepper-step :complete="e1 > 1" step="1">Modalidad</v-stepper-step>
                     <v-divider></v-divider>
-                    <v-stepper-step :complete="e1 > 2" step="2">Destino</v-stepper-step>
+                    <v-stepper-step :complete="e1 > 2" step="2">Origen</v-stepper-step>
                     <v-divider></v-divider>
-                    <v-stepper-step step="3">Detalles</v-stepper-step>
+                    <v-stepper-step :complete="e1 > 3" step="3">Destino</v-stepper-step>
+                    <v-divider></v-divider>
+                    <v-stepper-step :complete="e1 > 4" step="4">Detalles</v-stepper-step>
+                    <v-divider></v-divider>
+                    <v-stepper-step step="5">Confirmar</v-stepper-step>
+                    <v-divider></v-divider>
                 </v-stepper-header>
 
                 <v-stepper-items>
 
                     <v-stepper-content step="1">
+                        <v-label>Selecciona la modalidad:</v-label>
+                        <v-radio-group v-model="modality" row>
+                            <v-radio
+                                v-for="item in basic.modality"
+                                :key="item.value"
+                                :label="item.text"
+                                :value="item.value"
+                            ></v-radio>
+                        </v-radio-group>
+                        <v-layout wrap>
+                            <v-flex lg6 md6 sm12 xs12>
+                                <v-btn flat disabled>
+                                    Regresar
+                                </v-btn>
+                                <v-btn color="primary" @click="e1 = 2" :disabled="disabledBtn.modality">
+                                    Continuar
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </v-stepper-content>
+
+                    <v-stepper-content step="2">
                         <v-form 
                         ref="clientForm"
                         lazy-validation>
@@ -75,7 +102,7 @@
                                     </v-text-field>
                                 </v-flex>
 
-                                <v-flex lg12 md12 sm12 xs12>
+                                <v-flex lg6 md6 sm12 xs12>
                                     <v-text-field   
                                         @keyup="blurValidate()"
                                         v-model="form.client.address"
@@ -84,9 +111,9 @@
                                     </v-text-field>
                                 </v-flex>
 
-                                <v-flex lg4 md4 sm12 xs12>
+                                <v-flex lg6 md6 sm12 xs12>
                                     <v-select
-                                        @input="blurValidate()"
+                                        @input="blurValidate(); getCurrencies()"
                                         :disabled="disabled.clientField"
                                         label="País"
                                         :items="basic.countries"
@@ -117,26 +144,32 @@
                                     </v-text-field>
                                 </v-flex>
 
+                                <v-flex>
+                                     <v-select
+                                        v-if="modality == 1"
+                                        @input="blurValidate()"
+                                        label="Moneda de Pago"
+                                        :items="basic.money"
+                                        v-model="form.details.currency"
+                                        item-text="money"
+                                        item-value="money"
+                                        :rules="[v => !!v || 'Campo requerido']">
+                                    </v-select>
+                                </v-flex>
+
                             </v-layout>
 
                             <v-layout>
                                 <v-flex lg6 md6 sm12 xs12>
-                                    <v-btn flat disabled>
+                                    <v-btn flat @click="e1 = 1">
                                         Regresar
                                     </v-btn>
-                                    <v-btn color="primary" :disabled="disabledBtn.firsStep" @click="e1 = 2">
+                                    <v-btn color="primary" :disabled="disabledBtn.firsStep" @click="e1 = 3">
                                         Continuar
                                     </v-btn>
                                     <v-btn color="error" @click="resetClientFields()" v-if="disabled.clientField">
                                         Restablecer
                                     </v-btn>
-                                </v-flex>
-                                <v-flex lg3 md3 sm12 xs12 style="text-align: center">
-                                    <v-checkbox 
-                                        v-model="checkboxes.valueClient" 
-                                        :disabled="checkboxes.client" 
-                                        label="¿Desea Guardar este Cliente?">
-                                    </v-checkbox>
                                 </v-flex>
                                 <v-flex lg3 md3 sm12 xs12 style="text-align: right">
                                     <v-btn color="success" flat @click="dialog.searchClient = true">
@@ -150,7 +183,7 @@
                         
                     </v-stepper-content>
 
-                    <v-stepper-content step="2">
+                    <v-stepper-content step="3">
                         <v-form
                         ref="addAfiliateForm">
                             <v-layout wrap row>
@@ -200,7 +233,7 @@
                                 </v-flex>
                                 <v-flex lg3 md3 sm12 xs12>
                                     <v-select
-                                        @input="blurValidateAfiliate()"
+                                        @input="blurValidateAfiliate(); getCurrencies()"
                                         :disabled="disabled.afiliateField"
                                         label="País"
                                         :rules="[v => !!v || 'Campo requerido']"
@@ -256,23 +289,26 @@
                                     v-model="form.details.tealca_code"
                                     label="Código Tealca"></v-text-field>
                                 </v-flex>
-                                <v-flex lg6 md6 sm12 xs12>
-                                    <v-select
-                                        label="Moneda"
-                                        :items="basic.countries"
-                                        v-model="form.details.tealca_office"
-                                        item-text="text"
-                                        item-value="value">
+                                <v-flex>
+                                     <v-select
+                                        v-if="modality == 2"
+                                        @input="blurValidateAfiliate()"
+                                        label="Moneda de Pago"
+                                        :items="basic.money"
+                                        v-model="form.details.currency"
+                                        item-text="money"
+                                        item-value="money"
+                                        :rules="[v => !!v || 'Campo requerido']">
                                     </v-select>
                                 </v-flex>
                             </v-layout>
 
                             <v-layout>
                                 <v-flex lg6 md6 sm12 xs12>
-                                    <v-btn flat @click="e1 = 1">
+                                    <v-btn flat @click="e1 = 2">
                                         Regresar
                                     </v-btn>
-                                    <v-btn color="primary" :disabled="disabledBtn.secondStep" @click="e1 = 3">
+                                    <v-btn color="primary" :disabled="disabledBtn.secondStep" @click="e1 = 4">
                                         Continuar
                                     </v-btn>
                                     <v-btn color="error" @click="resetAfiliateFields()" v-if="disabled.afiliateField">
@@ -280,9 +316,6 @@
                                     </v-btn>
                                 </v-flex>
                                 
-                                <v-flex lg3 md3 sm12 xs12 style="text-align: center">
-                                    <v-checkbox v-model="checkboxes.valueAfiliate" :disabled="checkboxes.afiliate" label="¿Desea Guardar este destinatario?"></v-checkbox>
-                                </v-flex>
                                 <v-flex lg3 md3 sm12 xs12 style="text-align: right">
                                     <v-btn color="success" v-if="form.client.id !== null" @click="dialog.searchAfiliate = true" flat>
                                         <i class="fa fa-search"></i>&nbsp;
@@ -293,7 +326,7 @@
                         </v-form>
                     </v-stepper-content>
 
-                    <v-stepper-content step="3">
+                    <v-stepper-content step="4">
                         <v-form ref="addOrderForm">
                             <v-layout wrap>
                                 <v-flex lg6 md6 sm12 xs12>
@@ -318,7 +351,7 @@
                                             @blur="blurValidateOrder()"
                                             :rules="onlyText"
                                             v-model="form.details.out_date"
-                                            label="Fecha"
+                                            label="Fecha de salida"
                                             v-on="on"
                                         ></v-text-field>
                                         </template>
@@ -343,8 +376,9 @@
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
                                             <td>{{ items.qty }}</td>
-                                            <td>{{ items.price }}</td>
-                                            <td>{{ items.subtotal }}</td>
+                                            <td v-if="items.weight == ''">{{ items.price }} {{ form.details.currency }}</td>
+                                            <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
+                                            <td>{{ items.subtotal }} {{ form.details.currency }}</td>
                                             <td>
                                                 <v-btn 
                                                 depressed 
@@ -367,7 +401,7 @@
                                                 </strong>
                                             </td>
                                             <td>
-                                                3000
+                                                {{ weight }}
                                             </td>
                                             <td></td>
                                             <td style="text-align: right">
@@ -376,7 +410,7 @@
                                                 </strong>
                                             </td>
                                             <td>
-                                                {{ form.total }}
+                                                {{ form.total }} {{ form.details.currency }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -438,12 +472,12 @@
 
                             <v-layout>
                                 <v-flex lg6 md6 sm12 xs12>
-                                    <v-btn flat @click="e1 = 2">
+                                    <v-btn flat @click="e1 = 3">
                                         Regresar
                                     </v-btn>
 
-                                    <v-btn color="primary" :disabled="disabled.orderform" @click="save()">
-                                        Generar
+                                    <v-btn color="primary" :disabled="disabled.orderform" @click="e1 = 5">
+                                        Continuar
                                     </v-btn>
                                 </v-flex>
                                 <v-flex lg6 md6 sm12 xs12 style="text-align: right">
@@ -454,6 +488,127 @@
                                 </v-flex>
                             </v-layout>
                         </v-form>
+                    </v-stepper-content>
+
+                    <v-stepper-content step="5">
+                        <v-layout wrap>
+                            <v-flex lg12 md12 sm12>
+                                <h4 v-if="modality == 1">Pago en el Origen</h4>
+                                <h4 v-if="modality == 2">Cobro en Destino</h4>
+                            </v-flex>
+                            <v-flex lg6 md6 sm12>
+                                <h4>Origen</h4>
+                                <strong>Remitente:</strong>&nbsp;
+                                {{ form.client.shipper }}<br>
+                                <strong>Persona de Contacto:</strong>&nbsp;
+                                {{ form.client.contact_person }}<br>
+                                <strong>Dirección:</strong>&nbsp;
+                                {{ form.client.address }}<br>
+                                <strong>País:</strong>&nbsp;
+                                {{ form.client.country }}<br>
+                                <strong>Teléfono:</strong>&nbsp;
+                                {{ form.client.phone }}<br>
+                                <strong>Correo Electrónico:</strong>&nbsp;
+                                {{ form.client.email }}<br>
+                                <strong>Código Postal / ZIP:</strong>&nbsp;
+                                {{form.client.zip }}<br>
+                                <strong>Airwaybill:</strong>&nbsp;
+                                {{ form.details.airwaybill }}<br>
+                                <strong>Fecha de salida</strong>&nbsp;
+                                {{ form.details.out_date }}<br>
+                            </v-flex>
+                            <v-flex lg6 md6 sm12>
+                                <h4>Destino</h4>
+                                <strong>Destinatario:</strong>&nbsp;
+                                {{ form.afiliates.destination_name }}<br>
+                                <strong>Atención:</strong>&nbsp;
+                                {{ form.afiliates.attention }}<br>
+                                <strong>Dirección:</strong>&nbsp;
+                                {{ form.afiliates.address }}<br>
+                                <strong>País:</strong>&nbsp;
+                                {{ form.afiliates.country }}<br>
+                                <strong>Teléfono:</strong>&nbsp;
+                                {{ form.afiliates.phone }}<br>
+                                <strong>Correo Elecrónico:</strong>&nbsp;
+                                {{ form.afiliates.email }}<br>
+                                <strong>Código Postal / ZIP:</strong>&nbsp;
+                                {{ form.afiliates.zip }}<br>
+                                <strong>Oficina Tealca:</strong>&nbsp;
+                                {{ form.details.tealca_office }}<br>
+                                <strong>Código Tealca:</strong>&nbsp;
+                                {{ form.details.tealca_code }}<br>
+                            </v-flex>
+                            <v-spacer></v-spacer>
+                            <v-flex lg12 md12 sm12>
+                                <div class="table-responsive">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Paquete N°</th>
+                                            <th>Descripción del bien</th>
+                                            <th>Unidades</th>
+                                            <th>Costo Unitario</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="items in form.products" :key="items.package">
+                                            <td>{{ items.package }}</td>
+                                            <td>{{ items.description }}</td>
+                                            <td>{{ items.qty }}</td>
+                                            <td v-if="items.weight == ''">{{ items.price }} {{ form.details.currency }}</td>
+                                            <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
+                                            <td>{{ items.subtotal }} {{ form.details.currency }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="text-align: right">
+                                                <strong>
+                                                    Kilos:
+                                                </strong>
+                                            </td>
+                                            <td>
+                                                {{ weight }}
+                                            </td>
+                                            <td></td>
+                                            <td style="text-align: right">
+                                                <strong>
+                                                    Total:
+                                                </strong>
+                                            </td>
+                                            <td>
+                                                {{ form.total }} {{ form.details.currency }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            </v-flex>
+                            <v-flex lg12 md12 sm12>
+                                <strong>Razón de exportación</strong><br>
+                                {{ form.details.reason }}
+                            </v-flex>
+                            <v-flex lg6 md6 sm12>
+                                <strong>Nombre:</strong>&nbsp;
+                                {{ form.details.name }}<br>
+                                <strong>Posición:</strong>&nbsp;
+                                {{ form.details.position }}<br>
+                            </v-flex>
+                            <v-flex lg6 md6 sm12>
+                                <strong>Fecha:</strong>&nbsp;
+                                {{ form.details.date }}
+                            </v-flex>
+                        </v-layout>
+                        <v-layout>
+                            <v-flex lg6 md6 sm12 xs12>
+                                <v-btn flat @click="e1 = 4" :disabled="disabledBtn.goBackBeforeSave">
+                                    Regresar
+                                </v-btn>
+                                <v-btn color="primary"  @click="save()" :loading="loading.saveBtn">
+                                    Generar
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
                     </v-stepper-content>
 
                 </v-stepper-items>
@@ -701,6 +856,8 @@ import countriesList from '@/api/paisesymonedas'
 export default {
     data () {
         return {
+            weight: 2900,
+            modality: '',
             menu1: false,
             menu2: false,
             e1: 0,
@@ -720,7 +877,9 @@ export default {
                 secondStep: true,
                 thirStep: true,
                 addClient: true,
-                addAfiliate: true
+                addAfiliate: true,
+                modality: true,
+                goBackBeforeSave: false
             },
             request: {
                 client: [],
@@ -734,7 +893,8 @@ export default {
             loading: {
                 searchClient: false,
                 searchAfiliate: false,
-                getSubcategories: false
+                getSubcategories: false,
+                saveBtn: false
             },
             dialog: {
                 searchClient: false,
@@ -789,6 +949,7 @@ export default {
                     destination_name: '',
                     attention: '',
                     address: '',
+                    clients_id: '',
                     country: '',
                     city: '',
                     zip: '',
@@ -804,12 +965,15 @@ export default {
                     date: '',
                     tealca_office: '',
                     tealca_code: '',
-                    reason: ''
+                    reason: '',
+                    modality: '',
+                    currency: ''
                 },
                 total: 0
             },
             basic: {
                 countries: countriesList.pais,
+                money: [],
                 doc_types: [
                     { value: "1", text: 'Pto' },
                     { value: "2", text: 'Pasaporte' },
@@ -834,6 +998,10 @@ export default {
                     { value: "8", text: 'Oficina Tealca 8' },
                     { value: "9", text: 'Oficina Tealca 9' },
                     { value: "10", text: 'Oficina Tealca 10' }
+                ],
+                modality: [
+                    { value: "1", text: "Pago en el origen" },
+                    { value: "2", text: "Cobro en destino" }
                 ]
             },
         }
@@ -852,16 +1020,35 @@ export default {
     computed: {
       currentTitle () {
         switch (this.step) {
-          case 1: return 'Origen'
-          case 2: return 'Destino'
-          default: return 'Detalles'
+          case 1: return 'Modalidad'
+          case 2: return 'Origen'
+          case 3: return 'Destino'
+          case 4: return 'Detalles'
+          case 5: return 'Confirmar'
+          default: return 'Confirmar'
         }
       }
+    },
+    watch: {
+        
+        modality: function( val ){
+            if( val == "1" || val == "2" ){
+                this.disabledBtn.modality = false
+                this.form.details.modality = val
+            } else {
+                this.disabledBtn.modality = true
+            }
+        }
+
     },
     mounted () {
         this.getTaxonomies()
     },
     methods: {
+        getCurrencies(){
+            var result = this.basic.countries.find( country => country.value == this.form.client.country )
+            this.basic.money = result.money
+        },  
         getAfiliated(){
             this.loading.searchAfiliate = true
             axios.get( 'afiliated/by-number?client=' + this.form.client.id + '&key=' + this.search.afiliated ).then( response => {
@@ -883,6 +1070,7 @@ export default {
             this.form.afiliates.destination_name = this.request.afiliates[0].destination_name
             this.form.afiliates.attention = this.request.afiliates[0].attention
             this.form.afiliates.address = this.request.afiliates[0].address
+            this.form.afiliates.clients_id = this.request.afiliates[0].clients_id
             this.form.afiliates.country = this.request.afiliates[0].country
             this.form.afiliates.city = this.request.afiliates[0].city
             this.form.afiliates.phone = this.request.afiliates[0].phone
@@ -951,18 +1139,23 @@ export default {
         addProduct(){
             var rows = this.form.products.length
             var rows = rows + 1
-            var subtotal = this.productToInsert.subtotal = parseFloat( this.productToInsert.price ) * parseFloat( this.productToInsert.qty )
+            
+            if( this.productToInsert.weight != '' ) {
+                this.productToInsert.weight = parseFloat( this.productToInsert.weight )
+                this.productToInsert.weight = this.productToInsert.weight.toFixed(2)
+                this.productToInsert.price = parseFloat( this.productToInsert.weight ) * parseFloat( this.weight )
+            }
+            var subtotal = parseFloat( this.productToInsert.price ) * parseFloat( this.productToInsert.qty )
             var subtotal = subtotal.toFixed(2)
             this.productToInsert.price = parseFloat( this.productToInsert.price )
             this.productToInsert.price = this.productToInsert.price.toFixed(2)
-            this.productToInsert.weight = parseFloat( this.productToInsert.weight )
-            this.productToInsert.weight = this.productToInsert.weight.toFixed(2)
+            
             var data = {
                 package: rows,
                 product_type: this.productToInsert.product_type,
                 description: this.productToInsert.description,
-                category: this.productToInsert.category,
-                subcategory: this.productToInsert.subcategory,
+                category_id: this.productToInsert.category,
+                subcategory_id: this.productToInsert.subcategory,
                 qty: this.productToInsert.qty,
                 weight: this.productToInsert.weight,
                 price: this.productToInsert.price,
@@ -1088,9 +1281,81 @@ export default {
             }
         },
         save(){
-            if( this.$refs.addOrderForm.validate() && this.form.products.length > 0 ){
-                console.log( this.form )
+            this.disabledBtn.goBackBeforeSave = true
+            this.loading.saveBtn = true
+            // Guardar los clientes en caso sea requerido
+            if( this.form.client.id == null ){
+                var client = {
+                    shipper: this.form.client.shipper,
+                    contact_person: this.form.client.contact_person,
+                    doc_type: this.form.client.doc_type,
+                    number: this.form.client.number,
+                    address: this.form.client.address,
+                    country: this.form.client.country,
+                    city: this.form.client.city,
+                    phone: this.form.client.phone,
+                    email: this.form.client.email,
+                    zip: this.form.client.zip
+                }
+                axios.post( 'clients/', client ).then( response => {
+                    this.form.client.id =  response.data.clients_id
+                    console.log( 'Cliente Registrado' )
+                    if( this.form.afiliates.id == null ){
+                        var afiliate = {
+                            doc_type: this.form.afiliates.doc_type,
+                            number: this.form.afiliates.number,
+                            destination_name: this.form.afiliates.destination_name,
+                            attention: this.form.afiliates.attention,
+                            address: this.form.afiliates.address,
+                            clients_id: response.data.clients_id,
+                            country: this.form.afiliates.country,
+                            city: this.form.afiliates.city,
+                            zip: this.form.afiliates.zip,
+                            phone: this.form.afiliates.phone,
+                            email: this.form.afiliates.email
+                        }   
+                        axios.post( 'afiliated/', afiliate ).then( response => {   
+                            console.log( 'Afiliado al cliente registrado' )
+                            this.form.afiliates.id = response.data.client_afiliated_id
+                            this.saveOrder()
+                        }).catch( error => {
+                            console.log( error )
+                        })   
+                    }
+                }).catch( error => {
+                    console.log( error )
+                })
+            } else {
+                this.saveOrder()
             }
+        },
+        saveOrder(){
+             var data = {
+                clients_id: this.form.client.id,
+                client_afiliated_id: this.form.afiliates.id,
+                airwaybill: this.form.details.airwaybill,
+                out_date: this.form.details.out_date,
+                name: this.form.details.name,
+                position: this.form.details.position,
+                date: this.form.details.date,
+                tealca_office: this.form.details.tealca_office,
+                tealca_code: this.form.details.tealca_code,
+                reason: this.form.details.reason,
+                modality: this.form.details.modality,
+                currency: this.form.details.currency,
+                total: this.form.total,
+                products: this.form.products
+            }
+            axios.post( 'ship-order', data ).then( response => {
+                if( response.data.status ){
+                    this.snackbar = { show: true, text: response.data.response, color: 'success', icon:'fa fa-check' }
+                    this.$router.push('/ordenes-de-envios/listado')
+                } else {
+                    this.snackbar = { show: true, text: response.data.response, color: 'error', icon:'fa fa-exclamation-triangle' }
+                }
+            }).catch( error => {
+                this.snackbar = { show: true, text: error, color: 'error', icon:'fa fa-exclamation-triangle' }
+            })
         }
     }
 }
