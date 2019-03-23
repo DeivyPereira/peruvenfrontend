@@ -7,7 +7,7 @@
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <h1 class="flex my-4 primary--text">Sistema Administrativo</h1>
+                  <h1 class="flex my-4 primary--text">Sistema Peruven</h1>
                 </div>                
                 <v-form>
                   <v-text-field append-icon="person" name="login" label="Login" type="text" v-model="model.username"></v-text-field>

@@ -1,3 +1,3 @@
 module.exports = {
-    //publicPath: '/sistema-administrativo/'
+    publicPath: '/peruven/'
 }
