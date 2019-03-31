@@ -8,7 +8,7 @@
                             <h4 v-if="order.modality == 1">Pago en el Origen</h4>
                             <h4 v-if="order.modality == 2">Cobro en Destino</h4>
                         </v-flex>
-                        <v-flex lg6 md6 sm12>
+                        <v-flex lg5 md5 sm12>
                             <h4>Origen</h4>
                             <strong>Remitente:</strong>&nbsp;
                             {{ order.clients.shipper }}<br>
@@ -29,7 +29,7 @@
                             <strong>Fecha de salida</strong>&nbsp;
                             {{ order.out_date }}<br>
                         </v-flex>
-                        <v-flex lg6 md6 sm6 xs12>
+                        <v-flex lg5 md5 sm5 xs12>
                             <h4>Destino</h4>
                             <strong>Destinatario:</strong>&nbsp;
                             {{ order.client_afiliated.destination_name }}<br>
@@ -50,6 +50,10 @@
                             <strong>Código Tealca:</strong>&nbsp;
                             {{ order.tealca_code }}<br>
                         </v-flex>
+                        <v-flex lg2 md2 sm2 xs12>
+							 <strong style="padding-left: 8px;">Tracking:</strong>#{{ order.id }}
+							<img :src='ImgQr(order.id)' width="70%">
+						</v-flex>
                         <v-spacer></v-spacer>
                         <v-flex lg12 md12 sm12>
                             <div class="table-responsive">
@@ -150,11 +154,15 @@ export default {
         getOrder(){
             axios.get( 'ship-order/' + this.$route.params.id ).then( response => {
                 this.order = response.data.items[0]
+                console.log(this.order)
             })
         },
         cancel(){
             this.$router.push('/ordenes-de-envios/listado')
-        }
+        },
+		ImgQr(id){
+			return 'http://104.197.180.47/peruven/api/uploads/qr/'+ id +'.png';
+		}
     }
 }
 </script>

@@ -1281,8 +1281,8 @@ export default {
             }
         },
         save(){
-            this.disabledBtn.goBackBeforeSave = true
-            this.loading.saveBtn = true
+          //  this.disabledBtn.goBackBeforeSave = true
+           // this.loading.saveBtn = true
             // Guardar los clientes en caso sea requerido
             if( this.form.client.id == null ){
                 var client = {
