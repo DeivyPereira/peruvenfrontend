@@ -28,11 +28,12 @@
                         item-key="name"
                         >
                         <template slot="items" slot-scope="props">
-                        <td>{{ props.item.id }}</td>
+                        <td>{{ props.item.tracking }}</td>
+                        <td>{{ props.item.package.tracking }}</td>
                         <td>{{ props.item.clients.shipper }}</td>
                         <td>{{ props.item.client_afiliated.destination_name }}</td>
-                        <td>{{ props.item.date }}</td>
-                        <td>{{ props.item.out_date }}</td>
+                        <td>{{ props.item.package.out_date }}</td>
+                        <td>{{ props.item.arriving_date }}</td>
                         <td>
                             <v-btn depressed outline icon fab dark color="primary" small @click="view( props.item.id )">
                             <v-icon>fa fa-eye</v-icon>
@@ -67,8 +68,12 @@ export default {
             complex: {
             headers: [
             {
-                text: 'Orden N°',
-                value: 'id'
+                text: 'Tracking',
+                value: 'tracking'
+            },
+            {
+                text: 'Tracking Paquete Asociado',
+                value: 'package.tracking'
             },
             {
                 text: 'Remitente',
@@ -79,12 +84,12 @@ export default {
                 value: 'client_afiliated.destination_name'
             },
             {
-                text: 'Fecha',
-                value: 'date'
+                text: 'Fecha de salida (Paquete)',
+                value: 'out_date'
             },
             {
-                text: 'Fecha de salida',
-                value: 'out_date'
+                text: 'Fecha de llegada',
+                value: 'arriving_date'
             },
             {
                 text: '',

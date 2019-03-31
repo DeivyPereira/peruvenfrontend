@@ -4,9 +4,21 @@
             <v-card>
                 <v-card-text>
                     <v-layout row wrap>
-                        <v-flex lg12 md12 sm6 xs12>
-                            <h4 v-if="order.modality == 1">Pago en el Origen</h4>
-                            <h4 v-if="order.modality == 2">Cobro en Destino</h4>
+                        <v-flex lg6 md6 sm12 xs12>
+                            <h4 v-if="order.modality == 1">
+                                Modalidad:&nbsp;
+                                <strong>Pago en el Origen</strong>
+                            </h4>
+                            <h4 v-if="order.modality == 2">
+                                Modalidad&nbsp;
+                                <strong>Cobro en Destino</strong>
+                            </h4>
+                        </v-flex>
+                        <v-flex lg6 md6 sm12 xs12>
+                            <h4>
+                                Tracking del Paquete:&nbsp; 
+                                <strong>{{ order.package.tracking }}</strong>
+                            </h4>
                         </v-flex>
                         <v-flex lg6 md6 sm12>
                             <h4>Origen</h4>
@@ -26,8 +38,8 @@
                             {{ order.clients.zip }}<br>
                             <strong>Airwaybill:</strong>&nbsp;
                             {{ order.airwaybill }}<br>
-                            <strong>Fecha de salida</strong>&nbsp;
-                            {{ order.out_date }}<br>
+                            <strong>Fecha de salida:</strong>&nbsp;
+                            {{ order.package.out_date }}<br>
                         </v-flex>
                         <v-flex lg6 md6 sm6 xs12>
                             <h4>Destino</h4>
@@ -58,42 +70,87 @@
                                         <tr>
                                             <th>Paquete N°</th>
                                             <th>Descripción del bien</th>
-                                            <th>Categorias</th>
+                                            <th>Categorización</th>
                                             <th>Unidades</th>
                                             <th>Costo Unitario</th>
+                                            <th>Porcentaje por seguro</th>
                                             <th>Subtotal</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="items in order.products" :key="items.package">
+                                        <tr v-for="items in order.products" :key="items.id">
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
+                                            
                                             <td>
-                                                {{ items.category.name }}<br>
-                                                <small>{{ items.subcategory.name }}</small>
+                                                {{ items.category_name }}<br>
+                                                <small>{{ items.subcategory_name }}</small>
                                             </td>
-                                            <td>{{ items.qty }}</td>
-                                            <td v-if="items.weight == ''">{{ items.price }} {{ order.currency }}</td>
-                                            <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
-                                            <td>{{ items.subtotal }} {{ order.currency }}</td>
+
+                                            <td v-if="items.weight == undefined">{{ items.qty }} Und</td>
+                                            <td v-if="items.weight != undefined">{{ items.weight }} Kg</td>
+                                            
+                                            <td v-if="items.weight == undefined">{{ items.subtotal }} {{ order.currency }}</td>
+                                            <td v-if="items.weight != undefined">{{ items.kilo_value }} {{ order.currency }}</td>
+                                            
+                                            <td v-if="order.ensurance == 0">NO ASEGURADO</td>
+                                            <td v-if="order.ensurance == 1">{{ items.ensurance_value }} %</td>
+
+                                            <td>{{ items.price }} {{ order.currency }}</td>
+                                            <td></td>
                                         </tr>
+
                                         <tr>
-                                            <td style="text-align: right">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
                                                 <strong>
-                                                    Kilos:
+                                                    Impuestos:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                {{ weight }}
-                                            </td>
+                                            <td style="background: rgb( 230,230,230 );"></td>
+                                            <td style="background: rgb( 230,230,230 );"></td>
+                                        </tr>
+
+                                        <tr v-for="items in order.taxes" :key="items.id">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
                                             <td></td>
                                             <td style="text-align: right">
+                                                <strong>
+                                                    {{ items.tax.name }}:
+                                                </strong>
+                                            </td>
+                                            <td style="text-align: right">
+                                                {{ items.billing_value }}
+                                            </td>
+                                            <td>
+                                                %
+                                            </td>
+                                        </tr> 
+
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
                                                 <strong>
                                                     Total:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                {{ order.total }} {{ order.currency }}
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
+                                                {{ order.total }}
+                                            </td>
+                                            <td style="background: rgb( 230,230,230 );">
+                                                {{ order.currency }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -111,8 +168,8 @@
                             {{ order.position }}<br>
                         </v-flex>
                         <v-flex lg6 md6 sm12>
-                            <strong>Fecha:</strong>&nbsp;
-                            {{ order.date }}
+                            <strong>Fecha de llegada:</strong>&nbsp;
+                            {{ order.arriving_date }}
                         </v-flex>
                     </v-layout>
                 </v-card-text>
@@ -149,7 +206,7 @@ export default {
         },
         getOrder(){
             axios.get( 'ship-order/' + this.$route.params.id ).then( response => {
-                this.order = response.data.items[0]
+                this.order = response.data.items
             })
         },
         cancel(){

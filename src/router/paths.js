@@ -124,6 +124,24 @@ export default [
       `@/views/taxes/Taxes.vue`
     )
   },
+  {
+    path: '/seguros',
+    meta: { breadcrumb: true },
+    name: 'Ensurance',
+    component: () => import(
+      /* webpackChunkName: "routes" */
+      `@/views/ensurance/Ensurance.vue`
+    )
+  },
+  {
+    path: '/precio-kilo',
+    meta: { breadcrumb: true },
+    name: 'Kilo',
+    component: () => import(
+      /* webpackChunkName: "routes" */
+      `@/views/kilo/Kilo.vue`
+    )
+  },
   // Almacen
   {
     path: '/categorizacion/categorias',
@@ -182,6 +200,30 @@ export default [
     name: 'shipOrderView',
     component: () => import(
       `@/views/sales/shipping_order/View.vue`
+    )
+  },
+  {
+    path: '/ordenes-de-envios/packaging',
+    meta: { breadcrumb: true },
+    name: 'Packaging',
+    component: () => import(
+      `@/views/sales/packaging/Packaging.vue`
+    )
+  },
+  {
+    path: '/ordenes-de-envios/tracking-paquetes',
+    meta: { breadcrumb: true },
+    name: 'PackageTracking',
+    component: () => import(
+      `@/views/sales/tracking/Package_tracking.vue`
+    )
+  },
+  {
+    path: '/ordenes-de-envios/tracking-ordenes',
+    meta: { breadcrumb: true },
+    name: 'OrderTracking',
+    component: () => import(
+      `@/views/sales/tracking/Ship_order_tracking.vue`
     )
   },
 ];
