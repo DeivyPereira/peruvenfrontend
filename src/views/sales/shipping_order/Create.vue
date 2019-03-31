@@ -19,15 +19,61 @@
                 <v-stepper-items>
 
                     <v-stepper-content step="1">
-                        <v-label>Selecciona la modalidad:</v-label>
-                        <v-radio-group v-model="modality" row>
-                            <v-radio
-                                v-for="item in basic.modality"
-                                :key="item.value"
-                                :label="item.text"
-                                :value="item.value"
-                            ></v-radio>
-                        </v-radio-group>
+                        <v-layout wrap>                        
+                            <v-flex lg6 md6 sm12 xs12>
+                                <v-text-field
+                                    v-model="form.details.tracking"
+                                    disabled
+                                    label="Tracking">
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex lg6 md6 sm12 xs12>
+                                <div style="margin: 0 auto; width: 90%; text-align: center"> 
+                                    <v-label>
+                                        ¿Carga asegurada?
+                                    </v-label>
+                                    <v-radio-group v-model="ensurance" row>
+                                        <v-radio
+                                            v-for="item in basic.ensurance"
+                                            :key="item.value"
+                                            :label="item.text"
+                                            :value="item.value"
+                                        ></v-radio>
+                                    </v-radio-group>
+                                </div>
+                            </v-flex>
+                            <v-flex sm12 md12 lg12>
+                                <v-label>Asignar impuestos</v-label>
+                                <v-layout wrap>
+                                    <v-flex sm6 md4 lg4
+                                        v-for="items in basic.taxes" 
+                                        :key="items.id">
+                                        <v-checkbox 
+                                            v-model="taxes" 
+                                            :label="items.name + ' - ' + items.value + ' %'"
+                                            :value="items.id">
+                                        </v-checkbox>
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+                            <v-flex sm12 md6 lg6>
+                                <v-label>Selecciona la modalidad:</v-label>
+                                <v-radio-group v-model="modality" row>
+                                    <v-radio
+                                        v-for="item in basic.modality"
+                                        :key="item.value"
+                                        :label="item.text"
+                                        :value="item.value"
+                                    ></v-radio>
+                                </v-radio-group>
+                            </v-flex>
+                            <v-flex sm12 md6 lg6 style="text-align: center">
+                                <v-btn color="info" @click="dialog.selectPackage = true">
+                                    Asignar a paquete
+                                </v-btn>
+                                <h4 v-if="form.package.package_id != ''">Tracking Páquete: {{ form.package.tracking }}</h4>
+                            </v-flex>
+                        </v-layout>
                         <v-layout wrap>
                             <v-flex lg6 md6 sm12 xs12>
                                 <v-btn flat disabled>
@@ -80,7 +126,6 @@
                                         @keyup="blurValidate()"
                                         :rules="onlyText"
                                         v-model="form.client.contact_person"
-                                        :disabled="disabled.clientField"
                                         label="Persona de Contacto">
                                     </v-text-field>
                                 </v-flex>
@@ -89,7 +134,6 @@
                                         @keyup="blurValidate()"
                                         :rules="[v => !!v || 'Campo requerido']" 
                                         v-model="form.client.phone"
-                                        :disabled="disabled.clientField"
                                         label="Número Telefónico">
                                     </v-text-field>
                                 </v-flex>
@@ -97,7 +141,6 @@
                                     <v-text-field
                                         @keyup="blurValidate()"
                                         v-model="form.client.email"
-                                        :disabled="disabled.clientField"
                                         label="Correo Electrónico">
                                     </v-text-field>
                                 </v-flex>
@@ -106,7 +149,6 @@
                                     <v-text-field   
                                         @keyup="blurValidate()"
                                         v-model="form.client.address"
-                                        :disabled="disabled.clientField"
                                         label="Dirección">
                                     </v-text-field>
                                 </v-flex>
@@ -114,7 +156,6 @@
                                 <v-flex lg6 md6 sm12 xs12>
                                     <v-select
                                         @input="blurValidate(); getCurrencies()"
-                                        :disabled="disabled.clientField"
                                         label="País"
                                         :items="basic.countries"
                                         v-model="form.client.country"
@@ -128,7 +169,6 @@
                                     <v-text-field
                                         @keyup="blurValidate()"
                                         v-model="form.client.city"
-                                        :disabled="disabled.clientField"
                                         :rules="onlyText"
                                         label="Ciudad">
                                     </v-text-field>
@@ -138,23 +178,9 @@
                                     <v-text-field
                                         @keyup="blurValidate()"
                                         v-model="form.client.zip"
-                                        :disabled="disabled.clientField"
                                         :rules="[v => !!v || 'Campo requerido']"
                                         label="Código Postal / ZIP">
                                     </v-text-field>
-                                </v-flex>
-
-                                <v-flex>
-                                     <v-select
-                                        v-if="modality == 1"
-                                        @input="blurValidate()"
-                                        label="Moneda de Pago"
-                                        :items="basic.money"
-                                        v-model="form.details.currency"
-                                        item-text="money"
-                                        item-value="money"
-                                        :rules="[v => !!v || 'Campo requerido']">
-                                    </v-select>
                                 </v-flex>
 
                             </v-layout>
@@ -198,7 +224,6 @@
                                 <v-flex lg6 md6 sm12 xs12>
                                     <v-text-field
                                     @keyup="blurValidateAfiliate()"
-                                    :disabled="disabled.afiliateField"
                                     v-model="form.afiliates.attention"
                                     :rules="onlyText"
                                     label="Atención"></v-text-field>
@@ -226,7 +251,6 @@
                                 <v-flex lg6 md6 sm12 xs12>
                                     <v-text-field
                                     @keyup="blurValidateAfiliate()"
-                                    :disabled="disabled.afiliateField"
                                     v-model="form.afiliates.address"
                                     :rules="onlyText"
                                     label="Dirección"></v-text-field>
@@ -234,7 +258,6 @@
                                 <v-flex lg3 md3 sm12 xs12>
                                     <v-select
                                         @input="blurValidateAfiliate(); getCurrencies()"
-                                        :disabled="disabled.afiliateField"
                                         label="País"
                                         :rules="[v => !!v || 'Campo requerido']"
                                         :items="basic.countries"
@@ -246,7 +269,6 @@
                                 <v-flex lg3 md3 sm12 xs12>
                                     <v-text-field
                                     @keyup="blurValidateAfiliate()"
-                                    :disabled="disabled.afiliateField"
                                     v-model="form.afiliates.city"
                                     :rules="onlyText"
                                     label="Ciudad"></v-text-field>
@@ -254,7 +276,6 @@
                                 <v-flex lg3 md3 sm12 xs12>
                                     <v-text-field
                                     @keyup="blurValidateAfiliate()"
-                                    :disabled="disabled.afiliateField"
                                     v-model="form.afiliates.zip"
                                     :rules="onlyNumbers"
                                     label="Código Postal / ZIP"></v-text-field>
@@ -262,7 +283,6 @@
                                 <v-flex lg3 md3 sm12 xs12>
                                     <v-text-field
                                         @keyup="blurValidateAfiliate()"
-                                        :disabled="disabled.afiliateField"
                                         v-model="form.afiliates.phone"
                                         :rules="[v => !!v || 'Campo requerido']"
                                         label="Número telefónico">
@@ -271,7 +291,6 @@
                                 <v-flex lg6 md6 sm12 xs12>
                                     <v-text-field
                                     @keyup="blurValidateAfiliate()"
-                                    :disabled="disabled.afiliateField"
                                     v-model="form.afiliates.email"
                                     label="Correo Electrónico"></v-text-field>
                                 </v-flex>
@@ -289,18 +308,6 @@
                                     v-model="form.details.tealca_code"
                                     label="Código Tealca"></v-text-field>
                                 </v-flex>
-                                <v-flex>
-                                     <v-select
-                                        v-if="modality == 2"
-                                        @input="blurValidateAfiliate()"
-                                        label="Moneda de Pago"
-                                        :items="basic.money"
-                                        v-model="form.details.currency"
-                                        item-text="money"
-                                        item-value="money"
-                                        :rules="[v => !!v || 'Campo requerido']">
-                                    </v-select>
-                                </v-flex>
                             </v-layout>
 
                             <v-layout>
@@ -308,7 +315,9 @@
                                     <v-btn flat @click="e1 = 2">
                                         Regresar
                                     </v-btn>
-                                    <v-btn color="primary" :disabled="disabledBtn.secondStep" @click="e1 = 4">
+                                    <v-btn color="primary" 
+                                        :disabled="disabledBtn.secondStep" 
+                                        @click="e1 = 4; getCurrencies(); getTaxesSelected()">
                                         Continuar
                                     </v-btn>
                                     <v-btn color="error" @click="resetAfiliateFields()" v-if="disabled.afiliateField">
@@ -329,34 +338,32 @@
                     <v-stepper-content step="4">
                         <v-form ref="addOrderForm">
                             <v-layout wrap>
-                                <v-flex lg6 md6 sm12 xs12>
+                                <v-flex lg4 md4 sm12 xs12>
+                                    <v-select
+                                        label="Seleccione moneda de pago"
+                                        :items="basic.money"
+                                        v-model="form.details.currency"
+                                        @input="blurValidateOrder()"
+                                        item-text="money"
+                                        item-value="money">
+                                    </v-select>
+                                </v-flex>
+                                <v-flex lg4 md4 sm12 xs12>
                                     <v-text-field
                                     v-model="form.details.airwaybill"
                                     @blur="blurValidateOrder()"
+                                    @keyup="blurValidateOrder()"
                                     label="Airwaybill"></v-text-field>
                                 </v-flex>
-                                <v-flex lg6 md6 sm12 xs12>
-                                    <v-menu
-                                        v-model="menu1"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        lazy
-                                        transition="scale-transition"
-                                        offset-y
-                                        full-width
-                                        min-width="290px"
-                                    >
-                                        <template v-slot:activator="{ on }">
-                                        <v-text-field
-                                            @blur="blurValidateOrder()"
-                                            :rules="onlyText"
-                                            v-model="form.details.out_date"
-                                            label="Fecha de salida"
-                                            v-on="on"
-                                        ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="form.details.out_date" @input="menu2 = false" locale="es-es"></v-date-picker>
-                                    </v-menu>
+                                <v-flex lg4 md4 sm12 xs12>
+                                    <v-text-field
+                                        @blur="blurValidateOrder()"
+                                        @keyup="blurValidateOrder()"
+                                        :rules="onlyText"
+                                        v-model="form.details.out_date"
+                                        label="Fecha de salida"
+                                        disabled
+                                    ></v-text-field>
                                 </v-flex>
                             </v-layout>
                             <div class="table-responsive">
@@ -365,21 +372,35 @@
                                         <tr>
                                             <th>Paquete N°</th>
                                             <th>Descripción del bien</th>
+                                            <th>Categorización</th>
                                             <th>Unidades</th>
                                             <th>Costo Unitario</th>
+                                            <th>Porcentaje por seguro</th>
                                             <th>Subtotal</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="( items, index ) in form.products" :key="items.package">
+                                        <tr v-for="( items, index ) in form.products" :key="index">
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
-                                            <td>{{ items.qty }}</td>
-                                            <td v-if="items.weight == ''">{{ items.price }} {{ form.details.currency }}</td>
-                                            <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
-                                            <td>{{ items.subtotal }} {{ form.details.currency }}</td>
+                                            
                                             <td>
+                                                {{ items.category_name }}<br>
+                                                <small>{{ items.subcategory_name }}</small>
+                                            </td>
+
+                                            <td v-if="items.weight == ''">{{ items.qty }} Und</td>
+                                            <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
+                                            
+                                            <td v-if="items.weight == ''">{{ items.subtotal }} {{ form.details.currency }}</td>
+                                            <td v-if="items.weight != ''">{{ items.kilo_value }} {{ form.details.currency }}</td>
+                                            
+                                            <td v-if="form.details.ensurance == 0">NO ASEGURADO</td>
+                                            <td v-if="form.details.ensurance == 1">{{ items.ensurance_value }} %</td>
+
+                                            <td>{{ items.price }} {{ form.details.currency }}</td>
+                                            <td style="text-align: right">
                                                 <v-btn 
                                                 depressed 
                                                 outline 
@@ -395,22 +416,55 @@
                                         </tr>
 
                                         <tr v-if="form.products.length > 0">
-                                            <td style="text-align: right">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
                                                 <strong>
-                                                    Kilos:
+                                                    Impuestos:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                {{ weight }}
+                                            <td style="background: rgb( 230,230,230 );"></td>
+                                            <td style="background: rgb( 230,230,230 );"></td>
+                                        </tr>
+
+                                        <tr v-for="items in taxesSelected" :key="items.id">
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td style="text-align: right" v-if="form.products.length > 0">
+                                                <strong>
+                                                    {{ items.name }}:
+                                                </strong>
                                             </td>
+                                            <td v-if="form.products.length > 0" style="text-align: right">
+                                                {{ items.value }}
+                                            </td>
+                                            <td v-if="form.products.length > 0">
+                                                %
+                                            </td>
+                                        </tr> 
+
+                                        <tr v-if="form.products.length > 0">
                                             <td></td>
-                                            <td style="text-align: right">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
                                                 <strong>
                                                     Total:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                {{ form.total }} {{ form.details.currency }}
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
+                                                {{ form.total }}
+                                            </td>
+                                            <td style="background: rgb( 230,230,230 );">
+                                                {{ form.details.currency }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -423,10 +477,12 @@
                                 </div>
                             </div>
 
+
                             <v-layout wrap>
                                 <v-flex lg4 md4 sm12 xs12>
                                     <v-text-field
                                     @blur="blurValidateOrder()"
+                                    @keyup="blurValidateOrder()"
                                     :rules="onlyText"
                                     v-model="form.details.name"
                                     label="Nombre"></v-text-field>
@@ -434,6 +490,7 @@
                                 <v-flex lg4 md4 sm12 xs12>
                                     <v-text-field
                                     @blur="blurValidateOrder()"
+                                    @keyup="blurValidateOrder()"
                                     v-model="form.details.position"
                                     label="Posición"></v-text-field>
                                 </v-flex>
@@ -451,18 +508,20 @@
                                         <template v-slot:activator="{ on }">
                                         <v-text-field
                                             @blur="blurValidateOrder()"
+                                            @keyup="blurValidateOrder()"
                                             :rules="onlyText"
-                                            v-model="form.details.date"
-                                            label="Fecha"
+                                            v-model="form.details.arriving_date"
+                                            label="Fecha de llegada"
                                             v-on="on"
                                         ></v-text-field>
                                         </template>
-                                        <v-date-picker v-model="form.details.date" @input="menu2 = false" locale="es-es"></v-date-picker>
+                                        <v-date-picker v-model="form.details.arriving_date" @input="menu2 = false" locale="es-es"></v-date-picker>
                                     </v-menu>
                                 </v-flex>
                                 <v-flex lg12 md12 sm12 xs12>
                                     <v-textarea
                                     @blur="blurValidateOrder()"
+                                    @keyup="blurValidateOrder()"
                                     :rules="onlyText"
                                     v-model="form.details.reason"
                                     label="Razón de exportación"
@@ -481,7 +540,9 @@
                                     </v-btn>
                                 </v-flex>
                                 <v-flex lg6 md6 sm12 xs12 style="text-align: right">
-                                    <v-btn color="success" @click="dialog.addProduct = true; resetAddProductFields()" flat>
+                                    <v-btn color="success" 
+                                        @click="dialog.addProduct = true" 
+                                        flat>
                                         <i class="fa fa-plus"></i>&nbsp;
                                         Agregar Producto 
                                     </v-btn>
@@ -540,49 +601,106 @@
                             </v-flex>
                             <v-spacer></v-spacer>
                             <v-flex lg12 md12 sm12>
-                                <div class="table-responsive">
+                                
+                             <div class="table-responsive">
                                 <table>
                                     <thead>
                                         <tr>
                                             <th>Paquete N°</th>
                                             <th>Descripción del bien</th>
+                                            <th>Categorización</th>
                                             <th>Unidades</th>
                                             <th>Costo Unitario</th>
+                                            <th>Porcentaje por seguro</th>
                                             <th>Subtotal</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="items in form.products" :key="items.package">
+                                        <tr v-for="( items, index ) in form.products" :key="index">
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
-                                            <td>{{ items.qty }}</td>
-                                            <td v-if="items.weight == ''">{{ items.price }} {{ form.details.currency }}</td>
+                                            
+                                            <td>
+                                                {{ items.category_name }}<br>
+                                                <small>{{ items.subcategory_name }}</small>
+                                            </td>
+
+                                            <td v-if="items.weight == ''">{{ items.qty }} Und</td>
                                             <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
-                                            <td>{{ items.subtotal }} {{ form.details.currency }}</td>
+                                            
+                                            <td v-if="items.weight == ''">{{ items.subtotal }} {{ form.details.currency }}</td>
+                                            <td v-if="items.weight != ''">{{ items.kilo_value }} {{ form.details.currency }}</td>
+                                            
+                                            <td v-if="form.details.ensurance == 0">NO ASEGURADO</td>
+                                            <td v-if="form.details.ensurance == 1">{{ items.ensurance_value }} %</td>
+
+                                            <td>{{ items.price }} {{ form.details.currency }}</td>
+                                            <td></td>
                                         </tr>
 
-                                        <tr>
-                                            <td style="text-align: right">
+                                        <tr v-if="form.products.length > 0">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
                                                 <strong>
-                                                    Kilos:
+                                                    Impuestos:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                {{ weight }}
+                                            <td style="background: rgb( 230,230,230 );"></td>
+                                            <td style="background: rgb( 230,230,230 );"></td>
+                                        </tr>
+
+                                        <tr v-for="items in taxesSelected" :key="items.id">
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td v-if="form.products.length > 0"></td>
+                                            <td style="text-align: right" v-if="form.products.length > 0">
+                                                <strong>
+                                                    {{ items.name }}:
+                                                </strong>
                                             </td>
+                                            <td v-if="form.products.length > 0" style="text-align: right">
+                                                {{ items.value }}
+                                            </td>
+                                            <td v-if="form.products.length > 0">
+                                                %
+                                            </td>
+                                        </tr> 
+
+                                        <tr v-if="form.products.length > 0">
                                             <td></td>
-                                            <td style="text-align: right">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
                                                 <strong>
                                                     Total:
                                                 </strong>
                                             </td>
-                                            <td>
-                                                {{ form.total }} {{ form.details.currency }}
+                                            <td style="background: rgb( 230,230,230 ); text-align: right">
+                                                {{ form.total }}
+                                            </td>
+                                            <td style="background: rgb( 230,230,230 );">
+                                                {{ form.details.currency }}
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div v-if="form.products.length === 0" style="text-align: center; padding: 1rem">
+                                    <h4>
+                                        <i class="fa fa-exclamation-circle"></i>&nbsp;
+                                        Debe agregar productos a esta encomienda
+                                    </h4>
+                                </div>
                             </div>
+
                             </v-flex>
                             <v-flex lg12 md12 sm12>
                                 <strong>Razón de exportación</strong><br>
@@ -595,8 +713,8 @@
                                 {{ form.details.position }}<br>
                             </v-flex>
                             <v-flex lg6 md6 sm12>
-                                <strong>Fecha:</strong>&nbsp;
-                                {{ form.details.date }}
+                                <strong>Fecha de llegada:</strong>&nbsp;
+                                {{ form.details.arriving_date }}
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -747,17 +865,32 @@
                     <v-card-title>
                         <v-container grid-list-md>
                             <v-layout wrap>
-                                <v-flex lg4 md4 sm12 xs12>
+                                <v-flex lg6 md6 sm12 xs12>
                                     <v-select
                                         label="Tipo de Producto"
                                         v-model="productToInsert.product_type"
                                         :items="basic.product_type"
+                                        @input="getKilos()"
                                         :rules="[v => !!v || 'Campo requerido']" 
                                         item-text="text"
                                         item-value="value">
                                     </v-select>
                                 </v-flex>
-                                <v-flex lg8 md8 sm12 xs12>
+                                
+                                <v-flex lg6 md6 sm12 xs12 v-if="productToInsert.product_type == 1">
+                                    <v-select
+                                        label="Seleccionar precio por kilo"
+                                        v-model="productToInsert.kilo_id"
+                                        @input="getKiloCost()"
+                                        :items="basic.kilos"
+                                        :rules="[v => !!v || 'Campo requerido']" 
+                                        item-text="name"
+                                        item-value="id">
+                                    </v-select>
+                                </v-flex>
+                                
+                                
+                                <v-flex lg12 md12 sm12 xs12>
                                     <v-text-field
                                     label="Descripción del bien"
                                     :rules="[v => !!v || 'Campo requerido']" 
@@ -780,38 +913,75 @@
                                         v-model="productToInsert.subcategory"
                                         :loading="loading.getSubcategories"
                                         :items="basic.subCategories"
+                                        @input="setSubcategoryName()"
                                         :rules="[v => !!v || 'Campo requerido']" 
                                         item-text="name"
                                         item-value="id">
                                     </v-select>
                                 </v-flex>
-                                <v-flex lg6 md6 sm12 xs12>
+
+                                <v-flex lg3 md3 sm8 xs8 v-if="productToInsert.product_type == 1">
                                     <v-text-field
-                                    label="Cantidades"
-                                    :rules="onlyNumbers"
-                                    type="number"
-                                    persistent-hint
-                                    hint="Solo valores numéricos"
-                                    v-model="productToInsert.qty"></v-text-field>
+                                        label="Valor por kilo"
+                                        disabled
+                                        v-model="productToInsert.kilo_value">
+                                    </v-text-field>
                                 </v-flex>
-                                <v-flex lg6 md6 sm12 xs12 v-if="productToInsert.product_type == 2">
+                                <v-flex lg3 md3 sm8 xs8 v-if="productToInsert.product_type == 1">
+                                    <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
+                                </v-flex>
+                                <v-flex lg3 md3 sm12 xs12 v-if="productToInsert.product_type == 1">
                                     <v-text-field
                                     :rules="onlyNumbers" 
-                                    label="Costo Unitario"
-                                    type="number"
-                                    persistent-hint
-                                    hint="Decimales separados por '.'"
-                                    v-model="productToInsert.price"></v-text-field>
-                                </v-flex>
-                                <v-flex lg6 md6 sm12 xs12 v-if="productToInsert.product_type == 1">
-                                    <v-text-field
-                                    :rules="onlyNumbers" 
-                                    label="Peso"
-                                    type="number"
+                                    label="Peso del ítem"
+                                    @keyup="getTotalProductToInsert()"
                                     persistent-hint
                                     hint="Decimales separados por '.'"
                                     v-model="productToInsert.weight"></v-text-field>
                                 </v-flex>
+                                <v-flex lg3 md3 sm6 xs6 v-if="productToInsert.product_type == 2">
+                                    <v-text-field
+                                    label="Cantidad"
+                                    :rules="onlyNumbers"
+                                    @keyup="getTotalProductToInsert()"
+                                    persistent-hint
+                                    hint="Solo valores numéricos"
+                                    v-model="productToInsert.qty"></v-text-field>
+                                </v-flex>
+                                <v-flex lg3 md3 sm6 xs6 v-if="productToInsert.product_type == 2">
+                                    <v-text-field
+                                    label="Precio Unitario"
+                                    :rules="onlyNumbers"
+                                    @keyup="getTotalProductToInsert()"
+                                    persistent-hint
+                                    hint="Solo valores numéricos"
+                                    v-model="productToInsert.subtotal"></v-text-field>
+                                </v-flex>
+                                <v-flex lg3 md3 sm6 xs6 v-if="productToInsert.product_type == 2">
+                                    <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
+                                </v-flex>
+                                <v-flex lg3 md3 sm12 xs12>
+                                    <v-text-field
+                                    v-if="form.details.ensurance == 1"
+                                    label="Porcentaje por seguro"
+                                    disabled
+                                    append-icon="fa fa-percent"
+                                    v-model="productToInsert.ensurance_value"
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex lg12 md12 sm12 xs12></v-flex>
+                                <v-flex lg6 md6 sm12 xs12></v-flex>
+                                <v-flex lg3 md3 sm6 xs6>
+                                    <v-text-field
+                                    label="Total"
+                                    disabled
+                                    v-model="productToInsert.price"
+                                    ></v-text-field>
+                                </v-flex>
+                                <v-flex lg3 md3 sm6 xs6>
+                                    <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
+                                </v-flex>
+                                
                             </v-layout>
                         </v-container>
                     </v-card-title>
@@ -829,6 +999,74 @@
                     </v-card-actions>
                 </v-card>
             </v-form>
+        </v-dialog>
+
+        <v-dialog v-model="dialog.selectPackage" max-width="800px">
+            <v-card>
+                <v-form @submit="getPackage()" ref="findPackageForm">
+                    <v-card-title>
+                        <v-layout wrap>
+                            <v-flex lg10 md10 sm10 xs10>
+                                <v-text-field 
+                                    :loading="loading.searchPackage"
+                                    v-model="search.package"
+                                    :rules="[v => !!v || 'Campo requerido']"
+                                    label="Número de Tracking">
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex lg2 md2 sm2 xs2>
+                                <button type="submit" class="search-btn">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </v-flex>
+                        </v-layout>
+                    </v-card-title>
+                </v-form>
+
+                <v-card-text>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tracking</th>
+                                    <th>Fecha de salida</th>
+                                    <th>Salida</th>
+                                    <th>Fecha de Llegada</th>
+                                    <th>Llegada</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="items in request.package" :key="items.id">
+                                    <td>{{ items.tracking }}</td>
+                                    <td>{{ items.out_date }}</td>
+                                    <td>{{ items.out_place }}</td>
+                                    <td>{{ items.arriving_date }}</td>
+                                    <td>{{ items.arriving_place }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; padding: 0.75rem" v-if="request.package.length === 0">
+                            <h4>
+                                <i class="fa fa-exclamation-circle"></i>&nbsp;
+                                Realice su búsqueda  
+                            </h4>
+                        </div>
+                    </div>
+                </v-card-text>
+                
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="error" @click.native="dialog.selectPackage = false">
+                        Cerrar
+                    </v-btn>
+                    <v-btn color="success" 
+                    :loading="saveLoader" 
+                    :disabled="disabledBtn.addPackage"  
+                    @click="addPackage()">
+                        Agregar
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
         </v-dialog>
 
         <v-snackbar
@@ -862,9 +1100,13 @@ export default {
             menu2: false,
             e1: 0,
             saveLoader: false,
+            ensurance: '',
+            taxes: [],
+            taxesSelected: [],
             search: {
                 client: '',
                 afiliated: '',
+                package: ''
             },
             snackbar: {
                 show: false,
@@ -879,11 +1121,13 @@ export default {
                 addClient: true,
                 addAfiliate: true,
                 modality: true,
+                addPackage: true,
                 goBackBeforeSave: false
             },
             request: {
                 client: [],
-                afiliates: []
+                afiliates: [],
+                package: []
             },
             disabled: {
                 clientField: false,
@@ -894,12 +1138,14 @@ export default {
                 searchClient: false,
                 searchAfiliate: false,
                 getSubcategories: false,
-                saveBtn: false
+                saveBtn: false,
+                searchPackage: false,
             },
             dialog: {
                 searchClient: false,
                 searchAfiliate: false,
-                addProduct: false
+                addProduct: false,
+                selectPackage: false
             },
             checkboxes: {
                 afiliate: false,
@@ -911,12 +1157,17 @@ export default {
                 package: '',
                 product_type: '',
                 description: '',
+                category_name: '',
+                subcategory_name: '',
                 category: '',
                 subcategory: '',
                 qty: '',
                 weight: '',
                 price: '',
-                subtotal: ''
+                subtotal: '',
+                kilo_id: '',
+                kilo_value: '',
+                ensurance_value: ''
             },
             onlyNumbers: [
                 v => !!v || 'Campo requerido',
@@ -942,6 +1193,11 @@ export default {
                     email: '',
                     zip: '',
                 },
+                package: {
+                    package_id: '',
+                    out_date: '',
+                    tracking: ''
+                },
                 afiliates: {
                     id: null,
                     doc_type: '',
@@ -958,20 +1214,23 @@ export default {
                 },
                 products: [],
                 details: {
+                    ensurance: '',
+                    tracking: '',
                     airwaybill: '',
                     out_date: '',
                     name: '',
                     position: '',
-                    date: '',
+                    arriving_date: '',
                     tealca_office: '',
                     tealca_code: '',
                     reason: '',
                     modality: '',
-                    currency: ''
+                    currency: '',
                 },
                 total: 0
             },
             basic: {
+                taxes: [],
                 countries: countriesList.pais,
                 money: [],
                 doc_types: [
@@ -1002,7 +1261,12 @@ export default {
                 modality: [
                     { value: "1", text: "Pago en el origen" },
                     { value: "2", text: "Cobro en destino" }
-                ]
+                ],
+                ensurance: [
+                    { value: "0", text: "No" },
+                    { value: "1", text: "Si" }
+                ],
+                kilos: []
             },
         }
     },
@@ -1032,21 +1296,99 @@ export default {
     watch: {
         
         modality: function( val ){
-            if( val == "1" || val == "2" ){
-                this.disabledBtn.modality = false
-                this.form.details.modality = val
-            } else {
-                this.disabledBtn.modality = true
-            }
+            this.form.details.modality = val
+            this.blurStepOne()
+        },
+        ensurance: function( str ){
+            this.form.details.ensurance = str
+            this.blurStepOne()
+        },
+        taxes: function(){
+            this.blurStepOne()
         }
-
     },
     mounted () {
         this.getTaxonomies()
+        this.getTaxes()
+    },
+    created () {
+        this.setTracking()
     },
     methods: {
+        getTaxes(){
+            axios.get( 'tax' ).then( response => {
+                this.basic.taxes = response.data.items
+            })
+        },
+        getTaxesSelected(){
+            for( var i = 0; i < this.taxes.length; i++ ){
+                axios.get( 'tax/' + this.taxes[i] ).then( response => {
+                    this.taxesSelected.push( response.data.data )
+                })
+            }
+        },
+        getKiloCost(){
+            axios.get( 'kilo/' + this.productToInsert.kilo_id ).then( response => {
+                this.productToInsert.kilo_value = response.data.data.value
+            })
+        },
+        getKilos(){
+            if( this.form.details.modality == 1 ) {
+                axios.get( 'kilo?country=' + this.form.client.country + '&currency=' + this.form.details.currency ).then( response => {
+                    this.basic.kilos = response.data.items
+                })
+            } else if( this.form.details.modality == 2 ) {
+                axios.get( 'kilo?country=' + this.form.afiliates.country + '&currency=' + this.form.details.currency ).then( response => {
+                    this.basic.kilos = response.data.items
+                })
+            }
+        },
+        setTracking(){
+          var max = Math.random() * 1000000000000, min = Math.random() * 100000
+          this.form.details.tracking = Math.floor( Math.random() * ( parseInt( max ) - parseInt( min ) ) ) + parseInt( min );
+        },
+        blurStepOne(){
+            if( this.form.details.modality != '' &&
+                this.form.package.package_id != '' &&
+                this.form.details.ensurance != '' &&
+                this.taxes.length > 0 ){
+                this.disabledBtn.modality = false
+            } else {
+                this.disabledBtn.modality = true
+            }
+        },
+        addPackage(){
+            this.form.package.package_id = this.request.package[0].id
+            this.form.package.tracking = this.request.package[0].tracking
+            this.form.details.out_date = this.request.package[0].out_date
+            this.dialog.selectPackage = false
+            this.request.package = []
+            this.search.package = ''
+            this.$refs.findPackageForm.reset()
+            this.blurStepOne()
+        },
+        getPackage(){
+            if( this.$refs.findPackageForm.validate() ){
+                this.loading.searchPackage = true
+                axios.get( 'package/by-number?key=' + this.search.package ).then( response => {
+                    if( response.data.status ){
+                        this.request.package = response.data.data
+                        this.disabledBtn.addPackage = false
+                    } else {
+                        this.request.afiliates = []
+                        this.disabledBtn.addAfiliate = true
+                        this.snackbar = { show: true, text: response.data.msg, color: 'error', icon:'fa fa-exclamation-triangle' }
+                    }
+                    this.loading.searchPackage = false
+                })
+            }
+        },
         getCurrencies(){
-            var result = this.basic.countries.find( country => country.value == this.form.client.country )
+            if( this.form.details.modality == 1 ){
+                var result = this.basic.countries.find( country => country.value == this.form.client.country )
+            } else if( this.form.details.modality == 2 ){
+                var result = this.basic.countries.find( country => country.value == this.form.afiliates.country )
+            }
             this.basic.money = result.money
         },  
         getAfiliated(){
@@ -1140,44 +1482,97 @@ export default {
             var rows = this.form.products.length
             var rows = rows + 1
             
-            if( this.productToInsert.weight != '' ) {
-                this.productToInsert.weight = parseFloat( this.productToInsert.weight )
-                this.productToInsert.weight = this.productToInsert.weight.toFixed(2)
-                this.productToInsert.price = parseFloat( this.productToInsert.weight ) * parseFloat( this.weight )
-            }
-            var subtotal = parseFloat( this.productToInsert.price ) * parseFloat( this.productToInsert.qty )
-            var subtotal = subtotal.toFixed(2)
-            this.productToInsert.price = parseFloat( this.productToInsert.price )
-            this.productToInsert.price = this.productToInsert.price.toFixed(2)
-            
             var data = {
                 package: rows,
                 product_type: this.productToInsert.product_type,
                 description: this.productToInsert.description,
                 category_id: this.productToInsert.category,
                 subcategory_id: this.productToInsert.subcategory,
+                category_name: this.productToInsert.category_name,
+                subcategory_name: this.productToInsert.subcategory_name,
                 qty: this.productToInsert.qty,
                 weight: this.productToInsert.weight,
                 price: this.productToInsert.price,
-                subtotal: subtotal
+                subtotal: this.productToInsert.subtotal,
+                kilo_id: this.productToInsert.kilo_id,
+                kilo_value: this.productToInsert.kilo_value,
+                ensurance_value: this.productToInsert.ensurance_value
             }
+            this.cleanFields()
             this.form.products.push( data )
             this.getTotal()
             this.dialog.addProduct = false
             this.blurValidateOrder()
         },
+        cleanFields(){
+            this.productToInsert.package = ''
+            this.productToInsert.product_type = ''
+            this.productToInsert.description = ''
+            this.productToInsert.category = ''
+            this.productToInsert.subcategory = ''
+            this.productToInsert.category_name = ''
+            this.productToInsert.subcategory_name = ''
+            this.productToInsert.qty = ''
+            this.productToInsert.weight = ''
+            this.productToInsert.price = ''
+            this.productToInsert.subtotal = ''
+            this.productToInsert.kilo_id = ''
+            this.productToInsert.kilo_value = ''
+            this.productToInsert.ensurance_value = ''
+            this.$refs.productForm.resetValidation()
+        },
+        getTotalProductToInsert(){
+            if( this.productToInsert.product_type == 1 /* Por kilos */ ){
+                var kilo = this.productToInsert.kilo_value
+                var total = parseFloat( kilo ) * parseFloat( this.productToInsert.weight )
+                total = total.toFixed( 2 )
+                if( this.form.details.ensurance == 1 ){
+                    var ensurance = this.productToInsert.ensurance_value
+                    var subtotal = ( parseFloat( ensurance ) * parseFloat( total ) ) / 100 
+                    total = parseFloat( total ) + parseFloat( subtotal )
+                    total = total.toFixed(2)
+                }
+                this.productToInsert.price = total
+            } else if( this.productToInsert.product_type == 2 ){
+                var price = this.productToInsert.subtotal,
+                    qty = this.productToInsert.qty
+                var total = parseFloat( price ) * parseInt( qty )
+                    total = total.toFixed(2)
+                if( this.form.details.ensurance == 1 ){
+                    var ensurance = this.productToInsert.ensurance_value
+                    var subtotal = ( parseFloat( ensurance ) * parseFloat( total ) ) / 100 
+                    total = parseFloat( total ) + parseFloat( subtotal )
+                    total = total.toFixed(2)
+                }
+                this.productToInsert.price = total
+            }
+        },
+        setSubcategoryName(){
+            if( this.productToInsert.subcategory != undefined ){
+                axios.get( 'subcategory/' + this.productToInsert.subcategory ).then( response => {
+                    this.productToInsert.subcategory_name = response.data.data.name
+                })
+            }
+        },
         getSubcategories(){
             if( this.productToInsert.category !== undefined ){
                 this.loading.getSubcategories = true
-                axios.get( 'subcategory/by-category/' + this.productToInsert.category ).then( response => {
-                    if( response.data.status ){
-                        this.basic.subCategories = response.data.data
-                    } else {
-                        this.basic.subCategories = []
-                        this.snackbar = { show: true, text: response.data.msg, color: 'error', icon:'fa fa-exclamation-triangle' }
-                    }
-                    this.loading.getSubcategories = false
+                axios.get( 'category/' + this.productToInsert.category ).then( response => {
+                    this.productToInsert.ensurance_value = response.data.data.ensurance.value
+                    this.productToInsert.category_name = response.data.data.name
+                    this.getTotalProductToInsert()
                 })
+                if( this.productToInsert.category != '' ){
+                    axios.get( 'subcategory/by-category/' + this.productToInsert.category ).then( response => {
+                        if( response.data.status ){
+                            this.basic.subCategories = response.data.data
+                        } else {
+                            this.basic.subCategories = []
+                            this.snackbar = { show: true, text: response.data.msg, color: 'error', icon:'fa fa-exclamation-triangle' }
+                        }
+                        this.loading.getSubcategories = false
+                    })
+                }
             }
         },
         validateFindClient(){
@@ -1238,11 +1633,16 @@ export default {
         },
         getTotal(){
             this.form.total = 0
+            var totalTax = 0
+            for( var i = 0; i < this.taxesSelected.length; i++ ){
+                totalTax += parseFloat( this.taxesSelected[i].value )
+            }
             var total = 0
             for( var i = 0; i < this.form.products.length; i++ ){
-                total += parseFloat( this.form.products[i].subtotal )
+                total += parseFloat( this.form.products[i].price )
             }
-            this.form.total = total
+            var taxNum = parseFloat( total ) * parseFloat( totalTax ) / 100
+            this.form.total = parseFloat( total ) + parseFloat( taxNum )
             this.form.total = parseFloat( this.form.total )
             this.form.total = this.form.total.toFixed(2)
         },
@@ -1280,69 +1680,115 @@ export default {
                 this.$refs.addOrderForm.resetValidation()
             }
         },
-        save(){
-          //  this.disabledBtn.goBackBeforeSave = true
-           // this.loading.saveBtn = true
-            // Guardar los clientes en caso sea requerido
-            if( this.form.client.id == null ){
-                var client = {
-                    shipper: this.form.client.shipper,
-                    contact_person: this.form.client.contact_person,
-                    doc_type: this.form.client.doc_type,
-                    number: this.form.client.number,
-                    address: this.form.client.address,
-                    country: this.form.client.country,
-                    city: this.form.client.city,
-                    phone: this.form.client.phone,
-                    email: this.form.client.email,
-                    zip: this.form.client.zip
-                }
-                axios.post( 'clients/', client ).then( response => {
-                    this.form.client.id =  response.data.clients_id
-                    console.log( 'Cliente Registrado' )
-                    if( this.form.afiliates.id == null ){
-                        var afiliate = {
-                            doc_type: this.form.afiliates.doc_type,
-                            number: this.form.afiliates.number,
-                            destination_name: this.form.afiliates.destination_name,
-                            attention: this.form.afiliates.attention,
-                            address: this.form.afiliates.address,
-                            clients_id: response.data.clients_id,
-                            country: this.form.afiliates.country,
-                            city: this.form.afiliates.city,
-                            zip: this.form.afiliates.zip,
-                            phone: this.form.afiliates.phone,
-                            email: this.form.afiliates.email
-                        }   
-                        axios.post( 'afiliated/', afiliate ).then( response => {   
-                            console.log( 'Afiliado al cliente registrado' )
-                            this.form.afiliates.id = response.data.client_afiliated_id
-                            this.saveOrder()
-                        }).catch( error => {
-                            console.log( error )
-                        })   
-                    }
-                }).catch( error => {
-                    console.log( error )
-                })
-            } else {
-                this.saveOrder()
+        updateClientIfSelected(){
+            var client = {
+                shipper: this.form.client.shipper,
+                contact_person: this.form.client.contact_person,
+                doc_type: this.form.client.doc_type,
+                number: this.form.client.number,
+                address: this.form.client.address,
+                country: this.form.client.country,
+                city: this.form.client.city,
+                phone: this.form.client.phone,
+                email: this.form.client.email,
+                zip: this.form.client.zip
             }
+            axios.put( 'clients/' + this.form.client.id, client ).then( response => {
+                console.log( response.data.status )
+            }).catch( error => {
+                console.log( error )
+            })
+        },
+        updateAfiliateIfSelected(){
+            var afiliate = {
+                doc_type: this.form.afiliates.doc_type,
+                number: this.form.afiliates.number,
+                destination_name: this.form.afiliates.destination_name,
+                attention: this.form.afiliates.attention,
+                address: this.form.afiliates.address,
+                country: this.form.afiliates.country,
+                city: this.form.afiliates.city,
+                zip: this.form.afiliates.zip,
+                phone: this.form.afiliates.phone,
+                email: this.form.afiliates.email
+            }   
+            axios.put( 'afiliated/' + this.form.afiliates.id, afiliate ).then( response => {   
+                console.log( response.data.status )
+            }).catch( error => {
+                console.log( error )
+            })
+        },
+        saveClientIfNot(){
+            var client = {
+                shipper: this.form.client.shipper,
+                contact_person: this.form.client.contact_person,
+                doc_type: this.form.client.doc_type,
+                number: this.form.client.number,
+                address: this.form.client.address,
+                country: this.form.client.country,
+                city: this.form.client.city,
+                phone: this.form.client.phone,
+                email: this.form.client.email,
+                zip: this.form.client.zip
+            }
+            axios.post( 'clients/', client ).then( response => {
+                this.form.client.id =  response.data.clients_id
+                this.saveAfiliateIfNot( response.data.clients_id )
+            }).catch( error => {
+                console.log( error )
+            })
+        },
+        saveAfiliateIfNot( clients_id ){
+            var afiliate = {
+                doc_type: this.form.afiliates.doc_type,
+                number: this.form.afiliates.number,
+                destination_name: this.form.afiliates.destination_name,
+                attention: this.form.afiliates.attention,
+                address: this.form.afiliates.address,
+                clients_id: clients_id,
+                country: this.form.afiliates.country,
+                city: this.form.afiliates.city,
+                zip: this.form.afiliates.zip,
+                phone: this.form.afiliates.phone,
+                email: this.form.afiliates.email
+            }   
+            axios.post( 'afiliated/', afiliate ).then( response => {   
+                this.form.afiliates.id = response.data.client_afiliated_id
+            }).catch( error => {
+                console.log( error )
+            })
+        },
+        save(){
+            this.disabledBtn.goBackBeforeSave = true
+            this.loading.saveBtn = true
+            if( this.form.client.id == null ){
+                this.saveClientIfNot()
+            } else if( this.form.client.id != null && this.form.afiliates.id == null ) {
+                this.updateClientIfSelected()
+                this.saveAfiliateIfNot( this.form.client.id )
+            } else if( this.form.client.id != null && this.form.afiliates.id != null ) {
+                this.updateClientIfSelected()
+                this.updateAfiliateIfSelected()
+            }
+            this.saveOrder()
         },
         saveOrder(){
              var data = {
+                ensurance: this.form.details.ensurance,
+                tracking: this.form.details.tracking,
                 clients_id: this.form.client.id,
                 client_afiliated_id: this.form.afiliates.id,
+                package_id: this.form.package.package_id,
                 airwaybill: this.form.details.airwaybill,
-                out_date: this.form.details.out_date,
+                arriving_date: this.form.details.arriving_date,
                 name: this.form.details.name,
                 position: this.form.details.position,
-                date: this.form.details.date,
                 tealca_office: this.form.details.tealca_office,
                 tealca_code: this.form.details.tealca_code,
                 reason: this.form.details.reason,
                 modality: this.form.details.modality,
                 currency: this.form.details.currency,
+                taxes: this.taxesSelected,
                 total: this.form.total,
                 products: this.form.products
             }

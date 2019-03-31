@@ -19,7 +19,7 @@
                       </v-layout>
                     </v-card-title>
                       <v-divider></v-divider>
-                      <v-form>
+                      <v-form ref="form">
                         <v-card-text>
                           <v-container grid-list-md>
                             <v-layout wrap>
@@ -198,8 +198,10 @@ export default {
       clearInputs(){
           this.name = ''
           this.description = ''
+          this.$refs.form.resetValidation()
       },
       save( id = null ){
+        if( this.$refs.form.validate() ){
           var data = {
             name: this.name,
             description: this.description,
@@ -210,8 +212,7 @@ export default {
               this.snackbar = { show: true, text: 'Unidad de medida agregada con éxito', color: 'success',icon:'fa fa-check' }
               this.saveLoader = false
               this.basic.dialog = false
-              this.name = ''
-              this.description = ''
+              this.clearInputs()
               this.getList()
             }).catch( error => {
               console.log( error )
@@ -226,6 +227,7 @@ export default {
                   console.log( error )
               })
           }
+        }
       }
   }
 };

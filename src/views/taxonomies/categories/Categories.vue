@@ -18,19 +18,42 @@
                       </v-layout>
                     </v-card-title>
                       <v-divider></v-divider>
-                      <v-form>
+                      <v-form ref="form">
                         <v-card-text>
                           <v-container grid-list-md>
                             <v-layout wrap>
                               <v-flex xs12 sm12 md12>
-                                <v-text-field v-model="name" :disabled="disabled" label="Nombre" :rules="[rules.required]"></v-text-field>
+                                <v-text-field 
+                                  v-model="name" 
+                                  :disabled="disabled" 
+                                  label="Nombre" 
+                                  :rules="[rules.required]">
+                                </v-text-field>
+                              </v-flex>
+                              <v-flex xs12 sm8 md8>
+                                <v-select
+                                    label="Seleccionar Seguro Correspondiente"
+                                    :items="basic.ensurance"
+                                    v-model="ensurance_id"
+                                    @input="setEnsuranceValue()"
+                                    :rules="[v => !!v || 'Campo requerido']"
+                                    item-text="name"
+                                    item-value="id"     
+                                    ></v-select>
+                              </v-flex>
+                              <v-flex xs12 sm4 md4>
+                                <v-text-field 
+                                  v-model="ensuranceValue" 
+                                  disabled 
+                                  append-icon="fa fa-percent"
+                                  label="Valor del seguro">
+                                </v-text-field>
                               </v-flex>
                               <v-flex xs12 sm12 md12>
-                                <v-text-field
+                                <v-textarea
                                   v-model="description" :disabled="disabled"
                                   label="Descripción"
-                                  multi-line
-                                ></v-text-field>
+                                ></v-textarea>
                               </v-flex>
                             </v-layout>
                           </v-container>
@@ -115,6 +138,8 @@ export default {
       isEdit: false,
       id: null,
       name: '',
+      ensuranceValue: '',
+      ensurance_id: '',
       description: '',
       rules: {
         required: (value) => !!value || 'Campo requerido.'
@@ -145,6 +170,7 @@ export default {
       },
       basic: {
         dialog: false,
+        ensurance: []
       },
       saveLoader: false,
       removeLoader: false,
@@ -154,9 +180,20 @@ export default {
     }
   },
   mounted (){
-   this.getList()
+    this.getList()
+    this.getEnsurances()
   },
   methods: {
+    setEnsuranceValue(){
+      axios.get( 'ensurance/' + this.ensurance_id ).then( response => {
+        this.ensuranceValue = response.data.data.value
+      })
+    },
+    getEnsurances(){
+      axios.get( 'ensurance' ).then( response => {
+        this.basic.ensurance = response.data.items
+      })
+    },
       getList(){
           this.generalLoader = true
           axios.get( 'category' ).then( response => {
@@ -188,6 +225,8 @@ export default {
               this.id = response.data.data.id
               this.name = response.data.data.name
               this.description = response.data.data.description
+              this.ensurance_id = response.data.data.ensurance_id
+              this.ensuranceValue = response.data.data.ensurance.value
               this.modalLoader = false
               this.disabled = false
           }).catch( error => {
@@ -197,11 +236,16 @@ export default {
       clearInputs(){
           this.name = ''
           this.description = ''
+          this.ensurance_id = ''
+          this.ensuranceValue = ''
+          this.$refs.form.resetValidation()
       },
       save( id = null ){
+        if( this.$refs.form.validate() ){
           var data = {
             name: this.name,
             description: this.description,
+            ensurance_id: this.ensurance_id
           }
           this.saveLoader = true
           if( ! this.isEdit ){
@@ -211,8 +255,7 @@ export default {
                       this.snackbar = { show: true, text: 'Categoría agregada con éxito', color: 'success',icon:'fa fa-check' }
                       this.saveLoader = false
                       this.basic.dialog = false
-                      this.name = ''
-                      this.description = ''
+                      this.clearInputs()
                       this.getList()
                   }).catch( error => {
                       console.log( error )
@@ -232,6 +275,7 @@ export default {
                   console.log( error )
               })
           }
+        }
       }
   }
 };

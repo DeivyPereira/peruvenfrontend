@@ -13,6 +13,18 @@ const Menu =  [
     name: 'Taxes',
   },
   {
+    title: 'Seguros',
+    group: 'apps',
+    icon: 'fa fa-balance-scale',
+    name: 'Ensurance',
+  },
+  {
+    title: 'Precios por kilo',
+    group: 'apps',
+    icon: 'fa fa-tachometer',
+    name: 'Kilo',
+  },
+  {
     title: 'Categorización',
     group: 'categorizacion',
     component: 'Taxonomies',
@@ -33,7 +45,10 @@ const Menu =  [
     items: [
       { name: 'Clients', title: 'Clientes', component: 'Clients' },
       { name: 'Afiliated', title: 'Afiliados', component: 'Afiliated' },
-      { name: 'newShippOrder', title: 'Ordenes de Envío', component: 'ShippOrder' }
+      { name: 'Packaging', title: 'Paquetes', component: 'Packaging' },
+      { name: 'newShippOrder', title: 'Ordenes de Envío', component: 'ShippOrder' },
+      { name: 'PackageTracking', title: 'Rastreo de Paquetes', component: 'PackageTracking' },
+      { name: 'OrderTracking', title: 'Rastreo Ordenes de envío', component: 'OrderTracking' },
     ]
   },
   { divider: true },
