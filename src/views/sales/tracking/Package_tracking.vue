@@ -192,9 +192,9 @@ export default {
       basic: {
         dialog: false,
         status: [
-            { value: "0", text: 'Recibido en Agencia' },
-            { value: "1", text: 'En Transito' },
-            { value: "2", text: 'Entregado al Destinatario' }
+            { value: "0", text: 'Inicio' },
+            { value: "1", text: 'En Camino' },
+            { value: "2", text: 'Finalizado' }
         ],
       },
       saveLoader: false,
@@ -207,9 +207,9 @@ export default {
   filters: {
       statusFilter( status ){
           const item_type = {
-              0: "Recibido en Agencia",
-              1: "En Transito",
-              2: "Entregado al Destinatario"
+              0: "Inicio",
+              1: "En Camino",
+              2: "Finalizado"
           }
           return item_type[ status ]
       },

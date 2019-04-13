@@ -102,8 +102,6 @@
                   <td>{{ props.item.status | statusFilter }}</td>
                   <td>{{ props.item.location }}</td>
                   <td>{{ props.item.package.out_date }}</td>
-
-                  <td>{{ props.item.ship_order.arriving_date }}</td>
                   
                   <td>
                     <v-btn depressed outline icon fab dark color="primary" small @click="edit( props.item.id )">
@@ -162,7 +160,7 @@ export default {
             value: 'ship_order.tracking'
           },
           {
-            text: 'Trackin Paquete asociado',
+            text: 'Trackin Fecha de salida',
             value: 'package.tracking'
           },
           {
@@ -176,10 +174,6 @@ export default {
           {
             text: 'Salida del paquete',
             value: 'package.out_date'
-          },
-          {
-            text: 'Llegada del paquete',
-            value: 'package.arriving_date'
           },
           {
             text: 'Acciones',
@@ -197,8 +191,9 @@ export default {
       basic: {
         dialog: false,
         status: [
-            { value: "0", text: 'Recibido en Agencia' },
+            { value: "0", text: 'Asignado' },
             { value: "1", text: 'En Transito' },
+            { value: "3", text: "Recibido en Agencia"},
             { value: "2", text: 'Entregado al Destinatario' }
         ],
       },
@@ -212,9 +207,10 @@ export default {
   filters: {
       statusFilter( status ){
           const item_type = {
-              0: "Recibido en Agencia",
+              0: "Asignado",
               1: "En Transito",
-              2: "Entregado al Destinatario"
+              2: "Entregado al Destinatario",
+              3: "Recibido en Agencia"
           }
           return item_type[ status ]
       },

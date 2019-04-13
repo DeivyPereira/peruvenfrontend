@@ -130,7 +130,7 @@
                                         label="Dirección">
                                         </v-text-field>
                                     </v-flex>
-                                    <v-flex xs12 sm4 md4>
+                                    <v-flex xs12 sm6 md6>
                                         <v-select
                                         label="País"
                                         :items="basic.countries"
@@ -140,18 +140,11 @@
                                         :rules="[v => !!v || 'Campo requerido']">
                                         </v-select>
                                     </v-flex>
-                                    <v-flex xs12 sm4 md4>
+                                    <v-flex xs12 sm6 md6>
                                         <v-text-field v-model="form.city"
                                         :disabled="disabled"
                                         :rules="onlyText"
                                         label="Ciudad">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm4 md4>
-                                        <v-text-field v-model="form.zip" 
-                                        :disabled="disabled"
-                                        :rules="[v => !!v || 'Campo requerido']" 
-                                        label="Código Postal / ZIP">
                                         </v-text-field>
                                     </v-flex>
                                     </v-layout>
@@ -242,7 +235,7 @@
                                     label="Dirección">
                                     </v-text-field>
                                 </v-flex>
-                                <v-flex xs12 sm4 md4>
+                                <v-flex xs12 sm6 md6>
                                     <v-select
                                     label="País"
                                     :items="basic.countries"
@@ -252,18 +245,11 @@
                                     :rules="[v => !!v || 'Campo requerido']">
                                     </v-select>
                                 </v-flex>
-                                <v-flex xs12 sm4 md4>
+                                <v-flex xs12 sm6 md6>
                                     <v-text-field v-model="form.city"
                                     :disabled="disabled"
                                     :rules="onlyText"
                                     label="Ciudad">
-                                    </v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm4 md4>
-                                    <v-text-field v-model="form.zip" 
-                                    :disabled="disabled"
-                                    :rules="[v => !!v || 'Campo requerido']" 
-                                    label="Código Postal / ZIP">
                                     </v-text-field>
                                 </v-flex>
                                 </v-layout>
@@ -389,7 +375,6 @@ export default {
           city: '',
           phone: '',
           email: '',
-          zip: ''
       },
       client: [],
       complex: {
@@ -431,10 +416,11 @@ export default {
         dialog: false,
         dialogEdit: false,
         doc_types: [
-            { value: "1", text: 'Pto' },
-            { value: "2", text: 'Pasaporte' },
-            { value: "3", text: 'C.E:' },
-            { value: "4", text: 'C.I.' }        
+            { value: "1", text: 'PTP' },
+            { value: "2", text: 'DNI' },
+            { value: "3", text: 'Pasaporte' },
+            { value: "4", text: 'C.E.' },
+            { value: "5", text: 'C.I.' }        
         ],
         countries: countriesList.pais
       },
@@ -448,10 +434,11 @@ export default {
   filters: {
     doc_typesFilter( doc_types ){
       const item_type = {
-        1: "Pto",
-        2: "Pasaporte",
-        3: "C.E.",
-        4: "C.I."
+        1: "PTP",
+        2: "DNI",
+        3: "Pasaporte",
+        4: "C.E.",
+        5: "C.I."
       }
       return item_type[ doc_types ];
     }
@@ -489,7 +476,7 @@ export default {
               this.complex.items = response.data.items
               this.generalLoader = false
           }). catch( error => {
-              this.snackbar = { show: true, text: error, color: 'danger', icon:'fas fa-exclamation-triangle' }
+              this.snackbar = { show: true, text: error, color: 'danger', icon:'fa fa-exclamation-triangle' }
           })
       },
       validate () {
@@ -531,7 +518,6 @@ export default {
               this.form.city = response.data.data.city
               this.form.phone = response.data.data.phone
               this.form.email = response.data.data.email
-              this.form.zip = response.data.data.zip
               this.modalLoader = false
               this.disabled = false
           }).catch( error => {
@@ -549,7 +535,6 @@ export default {
           this.form.city = ''
           this.form.phone = ''
           this.form.email = ''
-          this.form.zip = ''
           this.$refs.form.reset()
       },
       save(){
@@ -566,7 +551,6 @@ export default {
                 city: this.form.city,
                 phone: this.form.phone,
                 email: this.form.email,
-                zip: this.form.zip     
               }
               axios.post( 'afiliated/', data ).then( response => {
                 if( response.data.status ){
@@ -575,11 +559,11 @@ export default {
                   this.clearInputs()
                   this.getList()
                 } else {
-                  this.snackbar = { show: true, text: response.data.response, color: 'danger', icon:'fas fa-exclamation-triangle' }
+                  this.snackbar = { show: true, text: response.data.response, color: 'danger', icon:'fa fa-exclamation-triangle' }
                 }
                   this.saveLoader = false
               }).catch( error => {
-                  this.snackbar = { show: true, text: error, color: 'danger', icon:'fas fa-exclamation-triangle' }
+                  this.snackbar = { show: true, text: error, color: 'danger', icon:'fa fa-exclamation-triangle' }
               })
           } else {
                var data = {
@@ -593,7 +577,6 @@ export default {
                 city: this.form.city,
                 phone: this.form.phone,
                 email: this.form.email,
-                zip: this.form.zip     
               }
               axios.put( 'afiliated/' + this.form.id, data ).then( response => {
                 if( response.data.status ){
@@ -601,11 +584,11 @@ export default {
                   this.basic.dialog = false
                   this.getList()
                 } else {
-                  this.snackbar = { show: true, text: response.data.response, color: 'danger', icon:'fas fa-exclamation-triangle' }
+                  this.snackbar = { show: true, text: response.data.response, color: 'danger', icon:'fa fa-exclamation-triangle' }
                 }
                   this.saveLoader = false
               }).catch( error => {
-                  this.snackbar = { show: true, text: error, color: 'danger', icon:'fas fa-exclamation-triangle' }
+                  this.snackbar = { show: true, text: error, color: 'danger', icon:'fa fa-exclamation-triangle' }
               })
           }
       }

@@ -63,6 +63,8 @@ import AppFab from '@/components/AppFab';
 import PageHeader from '@/components/PageHeader';
 import ThemeSettings from '@/components/ThemeSettings';
 import AppEvents from  './event';
+import axios from '@/api/config'
+
 export default {
   components: {
     AppDrawer,
@@ -84,7 +86,6 @@ export default {
   computed: {
 
   },
-
   created () {
     AppEvents.forEach(item => {
       this.$on(item.name, item.callback);

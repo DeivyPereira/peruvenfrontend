@@ -45,11 +45,17 @@ const Menu =  [
     items: [
       { name: 'Clients', title: 'Clientes', component: 'Clients' },
       { name: 'Afiliated', title: 'Afiliados', component: 'Afiliated' },
-      { name: 'Packaging', title: 'Paquetes', component: 'Packaging' },
+      { name: 'Packaging', title: 'Fecha de Salida', component: 'Packaging' },
       { name: 'newShippOrder', title: 'Ordenes de Envío', component: 'ShippOrder' },
       { name: 'PackageTracking', title: 'Rastreo de Paquetes', component: 'PackageTracking' },
       { name: 'OrderTracking', title: 'Rastreo Ordenes de envío', component: 'OrderTracking' },
     ]
+  },
+  {
+    title: 'Usuarios',
+    group: 'Users',
+    icon: 'fa fa-users',
+    name: 'Users',
   },
   { divider: true },
 ];

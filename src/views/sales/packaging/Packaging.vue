@@ -53,7 +53,7 @@
                                     ></v-select>
                               </v-flex>
 
-                              <v-flex xs12 sm3 md3>
+                              <v-flex xs12 sm4 md4>
                                   <v-select
                                     label="País de salida"
                                     :items="basic.countries"
@@ -64,7 +64,7 @@
                                     ></v-select>
                               </v-flex>
 
-                              <v-flex xs12 sm3 md3>
+                              <v-flex xs12 sm4 md4>
                                   <v-select
                                     label="País de llegada"
                                     :items="basic.countries"
@@ -75,7 +75,7 @@
                                     ></v-select>
                               </v-flex>
 
-                              <v-flex xs12 sm3 md3>
+                              <v-flex xs12 sm4 md4>
                                   <v-select
                                     label="Oficina de Tealca"
                                     :items="basic.tealca_office"
@@ -83,14 +83,6 @@
                                     item-text="text"
                                     item-value="value"     
                                     ></v-select>
-                              </v-flex>
-
-                              <v-flex xs12 sm3 md3>
-                                <v-text-field 
-                                    v-model="tealca_code"  
-                                    :disabled="disabled"
-                                    label="Código Tealca">
-                                </v-text-field>
                               </v-flex>
 
                               <v-flex xs12 sm6 md6>
@@ -133,7 +125,7 @@
                                         <v-text-field
                                             v-model="arriving_date"
                                             :rules="[v => !!v || 'Campo requerido']"
-                                            label="Fecha de salida"
+                                            label="Fecha de llegada"
                                             v-on="on">
                                         </v-text-field>
                                     </template>
@@ -195,7 +187,16 @@
                     <v-btn depressed outline icon fab dark color="primary" small @click="edit( props.item.id )">
                       <v-icon>edit</v-icon>
                     </v-btn>
-                    <v-btn depressed outline icon fab dark color="red" small @click="remove( props.item.id )">
+                    <v-btn 
+                      depressed 
+                      outline 
+                      icon 
+                      fab 
+                      dark 
+                      color="red" 
+                      small 
+                      @click="remove( props.item.id )"
+                      v-if="props.item.tracking_.length == 0">
                       <v-icon>delete</v-icon>
                     </v-btn>
                   </td>
@@ -351,8 +352,9 @@ export default {
   },
   methods: {
       setTracking(){
-          var max = Math.random() * 1000000000000, min = Math.random() * 100000
-          this.tracking = Math.floor( Math.random() * ( parseInt( max ) - parseInt( min ) ) ) + parseInt( min );
+          axios.get( 'package/get-tracking' ).then( response => {
+            this.tracking = response.data.tracking
+          })
       },
       getList(){
           this.generalLoader = true
@@ -420,7 +422,6 @@ export default {
             out_date: this.out_date,
             status: this.status,
             tealca_office: this.tealca_office,
-            tealca_code: this.tealca_code,
             out_place: this.out_place,
           }
           this.saveLoader = true

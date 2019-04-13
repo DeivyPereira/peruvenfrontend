@@ -68,7 +68,8 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/Dashboard.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
 
   /*
@@ -122,7 +123,8 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/taxes/Taxes.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/seguros',
@@ -131,7 +133,8 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/ensurance/Ensurance.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/precio-kilo',
@@ -140,7 +143,8 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/kilo/Kilo.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   // Almacen
   {
@@ -150,7 +154,8 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/taxonomies/categories/Categories.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/categorizacion/subcategorias',
@@ -159,7 +164,18 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/taxonomies/subcategories/Subcategories.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
+  },
+  // Usuarios
+  {
+    path: '/usuarios',
+    meta: { breadcrumb: true },
+    name: 'Users',
+    component: () => import(
+      `@/views/users/Users.vue`
+    ),
+    meta: { requiresAuth: true }
   },
   // Ordenes de envío
   {
@@ -168,7 +184,8 @@ export default [
     name: 'Clients',
     component: () => import(
       `@/views/sales/clients/List.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/ordenes-de-envios/afiliados',
@@ -176,7 +193,8 @@ export default [
     name: 'Afiliated',
     component: () => import(
       `@/views/sales/afiliated/Afiliated.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/ordenes-de-envios/listado',
@@ -184,7 +202,8 @@ export default [
     name: 'ShippOrder',
     component: () => import(
       `@/views/sales/shipping_order/List.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/ordenes-de-envios/crear',
@@ -192,7 +211,8 @@ export default [
     name: 'newShippOrder',
     component: () => import(
       `@/views/sales/shipping_order/Create.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/ordenes-de-envios/ver/:uuid?',
@@ -200,15 +220,17 @@ export default [
     name: 'shipOrderView',
     component: () => import(
       `@/views/sales/shipping_order/View.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
-    path: '/ordenes-de-envios/packaging',
+    path: '/ordenes-de-envios/fecha-de-salida',
     meta: { breadcrumb: true },
     name: 'Packaging',
     component: () => import(
       `@/views/sales/packaging/Packaging.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/ordenes-de-envios/tracking-paquetes',
@@ -216,7 +238,8 @@ export default [
     name: 'PackageTracking',
     component: () => import(
       `@/views/sales/tracking/Package_tracking.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
   {
     path: '/ordenes-de-envios/tracking-ordenes',
@@ -224,6 +247,17 @@ export default [
     name: 'OrderTracking',
     component: () => import(
       `@/views/sales/tracking/Ship_order_tracking.vue`
-    )
+    ),
+    meta: { requiresAuth: true }
   },
+  {
+    path: '/logout',
+    meta: { breadcrumb: true },
+    name: 'logOut',
+    component: () => import(
+      `@/views/Logout.vue`
+    ),
+    meta: { requiresAuth: true }
+  },
+  // Logout
 ];

@@ -69,9 +69,9 @@
                             </v-flex>
                             <v-flex sm12 md6 lg6 style="text-align: center">
                                 <v-btn color="info" @click="dialog.selectPackage = true">
-                                    Asignar a paquete
+                                    Asignar a fecha de salida
                                 </v-btn>
-                                <h4 v-if="form.package.package_id != ''">Tracking Páquete: {{ form.package.tracking }}</h4>
+                                <h4 v-if="form.package.package_id != ''">Fecha de salida: {{ form.details.out_date }}</h4>
                             </v-flex>
                         </v-layout>
                         <v-layout wrap>
@@ -174,15 +174,6 @@
                                     </v-text-field>
                                 </v-flex>
 
-                                <v-flex lg4 md4 sm12 xs12>
-                                    <v-text-field
-                                        @keyup="blurValidate()"
-                                        v-model="form.client.zip"
-                                        :rules="[v => !!v || 'Campo requerido']"
-                                        label="Código Postal / ZIP">
-                                    </v-text-field>
-                                </v-flex>
-
                             </v-layout>
 
                             <v-layout>
@@ -255,7 +246,7 @@
                                     :rules="onlyText"
                                     label="Dirección"></v-text-field>
                                 </v-flex>
-                                <v-flex lg3 md3 sm12 xs12>
+                                <v-flex lg4 md4 sm12 xs12>
                                     <v-select
                                         @input="blurValidateAfiliate(); getCurrencies()"
                                         label="País"
@@ -266,21 +257,14 @@
                                         item-value="value">
                                     </v-select>
                                 </v-flex>
-                                <v-flex lg3 md3 sm12 xs12>
+                                <v-flex lg4 md4 sm12 xs12>
                                     <v-text-field
                                     @keyup="blurValidateAfiliate()"
                                     v-model="form.afiliates.city"
                                     :rules="onlyText"
                                     label="Ciudad"></v-text-field>
                                 </v-flex>
-                                <v-flex lg3 md3 sm12 xs12>
-                                    <v-text-field
-                                    @keyup="blurValidateAfiliate()"
-                                    v-model="form.afiliates.zip"
-                                    :rules="onlyNumbers"
-                                    label="Código Postal / ZIP"></v-text-field>
-                                </v-flex>
-                                <v-flex lg3 md3 sm12 xs12>
+                                <v-flex lg4 md4 sm12 xs12>
                                     <v-text-field
                                         @keyup="blurValidateAfiliate()"
                                         v-model="form.afiliates.phone"
@@ -293,20 +277,6 @@
                                     @keyup="blurValidateAfiliate()"
                                     v-model="form.afiliates.email"
                                     label="Correo Electrónico"></v-text-field>
-                                </v-flex>
-                                <v-flex lg6 md6 sm12 xs12>
-                                    <v-select
-                                        label="Oficina de Tealca"
-                                        :items="basic.tealcaOffices"
-                                        v-model="form.details.tealca_office"
-                                        item-text="text"
-                                        item-value="value">
-                                    </v-select>
-                                </v-flex>
-                                <v-flex lg6 md6 sm12 xs12>
-                                    <v-text-field
-                                    v-model="form.details.tealca_code"
-                                    label="Código Tealca"></v-text-field>
                                 </v-flex>
                             </v-layout>
 
@@ -326,7 +296,7 @@
                                 </v-flex>
                                 
                                 <v-flex lg3 md3 sm12 xs12 style="text-align: right">
-                                    <v-btn color="success" v-if="form.client.id !== null" @click="dialog.searchAfiliate = true" flat>
+                                    <v-btn color="success" v-if="form.client.id !== null" @click="dialog.searchAfiliate = true; getAfiliated()" flat>
                                         <i class="fa fa-search"></i>&nbsp;
                                         Buscar Afiliados 
                                     </v-btn>
@@ -338,7 +308,7 @@
                     <v-stepper-content step="4">
                         <v-form ref="addOrderForm">
                             <v-layout wrap>
-                                <v-flex lg4 md4 sm12 xs12>
+                                <v-flex lg6 md6 sm12 xs12>
                                     <v-select
                                         label="Seleccione moneda de pago"
                                         :items="basic.money"
@@ -348,14 +318,7 @@
                                         item-value="money">
                                     </v-select>
                                 </v-flex>
-                                <v-flex lg4 md4 sm12 xs12>
-                                    <v-text-field
-                                    v-model="form.details.airwaybill"
-                                    @blur="blurValidateOrder()"
-                                    @keyup="blurValidateOrder()"
-                                    label="Airwaybill"></v-text-field>
-                                </v-flex>
-                                <v-flex lg4 md4 sm12 xs12>
+                                <v-flex lg6 md6 sm12 xs12>
                                     <v-text-field
                                         @blur="blurValidateOrder()"
                                         @keyup="blurValidateOrder()"
@@ -373,15 +336,16 @@
                                             <th>Paquete N°</th>
                                             <th>Descripción del bien</th>
                                             <th>Categorización</th>
+                                            <th>Costo del producto</th>
+                                            <th>Porcentaje por seguro</th>
                                             <th>Unidades</th>
                                             <th>Costo Unitario</th>
-                                            <th>Porcentaje por seguro</th>
                                             <th>Subtotal</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="( items, index ) in form.products" :key="index">
+                                        <tr v-for="( items, index ) in form.products">
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
                                             
@@ -390,14 +354,18 @@
                                                 <small>{{ items.subcategory_name }}</small>
                                             </td>
 
+                                            <td v-if="items.product_price != undefined">
+                                                {{ items.product_price }} {{ form.details.currency }}
+                                            </td>
+
+                                            <td v-if="form.details.ensurance == 0">NO ASEGURADO</td>
+                                            <td v-if="form.details.ensurance == 1">{{ items.ensurance_value }} %</td>
+
                                             <td v-if="items.weight == ''">{{ items.qty }} Und</td>
                                             <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
                                             
                                             <td v-if="items.weight == ''">{{ items.subtotal }} {{ form.details.currency }}</td>
                                             <td v-if="items.weight != ''">{{ items.kilo_value }} {{ form.details.currency }}</td>
-                                            
-                                            <td v-if="form.details.ensurance == 0">NO ASEGURADO</td>
-                                            <td v-if="form.details.ensurance == 1">{{ items.ensurance_value }} %</td>
 
                                             <td>{{ items.price }} {{ form.details.currency }}</td>
                                             <td style="text-align: right">
@@ -430,7 +398,7 @@
                                             <td style="background: rgb( 230,230,230 );"></td>
                                         </tr>
 
-                                        <tr v-for="items in taxesSelected" :key="items.id">
+                                        <tr v-for="items in taxesSelected">
                                             <td v-if="form.products.length > 0"></td>
                                             <td v-if="form.products.length > 0"></td>
                                             <td v-if="form.products.length > 0"></td>
@@ -479,45 +447,6 @@
 
 
                             <v-layout wrap>
-                                <v-flex lg4 md4 sm12 xs12>
-                                    <v-text-field
-                                    @blur="blurValidateOrder()"
-                                    @keyup="blurValidateOrder()"
-                                    :rules="onlyText"
-                                    v-model="form.details.name"
-                                    label="Nombre"></v-text-field>
-                                </v-flex>
-                                <v-flex lg4 md4 sm12 xs12>
-                                    <v-text-field
-                                    @blur="blurValidateOrder()"
-                                    @keyup="blurValidateOrder()"
-                                    v-model="form.details.position"
-                                    label="Posición"></v-text-field>
-                                </v-flex>
-                                <v-flex lg4 md4 sm12 xs12>
-                                    <v-menu
-                                        v-model="menu2"
-                                        :close-on-content-click="false"
-                                        :nudge-right="40"
-                                        lazy
-                                        transition="scale-transition"
-                                        offset-y
-                                        full-width
-                                        min-width="290px"
-                                    >
-                                        <template v-slot:activator="{ on }">
-                                        <v-text-field
-                                            @blur="blurValidateOrder()"
-                                            @keyup="blurValidateOrder()"
-                                            :rules="onlyText"
-                                            v-model="form.details.arriving_date"
-                                            label="Fecha de llegada"
-                                            v-on="on"
-                                        ></v-text-field>
-                                        </template>
-                                        <v-date-picker v-model="form.details.arriving_date" @input="menu2 = false" locale="es-es"></v-date-picker>
-                                    </v-menu>
-                                </v-flex>
                                 <v-flex lg12 md12 sm12 xs12>
                                     <v-textarea
                                     @blur="blurValidateOrder()"
@@ -541,7 +470,7 @@
                                 </v-flex>
                                 <v-flex lg6 md6 sm12 xs12 style="text-align: right">
                                     <v-btn color="success" 
-                                        @click="dialog.addProduct = true" 
+                                        @click="openAddProduct()" 
                                         flat>
                                         <i class="fa fa-plus"></i>&nbsp;
                                         Agregar Producto 
@@ -567,14 +496,12 @@
                                 {{ form.client.address }}<br>
                                 <strong>País:</strong>&nbsp;
                                 {{ form.client.country }}<br>
+                                <strong>Ciudad:</strong>&nbsp;
+                                {{ form.client.city }}<br>
                                 <strong>Teléfono:</strong>&nbsp;
                                 {{ form.client.phone }}<br>
                                 <strong>Correo Electrónico:</strong>&nbsp;
                                 {{ form.client.email }}<br>
-                                <strong>Código Postal / ZIP:</strong>&nbsp;
-                                {{form.client.zip }}<br>
-                                <strong>Airwaybill:</strong>&nbsp;
-                                {{ form.details.airwaybill }}<br>
                                 <strong>Fecha de salida</strong>&nbsp;
                                 {{ form.details.out_date }}<br>
                             </v-flex>
@@ -588,16 +515,12 @@
                                 {{ form.afiliates.address }}<br>
                                 <strong>País:</strong>&nbsp;
                                 {{ form.afiliates.country }}<br>
+                                <strong>Ciudad:</strong>&nbsp;
+                                {{ form.afiliates.city }}<br>
                                 <strong>Teléfono:</strong>&nbsp;
                                 {{ form.afiliates.phone }}<br>
                                 <strong>Correo Elecrónico:</strong>&nbsp;
                                 {{ form.afiliates.email }}<br>
-                                <strong>Código Postal / ZIP:</strong>&nbsp;
-                                {{ form.afiliates.zip }}<br>
-                                <strong>Oficina Tealca:</strong>&nbsp;
-                                {{ form.details.tealca_office }}<br>
-                                <strong>Código Tealca:</strong>&nbsp;
-                                {{ form.details.tealca_code }}<br>
                             </v-flex>
                             <v-spacer></v-spacer>
                             <v-flex lg12 md12 sm12>
@@ -609,6 +532,7 @@
                                             <th>Paquete N°</th>
                                             <th>Descripción del bien</th>
                                             <th>Categorización</th>
+                                            <th>Costo del producto</th>
                                             <th>Unidades</th>
                                             <th>Costo Unitario</th>
                                             <th>Porcentaje por seguro</th>
@@ -617,7 +541,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr v-for="( items, index ) in form.products" :key="index">
+                                        <tr v-for="items in form.products">
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
                                             
@@ -625,6 +549,8 @@
                                                 {{ items.category_name }}<br>
                                                 <small>{{ items.subcategory_name }}</small>
                                             </td>
+
+                                            <td>{{ items.product_price }} {{ form.details.currency }}</td>
 
                                             <td v-if="items.weight == ''">{{ items.qty }} Und</td>
                                             <td v-if="items.weight != ''">{{ items.weight }} Kg</td>
@@ -654,7 +580,7 @@
                                             <td style="background: rgb( 230,230,230 );"></td>
                                         </tr>
 
-                                        <tr v-for="items in taxesSelected" :key="items.id">
+                                        <tr v-for="items in taxesSelected">
                                             <td v-if="form.products.length > 0"></td>
                                             <td v-if="form.products.length > 0"></td>
                                             <td v-if="form.products.length > 0"></td>
@@ -705,16 +631,6 @@
                             <v-flex lg12 md12 sm12>
                                 <strong>Razón de exportación</strong><br>
                                 {{ form.details.reason }}
-                            </v-flex>
-                            <v-flex lg6 md6 sm12>
-                                <strong>Nombre:</strong>&nbsp;
-                                {{ form.details.name }}<br>
-                                <strong>Posición:</strong>&nbsp;
-                                {{ form.details.position }}<br>
-                            </v-flex>
-                            <v-flex lg6 md6 sm12>
-                                <strong>Fecha de llegada:</strong>&nbsp;
-                                {{ form.details.arriving_date }}
                             </v-flex>
                         </v-layout>
                         <v-layout>
@@ -767,7 +683,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="items in request.client" :key="items.id">
+                                <tr v-for="items in request.client">
                                     <td>{{ items.doc_type | doc_typesFilter }} {{ items.number }}</td>
                                     <td>{{ items.shipper }}</td>
                                     <td>{{ items.phone }}</td>
@@ -798,25 +714,11 @@
             </v-card>
         </v-dialog>
 
-        <v-dialog v-model="dialog.searchAfiliate" max-width="600px">
+        <v-dialog 
+            v-model="dialog.searchAfiliate" 
+            scrollable
+            max-width="600px">
             <v-card>
-                <v-form @submit="getAfiliated()" ref="findAfiliatedForm">
-                    <v-card-title>
-                        <v-layout wrap>
-                            <v-flex lg10 md10 sm10 xs10>
-                                <v-text-field :loading="loading.searchAfiliate"
-                                v-model="search.afiliated"
-                                label="Nombre o documento del afiliado"></v-text-field>
-                            </v-flex>
-                            <v-flex lg2 md2 sm2 xs2>
-                                <button type="submit" class="search-btn">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </v-flex>
-                        </v-layout>
-                    </v-card-title>
-                </v-form>
-
                 <v-card-text>
                     <div class="table-responsive">
                         <table>
@@ -825,22 +727,34 @@
                                     <th>Documento</th>
                                     <th>Nombre</th>
                                     <th>Teléfono</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="items in request.afiliates" :key="items.id">
-                                    <td>{{ items.doc_type | doc_typesFilter }} {{ items.number }}</td>
+                                <tr v-for="items in request.afiliates">
+                                    <td>{{ items.id }} {{ items.doc_type | doc_typesFilter }} {{ items.number }}</td>
                                     <td>{{ items.destination_name }}</td>
                                     <td>{{ items.phone }}</td>
+                                    <td>
+                                        <v-btn 
+                                            depressed outline icon fab dark color="success" small
+                                            @click="addAfiliated( items.id, 
+                                                                  items.doc_type, 
+                                                                  items.number,
+                                                                  items.destination_name, 
+                                                                  items.attention,
+                                                                  items.address,
+                                                                  items.clients_id,
+                                                                  items.country,
+                                                                  items.city,
+                                                                  items.phone,
+                                                                  items.email )">
+                                            <v-icon>fa fa-plus</v-icon>
+                                        </v-btn>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
-                        <div style="text-align: center; padding: 0.75rem" v-if="request.afiliates.length === 0">
-                            <h4>
-                                <i class="fa fa-exclamation-circle"></i>&nbsp;
-                                Realice su búsqueda  
-                            </h4>
-                        </div>
                     </div>
                 </v-card-text>
                 
@@ -848,12 +762,6 @@
                     <v-spacer></v-spacer>
                     <v-btn color="error" @click.native="dialog.searchAfiliate = false">
                         Cerrar
-                    </v-btn>
-                    <v-btn color="success" 
-                    :loading="saveLoader" 
-                    :disabled="disabledBtn.addAfiliate"  
-                    @click="addAfiliated()">
-                        Agregar
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -865,6 +773,7 @@
                     <v-card-title>
                         <v-container grid-list-md>
                             <v-layout wrap>
+
                                 <v-flex lg6 md6 sm12 xs12>
                                     <v-select
                                         label="Tipo de Producto"
@@ -877,7 +786,7 @@
                                     </v-select>
                                 </v-flex>
                                 
-                                <v-flex lg6 md6 sm12 xs12 v-if="productToInsert.product_type == 1">
+                                <v-flex lg6 md6 sm12 xs12 v-if="productToInsert.product_type == 1 || productToInsert.product_type == 3">
                                     <v-select
                                         label="Seleccionar precio por kilo"
                                         v-model="productToInsert.kilo_id"
@@ -899,10 +808,9 @@
                                 <v-flex lg6 md6 sm12 xs12>
                                     <v-select
                                         label="Categoría"
+                                        @input="getSubcategories()"
                                         :items="basic.categories"
                                         v-model="productToInsert.category"
-                                        @input="getSubcategories()"
-                                        :rules="[v => !!v || 'Campo requerido']" 
                                         item-text="name"
                                         item-value="id">
                                     </v-select>
@@ -913,32 +821,13 @@
                                         v-model="productToInsert.subcategory"
                                         :loading="loading.getSubcategories"
                                         :items="basic.subCategories"
-                                        @input="setSubcategoryName()"
-                                        :rules="[v => !!v || 'Campo requerido']" 
                                         item-text="name"
                                         item-value="id">
                                     </v-select>
                                 </v-flex>
 
-                                <v-flex lg3 md3 sm8 xs8 v-if="productToInsert.product_type == 1">
-                                    <v-text-field
-                                        label="Valor por kilo"
-                                        disabled
-                                        v-model="productToInsert.kilo_value">
-                                    </v-text-field>
-                                </v-flex>
-                                <v-flex lg3 md3 sm8 xs8 v-if="productToInsert.product_type == 1">
-                                    <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
-                                </v-flex>
-                                <v-flex lg3 md3 sm12 xs12 v-if="productToInsert.product_type == 1">
-                                    <v-text-field
-                                    :rules="onlyNumbers" 
-                                    label="Peso del ítem"
-                                    @keyup="getTotalProductToInsert()"
-                                    persistent-hint
-                                    hint="Decimales separados por '.'"
-                                    v-model="productToInsert.weight"></v-text-field>
-                                </v-flex>
+                                <!-- Por productos -->
+
                                 <v-flex lg3 md3 sm6 xs6 v-if="productToInsert.product_type == 2">
                                     <v-text-field
                                     label="Cantidad"
@@ -957,9 +846,67 @@
                                     hint="Solo valores numéricos"
                                     v-model="productToInsert.subtotal"></v-text-field>
                                 </v-flex>
-                                <v-flex lg3 md3 sm6 xs6 v-if="productToInsert.product_type == 2">
+                                
+                                <!-- por kilos -->
+
+                                <v-flex lg3 md3 sm8 xs8 v-if="productToInsert.product_type == 1 || productToInsert.product_type == 3">
+                                    <v-text-field
+                                        label="Valor por kilo"
+                                        disabled
+                                        v-model="productToInsert.kilo_value">
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex lg3 md3 sm8 xs8 v-if="productToInsert.product_type == 1">
                                     <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
                                 </v-flex>
+                                <v-flex lg3 md3 sm12 xs12 v-if="productToInsert.product_type == 1">
+                                    <v-text-field
+                                    :rules="onlyNumbers" 
+                                    label="Peso del ítem"
+                                    @keyup="getTotalProductToInsert()"
+                                    persistent-hint
+                                    hint="Decimales separados por '.'"
+                                    v-model="productToInsert.weight"></v-text-field>
+                                </v-flex>
+
+                                <!-- kilos volumétricos -->
+
+                                <v-flex lg2 md2 sm12 xs12 v-if="productToInsert.product_type == 3">
+                                    <v-text-field
+                                    label="Alto"
+                                    :rules="onlyNumbers"
+                                    v-model="productToInsert.height"
+                                    ></v-text-field>
+                                </v-flex>
+
+                                <v-flex lg2 md2 sm12 xs12 v-if="productToInsert.product_type == 3">
+                                    <v-text-field
+                                    label="Ancho"
+                                    :rules="onlyNumbers"
+                                    v-model="productToInsert.width"
+                                    ></v-text-field>
+                                </v-flex>
+
+                                <v-flex lg2 md2 sm12 xs12 v-if="productToInsert.product_type == 3">
+                                    <v-text-field
+                                    label="Largo"
+                                    :rules="onlyNumbers"
+                                    v-model="productToInsert.length"
+                                    ></v-text-field>
+                                </v-flex>
+
+                                <!-- General -->
+                                
+                                <v-flex lg3 md3 sm6 xs6>
+                                    <v-text-field
+                                    label="Precio del producto"
+                                    :rules="onlyNumbers"
+                                    @keyup="getTotalProductToInsert()"
+                                    persistent-hint
+                                    hint="Solo valores numéricos"
+                                    v-model="productToInsert.product_price"></v-text-field>
+                                </v-flex>
+                               
                                 <v-flex lg3 md3 sm12 xs12>
                                     <v-text-field
                                     v-if="form.details.ensurance == 1"
@@ -969,8 +916,7 @@
                                     v-model="productToInsert.ensurance_value"
                                     ></v-text-field>
                                 </v-flex>
-                                <v-flex lg12 md12 sm12 xs12></v-flex>
-                                <v-flex lg6 md6 sm12 xs12></v-flex>
+
                                 <v-flex lg3 md3 sm6 xs6>
                                     <v-text-field
                                     label="Total"
@@ -978,8 +924,9 @@
                                     v-model="productToInsert.price"
                                     ></v-text-field>
                                 </v-flex>
-                                <v-flex lg3 md3 sm6 xs6>
-                                    <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
+
+                                <v-flex lg12 md12 sm12 xs12>
+                                    <h4 style="margin-top: 15px; margin-bottom: 0">Moneda: {{ form.details.currency }}</h4>
                                 </v-flex>
                                 
                             </v-layout>
@@ -1001,28 +948,11 @@
             </v-form>
         </v-dialog>
 
-        <v-dialog v-model="dialog.selectPackage" max-width="800px">
+        <v-dialog 
+            v-model="dialog.selectPackage"
+            scrollable 
+            max-width="800px">
             <v-card>
-                <v-form @submit="getPackage()" ref="findPackageForm">
-                    <v-card-title>
-                        <v-layout wrap>
-                            <v-flex lg10 md10 sm10 xs10>
-                                <v-text-field 
-                                    :loading="loading.searchPackage"
-                                    v-model="search.package"
-                                    :rules="[v => !!v || 'Campo requerido']"
-                                    label="Número de Tracking">
-                                </v-text-field>
-                            </v-flex>
-                            <v-flex lg2 md2 sm2 xs2>
-                                <button type="submit" class="search-btn">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </v-flex>
-                        </v-layout>
-                    </v-card-title>
-                </v-form>
-
                 <v-card-text>
                     <div class="table-responsive">
                         <table>
@@ -1033,39 +963,39 @@
                                     <th>Salida</th>
                                     <th>Fecha de Llegada</th>
                                     <th>Llegada</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="items in request.package" :key="items.id">
+                                <tr v-for="items in request.package">
                                     <td>{{ items.tracking }}</td>
                                     <td>{{ items.out_date }}</td>
                                     <td>{{ items.out_place }}</td>
-                                    <td>{{ items.arriving_date }}</td>
                                     <td>{{ items.arriving_place }}</td>
+                                    <td>
+                                        <v-btn 
+                                            depressed outline icon fab dark color="success" small
+                                            @click="addPackage( items.id, items.tracking, items.out_date )">
+                                            <v-icon>fa fa-plus</v-icon>
+                                        </v-btn>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div style="text-align: center; padding: 0.75rem" v-if="request.package.length === 0">
                             <h4>
                                 <i class="fa fa-exclamation-circle"></i>&nbsp;
-                                Realice su búsqueda  
+                                No hay datos para mostrar  
                             </h4>
                         </div>
                     </div>
                 </v-card-text>
-                
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="error" @click.native="dialog.selectPackage = false">
-                        Cerrar
-                    </v-btn>
-                    <v-btn color="success" 
-                    :loading="saveLoader" 
-                    :disabled="disabledBtn.addPackage"  
-                    @click="addPackage()">
-                        Agregar
-                    </v-btn>
-                </v-card-actions>
+                 <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="error" @click.native="dialog.selectPackage = false">
+                            Cerrar
+                        </v-btn>
+                    </v-card-actions>
             </v-card>
         </v-dialog>
 
@@ -1094,6 +1024,7 @@ import countriesList from '@/api/paisesymonedas'
 export default {
     data () {
         return {
+            countryUser: localStorage.getItem('country'),
             weight: 2900,
             modality: '',
             menu1: false,
@@ -1167,7 +1098,11 @@ export default {
                 subtotal: '',
                 kilo_id: '',
                 kilo_value: '',
-                ensurance_value: ''
+                ensurance_value: '',
+                product_price: '',
+                height: '',
+                width: '',
+                length: ''
             },
             onlyNumbers: [
                 v => !!v || 'Campo requerido',
@@ -1191,7 +1126,6 @@ export default {
                     city: '',
                     phone: '',
                     email: '',
-                    zip: '',
                 },
                 package: {
                     package_id: '',
@@ -1208,7 +1142,6 @@ export default {
                     clients_id: '',
                     country: '',
                     city: '',
-                    zip: '',
                     phone: '',
                     email: '',
                 },
@@ -1216,13 +1149,7 @@ export default {
                 details: {
                     ensurance: '',
                     tracking: '',
-                    airwaybill: '',
                     out_date: '',
-                    name: '',
-                    position: '',
-                    arriving_date: '',
-                    tealca_office: '',
-                    tealca_code: '',
                     reason: '',
                     modality: '',
                     currency: '',
@@ -1234,14 +1161,16 @@ export default {
                 countries: countriesList.pais,
                 money: [],
                 doc_types: [
-                    { value: "1", text: 'Pto' },
-                    { value: "2", text: 'Pasaporte' },
-                    { value: "3", text: 'C.E:' },
-                    { value: "4", text: 'C.I.' }        
+                    { value: "1", text: 'PTP' },
+                    { value: "2", text: 'DNI' },
+                    { value: "3", text: 'Pasaporte' },
+                    { value: "4", text: 'C.E.' },
+                    { value: "5", text: 'C.I.' }        
                 ],
                 product_type: [
                     { value: 1, text: "Por Kilos" },
-                    { value: 2, text: "Por Productos" }
+                    { value: 3, text: 'Kilo volumétrico' },
+                    { value: 2, text: "Por Productos" },
                 ],
                 categories: [],
                 subCategories: [],
@@ -1273,10 +1202,11 @@ export default {
     filters: {
         doc_typesFilter( doc_types ){
             const item_type = {
-                1: "Pto",
-                2: "Pasaporte",
-                3: "C.E.",
-                4: "C.I."
+                1: "PTP",
+                2: "DNI",
+                3: "Pasaporte",
+                4: "C.E.",
+                5: "C.I."
             }
             return item_type[ doc_types ];
         }
@@ -1312,11 +1242,14 @@ export default {
         this.getTaxes()
     },
     created () {
+        this.getPackage()
         this.setTracking()
     },
     methods: {
         getTaxes(){
-            axios.get( 'tax' ).then( response => {
+            var country = localStorage.getItem('country')
+            country = country.replace(/[ '"]+/g, '')
+            axios.get( 'tax/by-country?country=' + country ).then( response => {
                 this.basic.taxes = response.data.items
             })
         },
@@ -1325,6 +1258,13 @@ export default {
                 axios.get( 'tax/' + this.taxes[i] ).then( response => {
                     this.taxesSelected.push( response.data.data )
                 })
+            }
+        },
+        openAddProduct(){
+            if( this.form.details.currency != '' ){
+                this.dialog.addProduct = true
+            } else {
+                this.snackbar = { show: true, text: 'Debe seleccionar la moneda de pago primero', color: 'error', icon:'fa fa-exclamation-triangle' }
             }
         },
         getKiloCost(){
@@ -1343,9 +1283,10 @@ export default {
                 })
             }
         },
-        setTracking(){
-          var max = Math.random() * 1000000000000, min = Math.random() * 100000
-          this.form.details.tracking = Math.floor( Math.random() * ( parseInt( max ) - parseInt( min ) ) ) + parseInt( min );
+        setTracking(){        
+          axios.get( 'ship-order/get-tracking' ).then( response => {
+            this.form.details.tracking = response.data.tracking
+          })
         },
         blurStepOne(){
             if( this.form.details.modality != '' &&
@@ -1357,31 +1298,25 @@ export default {
                 this.disabledBtn.modality = true
             }
         },
-        addPackage(){
-            this.form.package.package_id = this.request.package[0].id
-            this.form.package.tracking = this.request.package[0].tracking
-            this.form.details.out_date = this.request.package[0].out_date
+        addPackage( id, tracking, out_date  ){
+            this.form.package.package_id = id
+            this.form.package.tracking = tracking
+            this.form.details.out_date = out_date
             this.dialog.selectPackage = false
-            this.request.package = []
-            this.search.package = ''
-            this.$refs.findPackageForm.reset()
             this.blurStepOne()
         },
         getPackage(){
-            if( this.$refs.findPackageForm.validate() ){
-                this.loading.searchPackage = true
-                axios.get( 'package/by-number?key=' + this.search.package ).then( response => {
+            axios.get( 'package?ordered=1' ).then( response => {
                     if( response.data.status ){
-                        this.request.package = response.data.data
-                        this.disabledBtn.addPackage = false
-                    } else {
-                        this.request.afiliates = []
-                        this.disabledBtn.addAfiliate = true
-                        this.snackbar = { show: true, text: response.data.msg, color: 'error', icon:'fa fa-exclamation-triangle' }
-                    }
-                    this.loading.searchPackage = false
-                })
-            }
+                    this.request.package = response.data.items
+                    this.disabledBtn.addPackage = false
+                } else {
+                    this.request.afiliates = []
+                    this.disabledBtn.addAfiliate = true
+                    this.snackbar = { show: true, text: response.data.msg, color: 'error', icon:'fa fa-exclamation-triangle' }
+                }
+                this.loading.searchPackage = false
+            })
         },
         getCurrencies(){
             if( this.form.details.modality == 1 ){
@@ -1405,27 +1340,23 @@ export default {
                 this.loading.searchAfiliate = false
             })
         },
-        addAfiliated(){
-            this.form.afiliates.id = this.request.afiliates[0].id
-            this.form.afiliates.doc_type = this.request.afiliates[0].doc_type
-            this.form.afiliates.number = this.request.afiliates[0].number
-            this.form.afiliates.destination_name = this.request.afiliates[0].destination_name
-            this.form.afiliates.attention = this.request.afiliates[0].attention
-            this.form.afiliates.address = this.request.afiliates[0].address
-            this.form.afiliates.clients_id = this.request.afiliates[0].clients_id
-            this.form.afiliates.country = this.request.afiliates[0].country
-            this.form.afiliates.city = this.request.afiliates[0].city
-            this.form.afiliates.phone = this.request.afiliates[0].phone
-            this.form.afiliates.email = this.request.afiliates[0].email
-            this.form.afiliates.zip = this.request.afiliates[0].zip
+        addAfiliated( id, doc_type, number, destination_name, attention, address, clients_id, country, city, phone, email ){
+            this.form.afiliates.id = id
+            this.form.afiliates.doc_type = doc_type
+            this.form.afiliates.number = number
+            this.form.afiliates.destination_name = destination_name
+            this.form.afiliates.attention = attention
+            this.form.afiliates.address = address
+            this.form.afiliates.clients_id = clients_id
+            this.form.afiliates.country = country
+            this.form.afiliates.city = city
+            this.form.afiliates.phone = phone
+            this.form.afiliates.email = email
+            this.blurValidateAfiliate()
             this.disabled.afiliateField = true
             this.dialog.searchAfiliate = false
             this.checkboxes.afiliate = true
-            this.request.afiliates = []
             this.search.afiliated = ''
-            this.$refs.findAfiliatedForm.reset()
-            this.blurValidateAfiliate()
-            this.checkboxes.valueAfiliate = false
         },
         blurValidate(){
             if ( this.form.client.shipper != '' &&
@@ -1434,9 +1365,7 @@ export default {
                  this.form.client.number != '' &&
                  this.form.client.country != '' &&
                  this.form.client.city != '' &&
-                 this.form.client.phone != '' &&
-                 this.form.client.zip != '' &&
-                 !isNaN( this.form.client.zip ) ) {
+                 this.form.client.phone != '' ) {
                     this.disabledBtn.firsStep = false
             } else {
                 this.disabledBtn.firsStep = true
@@ -1449,9 +1378,7 @@ export default {
                  this.form.afiliates.number != '' &&
                  this.form.afiliates.country != '' &&
                  this.form.afiliates.city != '' &&
-                 this.form.afiliates.phone != '' &&
-                 this.form.afiliates.zip != '' &&
-                 !isNaN( this.form.afiliates.zip ) ) {
+                 this.form.afiliates.phone != '' ) {
                     this.disabledBtn.secondStep = false
             } else {
                 this.disabledBtn.secondStep = true
@@ -1476,6 +1403,7 @@ export default {
             this.productToInsert.qty = ''
             this.productToInsert.weight = ''
             this.productToInsert.price = ''
+            this.productToInsert.product_price = ''
             this.$refs.productForm.reset()
         },
         addProduct(){
@@ -1496,7 +1424,8 @@ export default {
                 subtotal: this.productToInsert.subtotal,
                 kilo_id: this.productToInsert.kilo_id,
                 kilo_value: this.productToInsert.kilo_value,
-                ensurance_value: this.productToInsert.ensurance_value
+                ensurance_value: this.productToInsert.ensurance_value,
+                product_price: this.productToInsert.product_price
             }
             this.cleanFields()
             this.form.products.push( data )
@@ -1519,33 +1448,64 @@ export default {
             this.productToInsert.kilo_id = ''
             this.productToInsert.kilo_value = ''
             this.productToInsert.ensurance_value = ''
+            this.productToInsert.product_price = ''
             this.$refs.productForm.resetValidation()
         },
         getTotalProductToInsert(){
-            if( this.productToInsert.product_type == 1 /* Por kilos */ ){
-                var kilo = this.productToInsert.kilo_value
+
+            if( this.productToInsert.product_type == 1 ){
+                var kilo = this.productToInsert.kilo_value,
+                    product_price = this.productToInsert.product_price
                 var total = parseFloat( kilo ) * parseFloat( this.productToInsert.weight )
                 total = total.toFixed( 2 )
                 if( this.form.details.ensurance == 1 ){
                     var ensurance = this.productToInsert.ensurance_value
-                    var subtotal = ( parseFloat( ensurance ) * parseFloat( total ) ) / 100 
+                    var subtotal = ( parseFloat( ensurance ) * parseFloat( product_price ) ) / 100 
                     total = parseFloat( total ) + parseFloat( subtotal )
                     total = total.toFixed(2)
                 }
                 this.productToInsert.price = total
             } else if( this.productToInsert.product_type == 2 ){
+                
                 var price = this.productToInsert.subtotal,
-                    qty = this.productToInsert.qty
+                    qty = this.productToInsert.qty,
+                    product_price = this.productToInsert.product_price
                 var total = parseFloat( price ) * parseInt( qty )
                     total = total.toFixed(2)
+
                 if( this.form.details.ensurance == 1 ){
                     var ensurance = this.productToInsert.ensurance_value
-                    var subtotal = ( parseFloat( ensurance ) * parseFloat( total ) ) / 100 
+                    var subtotal = ( parseFloat( ensurance ) * parseFloat( product_price ) ) / 100 
                     total = parseFloat( total ) + parseFloat( subtotal )
                     total = total.toFixed(2)
                 }
+
+                this.productToInsert.price = total
+            } else if( this.productToInsert.product_type == 3 ) {
+                var product_price = this.productToInsert.product_price,
+                    height = this.productToInsert.height,
+                    width = this.productToInsert.width,
+                    length = this.productToInsert.length,
+                    kilo = this.productToInsert.kilo_value
+
+                var volumetric = 0
+                    volumetric = parseFloat( width ) * parseFloat( height ) * parseFloat( length )
+                    volumetric = parseFloat( volumetric ) / 5000
+                this.productToInsert.weight = volumetric.toFixed( 2 )
+                    
+                var total = parseFloat( kilo ) * parseFloat( volumetric )
+                    total = total.toFixed( 2 )
+                 
+                if( this.form.details.ensurance == 1 ){
+                    var ensurance = this.productToInsert.ensurance_value
+                    var subtotal = ( parseFloat( ensurance ) * parseFloat( product_price ) ) / 100 
+                    total = parseFloat( total ) + parseFloat( subtotal )
+                    total = total.toFixed(2)
+                }
+
                 this.productToInsert.price = total
             }
+
         },
         setSubcategoryName(){
             if( this.productToInsert.subcategory != undefined ){
@@ -1603,7 +1563,6 @@ export default {
             this.form.client.city = this.request.client[0].city
             this.form.client.phone = this.request.client[0].phone
             this.form.client.email = this.request.client[0].email
-            this.form.client.zip = this.request.client[0].zip
             this.disabled.clientField = true
             this.dialog.searchClient = false
             this.checkboxes.client = true
@@ -1625,7 +1584,6 @@ export default {
             this.form.afiliates.city = ''
             this.form.afiliates.phone = ''
             this.form.afiliates.email = ''
-            this.form.afiliates.zip = ''
             this.disabled.afiliateField = false
             this.checkboxes.afiliate = false
             this.$refs.addAfiliateForm.resetValidation()
@@ -1657,7 +1615,6 @@ export default {
             this.form.client.city = ''
             this.form.client.phone = ''
             this.form.client.email = ''
-            this.form.client.zip = ''
             this.disabled.clientField = false
             this.checkboxes.client = false
             this.$refs.clientForm.reset()
@@ -1690,8 +1647,7 @@ export default {
                 country: this.form.client.country,
                 city: this.form.client.city,
                 phone: this.form.client.phone,
-                email: this.form.client.email,
-                zip: this.form.client.zip
+                email: this.form.client.email
             }
             axios.put( 'clients/' + this.form.client.id, client ).then( response => {
                 console.log( response.data.status )
@@ -1708,7 +1664,6 @@ export default {
                 address: this.form.afiliates.address,
                 country: this.form.afiliates.country,
                 city: this.form.afiliates.city,
-                zip: this.form.afiliates.zip,
                 phone: this.form.afiliates.phone,
                 email: this.form.afiliates.email
             }   
@@ -1728,8 +1683,7 @@ export default {
                 country: this.form.client.country,
                 city: this.form.client.city,
                 phone: this.form.client.phone,
-                email: this.form.client.email,
-                zip: this.form.client.zip
+                email: this.form.client.email
             }
             axios.post( 'clients/', client ).then( response => {
                 this.form.client.id =  response.data.clients_id
@@ -1748,12 +1702,12 @@ export default {
                 clients_id: clients_id,
                 country: this.form.afiliates.country,
                 city: this.form.afiliates.city,
-                zip: this.form.afiliates.zip,
                 phone: this.form.afiliates.phone,
                 email: this.form.afiliates.email
             }   
             axios.post( 'afiliated/', afiliate ).then( response => {   
                 this.form.afiliates.id = response.data.client_afiliated_id
+                this.saveOrder()
             }).catch( error => {
                 console.log( error )
             })
@@ -1769,8 +1723,8 @@ export default {
             } else if( this.form.client.id != null && this.form.afiliates.id != null ) {
                 this.updateClientIfSelected()
                 this.updateAfiliateIfSelected()
+                this.saveOrder()
             }
-            this.saveOrder()
         },
         saveOrder(){
              var data = {
@@ -1779,12 +1733,6 @@ export default {
                 clients_id: this.form.client.id,
                 client_afiliated_id: this.form.afiliates.id,
                 package_id: this.form.package.package_id,
-                airwaybill: this.form.details.airwaybill,
-                arriving_date: this.form.details.arriving_date,
-                name: this.form.details.name,
-                position: this.form.details.position,
-                tealca_office: this.form.details.tealca_office,
-                tealca_code: this.form.details.tealca_code,
                 reason: this.form.details.reason,
                 modality: this.form.details.modality,
                 currency: this.form.details.currency,

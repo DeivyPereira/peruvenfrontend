@@ -1,17 +1,16 @@
 <template>
-  <div id="Taxes">
+  <div id="Users">
     <v-container grid-list-xl fluid>
       <v-layout row wrap>
         <v-flex lg12>
-          
 
-              <v-dialog v-model="basic.dialog" persistent max-width="500px">
+              <v-dialog v-model="basic.dialog" persistent max-width="800px">
                 <v-card>
                   <v-card-title>
                       <v-layout row>
                           <v-flex lg-10 xs-10 md-10>
-                            <span class="headline" v-if="isEdit == false">Nuevo Impuesto</span>
-                            <span class="headline" v-if="isEdit">Editar Impuesto</span>
+                            <span class="headline" v-if="isEdit == false">Nuevo Usuario</span>
+                            <span class="headline" v-if="isEdit">Editar Usuario</span>
                           </v-flex>
                           <v-flex lg-2 xs-2 md-2 style="text-align: right">
                             <v-progress-circular indeterminate v-if="modalLoader == true" :size="30" color="primary"></v-progress-circular>
@@ -23,13 +22,42 @@
                         <v-card-text>
                           <v-container grid-list-md>
                             <v-layout wrap>
-                              <v-flex xs12 sm6 md8>
-                                <v-text-field v-model="name" :disabled="disabled" label="Nombre" :rules="[rules.required]"></v-text-field>
-                              </v-flex>
-                              <v-flex xs12 sm6 md4>
-                                <v-text-field v-model="value" :disabled="disabled" label="Porcentaje" :rules="[rules.required]" append-icon="fa fa-percent" hint="Décimales separados con '.'" required></v-text-field>
-                              </v-flex>
                               <v-flex xs12 sm12 md12>
+                                <v-text-field 
+                                  v-model="name" 
+                                  :disabled="disabled" 
+                                  label="Nombre" 
+                                  :rules="[rules.required]">
+                                </v-text-field>
+                              </v-flex>
+                              <v-flex xs12 sm6 md6>
+                                <v-text-field 
+                                  v-model="email" 
+                                  :disabled="disabled" 
+                                  label="Correo electrónico" 
+                                  :rules="[rules.required]">
+                                </v-text-field>
+                              </v-flex>
+                              <v-flex xs12 sm6 md6>
+                                <v-text-field 
+                                  v-if="isEdit == true"
+                                  hint="Dejar en blanco si no desea cambiarla"
+                                  persistent-hint
+                                  type="password"
+                                  v-model="password" 
+                                  :disabled="disabled" 
+                                  label="Contraseña">
+                                </v-text-field>
+                                <v-text-field
+                                  v-if="isEdit == false" 
+                                  :rules="[rules.required]"
+                                  type="password"
+                                  v-model="password" 
+                                  :disabled="disabled" 
+                                  label="Contraseña">
+                                </v-text-field>
+                              </v-flex>
+                              <v-flex xs12 sm6 md6>
                                 <v-select
                                     label="Seleccionar País"
                                     :items="countries"
@@ -40,12 +68,27 @@
                                     item-value="value"     
                                     ></v-select>
                               </v-flex>
+                              <v-flex xs12 sm6 md6>
+                                <v-select
+                                    label="Rol"
+                                    :items="rols"
+                                    v-model="role"
+                                    required
+                                    :rules="[v => !!v || 'Campo requerido']"
+                                    item-text="text"
+                                    item-value="value"     
+                                    ></v-select>
+                              </v-flex>
                               <v-flex xs12 sm12 md12>
-                                <v-text-field
-                                  v-model="description" :disabled="disabled"
-                                  label="Descripción"
-                                  multi-line
-                                ></v-text-field>
+                                <v-select
+                                    label="Estado"
+                                    :items="statuses"
+                                    v-model="status"
+                                    required
+                                    :rules="[v => !!v || 'Campo requerido']"
+                                    item-text="text"
+                                    item-value="value"     
+                                    ></v-select>
                               </v-flex>
                             </v-layout>
                           </v-container>
@@ -58,8 +101,7 @@
                       </v-form>
                 </v-card>
               </v-dialog>
-
-            <v-toolbar card color="white">
+            <v-toolbar card color="white" style="padding: 0 0 20px 0">
               <v-text-field
               flat
               solo
@@ -68,10 +110,10 @@
               v-model="search"
               hide-details
               class="hidden-sm-and-down"
-              ></v-text-field>  
-              <v-btn color="success" @click="isEdit = false; clearInputs(); basic.dialog = true" flat><i class="fa fa-plus"></i>&nbsp;Agregar</v-btn>         
+              ></v-text-field>    
+              <v-btn color="success" flat @click="isEdit = false; clearInputs(); basic.dialog = true"><i class="fa fa-plus"></i>&nbsp;Agregar</v-btn>
             </v-toolbar>
-
+           
             <v-progress-circular indeterminate :size="40" v-if="generalLoader == true" style="position: fixed; bottom: 10%; right: 5%;" color="primary"></v-progress-circular>
 
               <v-data-table
@@ -79,13 +121,15 @@
                 :search="search"
                 :items="complex.items"
                 :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
+
                 item-key="name"
                 >
                 <template slot="items" slot-scope="props">
                   <td>{{ props.item.name }}</td>
+                  <td>{{ props.item.email }}</td>
                   <td>{{ props.item.country }}</td>
-                  <td>{{ props.item.description }}</td>
-                  <td>{{ props.item.value }} %</td>
+                  <td>{{ props.item.role | roleFilter }}</td>
+                  <td>{{ props.item.status | statusFilter }}</td>
                   <td>
                     <v-btn depressed outline icon fab dark color="primary" small @click="edit( props.item.id )">
                       <v-icon>edit</v-icon>
@@ -133,31 +177,46 @@ export default {
       isEdit: false,
       id: null,
       name: '',
-      value: '',
-      description: '',
       country: '',
+      role: '',
+      status: '',
+      email: '',
+      password: '',
       countries: countriesList.pais,
+      rols: [
+          { value: 1, text: 'Administrador' },
+          { value: 2, text: 'Supervisor' },
+          { value: 3, text: 'Trabajador' }
+      ],
+      statuses: [
+          { value: 2, text: 'Activo' },
+          { value: 1, text: 'Inactivo' }
+      ],
       rules: {
-        required: (value) => !!value || 'Campo requerido.',
+        required: (value) => !!value || 'Campo requerido.'
       },
       appEvents: [],
       complex: {
         headers: [
           {
-            text: 'Nombre de Impuesto',
+            text: 'Nombre',
             value: 'name'
+          },
+          {
+            text: 'Email',
+            value: 'email'
           },
           {
             text: 'País',
             value: 'country'
           },
           {
-            text: 'Descripción',
-            value: 'description'
+            text: 'Rol',
+            value: 'role'
           },
           {
-            text: 'Valor Porcentaje',
-            value: 'value'
+            text: 'Estado',
+            value: 'status'
           },
           {
             text: 'Acciones',
@@ -179,16 +238,33 @@ export default {
       removeLoader: false,
       generalLoader: false,
       modalLoader: false,
-      disabled: false
+      disabled: false,
+    }
+  },
+  filters: {
+    roleFilter( role ){
+        const filter = {
+            1: "Administrador",
+            2: "Supervisor",
+            3: "Trabajador"
+        }
+        return filter[ role ];
+    },
+    statusFilter( status ){
+        const filter_ = {
+            1: "Inactivo",
+            2: "Activo",
+        }
+        return filter_[ status ];
     }
   },
   mounted (){
-   this.getList()
+    this.getList()
   },
   methods: {
       getList(){
           this.generalLoader = true
-          axios.get( 'tax' ).then( response => {
+          axios.get( 'user' ).then( response => {
               this.complex.items = response.data.items
               this.generalLoader = false
           }). catch( error => {
@@ -199,7 +275,7 @@ export default {
         this.$confirm('¿Realmente quieres eliminar este elemento?').then( res => { 
           if( res ){
             this.generalLoader = true
-            axios.delete( 'tax/' + id ).then( response => {
+            axios.delete( 'user/' + id ).then( response => {
                 this.snackbar = { show: true, text: response.data.response, color: 'success',icon:'fa fa-check' }
                 this.getList()
             }).catch( error => {
@@ -213,12 +289,13 @@ export default {
           this.basic.dialog = true
           this.modalLoader = true
           this.disabled = true
-          axios.get( 'tax/' + id ).then( response => {
+          axios.get( 'user/' + id ).then( response => {
               this.id = response.data.data.id
               this.name = response.data.data.name
-              this.description = response.data.data.description
-              this.value = response.data.data.value
               this.country = response.data.data.country
+              this.role = parseInt( response.data.data.role )
+              this.status = parseInt( response.data.data.status )
+              this.email = response.data.data.email
               this.modalLoader = false
               this.disabled = false
           }).catch( error => {
@@ -227,35 +304,40 @@ export default {
       },
       clearInputs(){
           this.name = ''
-          this.value = ''
-          this.description = ''
           this.country = ''
+          this.role = ''
+          this.status = ''
+          this.email = ''
+          this.password = ''
           this.$refs.form.resetValidation()
       },
       save( id = null ){
         if( this.$refs.form.validate() ){
           var data = {
             name: this.name,
-            description: this.description,
-            value: this.value,
-            country: this.country
+            country: this.country,
+            role: this.role,
+            status: this.status,
+            email: this.email,
+            password: this.password
           }
           this.saveLoader = true
-          if( ! this.isEdit ){
-              axios.post( 'tax/', data ).then( response => {
-                  this.snackbar = { show: true, text: 'Impuesto agregado con éxito', color: 'success',icon:'fa fa-check' }
-                  this.saveLoader = false
-                  this.basic.dialog = false
-                  this.clearInputs()
-                  this.getList()
-              }).catch( error => {
-                  console.log( error )
-              })
+          if( ! this.isEdit ){  
+            axios.post( 'user/', data ).then( response => {
+                this.snackbar = { show: true, text: 'Usuario agregado con éxito', color: 'success',icon:'fa fa-check' }
+                this.saveLoader = false
+                this.basic.dialog = false
+                this.clearInputs()
+                this.getList()
+            }).catch( error => {
+                console.log( error )
+            })
           } else {
-              axios.put( 'tax/' + this.id, data ).then( response => {
-                  this.snackbar = { show: true, text: 'Impuesto editado con éxito', color: 'success',icon:'fa fa-check' }
+              axios.put( 'user/' + this.id, data ).then( response => {
+                  this.snackbar = { show: true, text: 'Usuario editado con éxito', color: 'success',icon:'fa fa-check' }
                   this.saveLoader = false
                   this.getList()
+                  this.saveLoader = false
               }).catch( error => {
                   console.log( error )
               })
@@ -265,42 +347,3 @@ export default {
   }
 };
 </script>
-
-<style>
-  .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style>

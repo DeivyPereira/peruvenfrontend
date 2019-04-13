@@ -20,7 +20,7 @@
                                 <strong>{{ order.package.tracking }}</strong>
                             </h4>
                         </v-flex>
-                        <v-flex lg5 md5 sm12>
+                        <v-flex lg6 md6 sm12>
                             <h4>Origen</h4>
                             <strong>Remitente:</strong>&nbsp;
                             {{ order.clients.shipper }}<br>
@@ -30,18 +30,16 @@
                             {{ order.clients.address }}<br>
                             <strong>País:</strong>&nbsp;
                             {{ order.clients.country }}<br>
+                            <strong>Ciudad:</strong>&nbsp;
+                            {{ order.clients.city }}<br>
                             <strong>Teléfono:</strong>&nbsp;
                             {{ order.clients.phone }}<br>
                             <strong>Correo Electrónico:</strong>&nbsp;
                             {{ order.clients.email }}<br>
-                            <strong>Código Postal / ZIP:</strong>&nbsp;
-                            {{ order.clients.zip }}<br>
-                            <strong>Airwaybill:</strong>&nbsp;
-                            {{ order.airwaybill }}<br>
                             <strong>Fecha de salida:</strong>&nbsp;
                             {{ order.package.out_date }}<br>
                         </v-flex>
-                        <v-flex lg5 md5 sm5 xs12>
+                        <v-flex lg6 md6 sm6 xs12>
                             <h4>Destino</h4>
                             <strong>Destinatario:</strong>&nbsp;
                             {{ order.client_afiliated.destination_name }}<br>
@@ -51,21 +49,13 @@
                             {{ order.client_afiliated.address }}<br>
                             <strong>País:</strong>&nbsp;
                             {{ order.client_afiliated.country }}<br>
+                            <strong>Ciudad:</strong>&nbsp;
+                            {{ order.client_afiliated.city }}<br>
                             <strong>Teléfono:</strong>&nbsp;
                             {{ order.client_afiliated.phone }}<br>
                             <strong>Correo Elecrónico:</strong>&nbsp;
                             {{ order.client_afiliated.email }}<br>
-                            <strong>Código Postal / ZIP:</strong>&nbsp;
-                            {{ order.client_afiliated.zip }}<br>
-                            <strong>Oficina Tealca:</strong>&nbsp;
-                            {{ order.tealca_office }}<br>
-                            <strong>Código Tealca:</strong>&nbsp;
-                            {{ order.tealca_code }}<br>
                         </v-flex>
-                        <v-flex lg2 md2 sm2 xs12>
-							 <strong style="padding-left: 8px;">Tracking:</strong>#{{ order.id }}
-							<img :src='ImgQr(order.id)' width="70%">
-						</v-flex>
                         <v-spacer></v-spacer>
                         <v-flex lg12 md12 sm12>
                             <div class="table-responsive">
@@ -75,6 +65,7 @@
                                             <th>Paquete N°</th>
                                             <th>Descripción del bien</th>
                                             <th>Categorización</th>
+                                            <th>Costo del producto</th>
                                             <th>Unidades</th>
                                             <th>Costo Unitario</th>
                                             <th>Porcentaje por seguro</th>
@@ -88,9 +79,11 @@
                                             <td>{{ items.description }}</td>
                                             
                                             <td>
-                                                {{ items.category_name }}<br>
-                                                <small>{{ items.subcategory_name }}</small>
+                                                {{ items.category.name }}<br>
+                                                <small>{{ items.subcategory.name }}</small>
                                             </td>
+
+                                            <td>{{ items.product_price }} {{ order.currency }}</td>
 
                                             <td v-if="items.weight == undefined">{{ items.qty }} Und</td>
                                             <td v-if="items.weight != undefined">{{ items.weight }} Kg</td>
@@ -165,16 +158,6 @@
                             <strong>Razón de exportación</strong><br>
                             {{ order.reason }}
                         </v-flex>
-                        <v-flex lg6 md6 sm12>
-                            <strong>Nombre:</strong>&nbsp;
-                            {{ order.name }}<br>
-                            <strong>Posición:</strong>&nbsp;
-                            {{ order.position }}<br>
-                        </v-flex>
-                        <v-flex lg6 md6 sm12>
-                            <strong>Fecha de llegada:</strong>&nbsp;
-                            {{ order.arriving_date }}
-                        </v-flex>
                     </v-layout>
                 </v-card-text>
                 <v-card-actions>
@@ -215,10 +198,7 @@ export default {
         },
         cancel(){
             this.$router.push('/ordenes-de-envios/listado')
-        },
-		ImgQr(id){
-			return 'http://104.197.180.47/peruven/api/uploads/qr/'+ id +'.png';
-		}
+        }
     }
 }
 </script>
