@@ -1306,7 +1306,9 @@ export default {
             this.blurStepOne()
         },
         getPackage(){
-            axios.get( 'package?ordered=1' ).then( response => {
+            var country = localStorage.getItem('country')
+            country = country.replace(/[ '"]+/g, '')
+            axios.get( 'package?ordered=1&country=' + country ).then( response => {
                     if( response.data.status ){
                     this.request.package = response.data.items
                     this.disabledBtn.addPackage = false

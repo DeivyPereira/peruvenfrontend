@@ -1,15 +1,33 @@
+import axios from '@/api/config'
 const range = (start, end) => new Array(end - start).fill(start).map((el, i) => start + i);
+/*
+axios.get( 'so-by-date' ).then( response => {
+  axios.get( 'pck-by-date' ).then( response_ => {
+    const shipping_order = response.data.items
+    const outs = response_.data.items
+    
+    const shortMonth = [
+      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+    ];    
 
-const shortMonth = [
-  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-];
-const monthVisitData = shortMonth.map(m => {
-  return {
-    'month': m,
-    'Unique Visit': Math.floor(Math.random() * 1000) + 200,
-    'Page View': Math.floor(Math.random() * 1000) + 250,
-  };
-});
+    const monthVisitData = shortMonth.map(m => {
+      return {
+        'month': m,
+        'Salidas': Math.floor(Math.random() * 1000) + 200,
+        'Ordenes de envío': 1000
+      };
+    });
+
+    export {
+      monthVisitData,
+    };
+  
+  })
+})
+*/
+
+
+
 
 const campaignData = [
   {
@@ -73,7 +91,6 @@ const SinData = range(1, 12).map(i => {
 
 
 export {
-  monthVisitData,
   campaignData,
   locationData,
   StackData,

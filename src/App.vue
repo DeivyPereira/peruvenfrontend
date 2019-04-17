@@ -57,13 +57,13 @@
   </div>
 </template>
 <script>
+import axios from '@/api/config'
 import AppDrawer from '@/components/AppDrawer';
 import AppToolbar from '@/components/AppToolbar';
 import AppFab from '@/components/AppFab';
 import PageHeader from '@/components/PageHeader';
 import ThemeSettings from '@/components/ThemeSettings';
 import AppEvents from  './event';
-import axios from '@/api/config'
 
 export default {
   components: {
@@ -98,7 +98,13 @@ export default {
       this.rightDrawer = (!this.rightDrawer);
     }
   },
-
+  mounted() {
+    axios.get( 'check-token' ).then( response => {
+      if( response.data.status !== true ){
+        this.$router.push({ path: '/' })
+      }
+    })
+  },
 };
 </script>
 
