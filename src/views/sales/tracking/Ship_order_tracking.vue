@@ -160,7 +160,7 @@ export default {
             value: 'ship_order.tracking'
           },
           {
-            text: 'Trackin Fecha de salida',
+            text: 'Trackin Consolidado',
             value: 'package.tracking'
           },
           {
@@ -221,7 +221,13 @@ export default {
   methods: {
       getList(){
           this.generalLoader = true
-          axios.get( 'tracking?cond=order' ).then( response => {
+          var url = 'tracking?cond=order';
+          if( localStorage.getItem('role') == '"2"' || localStorage.getItem('role') == '"3"' ){
+            var country = localStorage.getItem('country')
+                country = country.replace(/[ '"]+/g, '')
+            var url = 'tracking?cond=order&country=' + country;
+          }
+          axios.get( url ).then( response => {
               this.complex.items = response.data.items
               this.generalLoader = false
           }). catch( error => {

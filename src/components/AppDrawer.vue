@@ -16,6 +16,8 @@
     <vue-perfect-scrollbar class="drawer-menu--scroll" :settings="scrollSettings">
       <v-list dense expand>
         <template v-for="(item, i) in menus">
+          <div v-for="roles in item.roles">
+          <div v-if="roles.n == role">
             <!--group with subitems-->
             <v-list-group v-if="item.items" :key="item.name" :group="item.group" :prepend-icon="item.icon" no-action="no-action">
               <v-list-tile slot="activator" ripple="ripple">
@@ -38,14 +40,16 @@
                   </v-list-tile>
                 </v-list-group>
                 <!--child item-->
-                <v-list-tile v-else :key="i" :to="genChildTarget(item, subItem)" :href="subItem.href" :disabled="subItem.disabled" :target="subItem.target" ripple="ripple">
-                  <v-list-tile-content>
-                    <v-list-tile-title><span>{{ subItem.title }}</span></v-list-tile-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action v-if="subItem.action">
-                    <v-icon :class="[subItem.actionClass || 'success--text']">{{ subItem.action }}</v-icon>
-                  </v-list-tile-action>
-                </v-list-tile>
+                <div v-for="roles in subItem.roles">
+                  <v-list-tile v-if="roles.n == role" :key="i" :to="genChildTarget(item, subItem)" :href="subItem.href" :disabled="subItem.disabled" :target="subItem.target" ripple="ripple">
+                    <v-list-tile-content>
+                      <v-list-tile-title><span>{{ subItem.title }}</span></v-list-tile-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action v-if="subItem.action">
+                      <v-icon :class="[subItem.actionClass || 'success--text']">{{ subItem.action }}</v-icon>
+                    </v-list-tile-action>
+                  </v-list-tile>
+                </div>  
               </template>
             </v-list-group>
             <v-subheader v-else-if="item.header" :key="i">{{ item.header }}</v-subheader>
@@ -62,6 +66,8 @@
                 <v-icon class="success--text">{{ item.subAction }}</v-icon>
               </v-list-tile-action>
             </v-list-tile>
+          </div>
+          </div>
         </template>
       </v-list>        
     </vue-perfect-scrollbar>        
@@ -83,11 +89,12 @@ export default {
   },
   data: () => ({
     mini: false,
+    role: '',
     drawer: true,
     menus: menu,
     scrollSettings: {
       maxScrollbarLength: 160
-    }    
+    },
   }),
   computed: {
     computeGroupActive () {
@@ -105,9 +112,8 @@ export default {
     window.getApp.$on('APP_DRAWER_TOGGLED', () => {
       this.drawer = (!this.drawer);
     });
+    this.setRole()
   },
-  
-
   methods: {
     genChildTarget (item, subItem) {
       if (subItem.href) return;
@@ -118,6 +124,11 @@ export default {
       }
       return { name: `${item.group}/${(subItem.name)}` };
     },
+    setRole(){
+      var role = localStorage.getItem('role')
+          role = role.replace(/[ '"]+/g, '')
+      this.role = role
+    }
   }
 };
 </script>

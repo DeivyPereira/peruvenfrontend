@@ -83,10 +83,17 @@ export default {
         axios.post( 'login', data ).then( response => {
           if( response.data.status ){
             var token = response.data.token
+            var role = JSON.stringify( response.data.role )
             window.localStorage.setItem( 'country', JSON.stringify( response.data.country ) )
+            window.localStorage.setItem( 'role', role )
             window.localStorage.setItem( 'token', token )
             window.localStorage.setItem( 'session', 'true' )
-            this.$router.push('/dashboard');
+            if( role == '"1"' ){
+              this.$router.push('/dashboard');
+            } else {
+              this.$router.push('/ordenes-de-envios/listado');
+            }
+            
           } else {
             this.snackbar = { 
                               show: true, 

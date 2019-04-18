@@ -1248,9 +1248,13 @@ export default {
     },
     methods: {
         getTaxes(){
-            var country = localStorage.getItem('country')
-            country = country.replace(/[ '"]+/g, '')
-            axios.get( 'tax/by-country?country=' + country ).then( response => {
+            var url = 'tax/by-country';
+            if( localStorage.getItem('role') == '"2"' || localStorage.getItem('role') == '"3"' ){
+                var country = localStorage.getItem('country')
+                    country = country.replace(/[ '"]+/g, '')
+                var url = 'tax/by-country?country=' + country;
+            }
+            axios.get( url ).then( response => {
                 this.basic.taxes = response.data.items
             })
         },
@@ -1307,9 +1311,13 @@ export default {
             this.blurStepOne()
         },
         getPackage(){
-            var country = localStorage.getItem('country')
-            country = country.replace(/[ '"]+/g, '')
-            axios.get( 'package?ordered=1&country=' + country ).then( response => {
+            var url = 'package?ordered=1';
+            if( localStorage.getItem('role') == '"2"' || localStorage.getItem('role') == '"3"' ){
+                var country = localStorage.getItem('country')
+                    country = country.replace(/[ '"]+/g, '')
+                var url = 'package?ordered=1&country=' + country;
+            }
+            axios.get( url ).then( response => {
                     if( response.data.status ){
                     this.request.package = response.data.items
                     this.disabledBtn.addPackage = false
@@ -1631,6 +1639,7 @@ export default {
                 this.form.products[i].package = i + 1
             }
             this.getTotal()
+            this.blurValidateOrder()
         },
         blurValidateOrder(){
             if( this.$refs.addOrderForm.validate() && this.form.products.length > 0 ){

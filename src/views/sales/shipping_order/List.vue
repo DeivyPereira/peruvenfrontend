@@ -409,7 +409,13 @@ export default {
             this.$router.push({ path: '/ordenes-de-envios/crear' })
         },
         getOrders(){
-            axios.get( 'ship-order' ).then( response => {
+            var url = 'ship-order';
+            if( localStorage.getItem('role') == '"2"' || localStorage.getItem('role') == '"3"' ){
+                var country = localStorage.getItem('country')
+                    country = country.replace(/[ '"]+/g, '')
+                var url = 'ship-order?country=' + country;
+            }
+            axios.get( url ).then( response => {
                 this.complex.items = response.data.items
             })
         },

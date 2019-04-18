@@ -358,7 +358,13 @@ export default {
       },
       getList(){
           this.generalLoader = true
-          axios.get( 'package' ).then( response => {
+          var url = 'package';
+          if( localStorage.getItem('role') == '"2"' || localStorage.getItem('role') == '"3"' ){
+              var country = localStorage.getItem('country')
+                  country = country.replace(/[ '"]+/g, '')
+              var url = 'package?country=' + country;
+          }
+          axios.get( url ).then( response => {
               this.complex.items = response.data.items
               this.generalLoader = false
           }). catch( error => {

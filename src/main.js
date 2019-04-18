@@ -26,7 +26,6 @@ router.beforeEach((to, from, next) => {
   }
 })
 
-
 import VuetifyConfirm from 'vuetify-confirm'
  
 Vue.use(VuetifyConfirm, {

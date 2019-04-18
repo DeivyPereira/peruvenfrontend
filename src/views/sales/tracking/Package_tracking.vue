@@ -219,8 +219,14 @@ export default {
   },
   methods: {
       getList(){
-          this.generalLoader = true
-          axios.get( 'tracking?cond=pack' ).then( response => {
+          this.generalLoader = true;
+          var url = 'tracking?cond=pack';
+          if( localStorage.getItem('role') == '"2"' || localStorage.getItem('role') == '"3"' ){
+            var country = localStorage.getItem('country')
+                country = country.replace(/[ '"]+/g, '')
+            var url = 'tracking?cond=pack&country=' + country;
+          }
+          axios.get( url ).then( response => {
               this.complex.items = response.data.items
               this.generalLoader = false
           }). catch( error => {

@@ -82,11 +82,11 @@ export default {
       color: '',
     }
   }),
-
   computed: {
 
   },
   created () {
+    this.checkLog()
     AppEvents.forEach(item => {
       this.$on(item.name, item.callback);
     });
@@ -96,14 +96,18 @@ export default {
     openThemeSettings () {
       this.$vuetify.goTo(0);
       this.rightDrawer = (!this.rightDrawer);
+    },
+    checkLog() {
+      axios.get( 'check-token' ).then( response => {
+        if( response.data.status == false ){
+          localStorage.removeItem( 'country' )
+          localStorage.removeItem( 'role' )
+          localStorage.removeItem( 'token' )
+          localStorage.removeItem( 'session' )
+          this.$router.push( '/' )
+        }
+      })
     }
-  },
-  mounted() {
-    axios.get( 'check-token' ).then( response => {
-      if( response.data.status !== true ){
-        this.$router.push({ path: '/' })
-      }
-    })
   },
 };
 </script>
