@@ -78,9 +78,9 @@
                                             <td>{{ items.package }}</td>
                                             <td>{{ items.description }}</td>
                                             
-                                            <td>
+                                            <td v-if="items.category">
                                                 {{ items.category.name }}<br>
-                                                <small>{{ items.subcategory.name }}</small>
+                                                <small v-if="items.subcategory">{{ items.subcategory.name }}</small>
                                             </td>
 
                                             <td>{{ items.product_price }} {{ order.currency }}</td>

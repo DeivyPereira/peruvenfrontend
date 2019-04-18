@@ -971,6 +971,7 @@
                                     <td>{{ items.tracking }}</td>
                                     <td>{{ items.out_date }}</td>
                                     <td>{{ items.out_place }}</td>
+                                    <td>{{ items.arriving_date }}</td>
                                     <td>{{ items.arriving_place }}</td>
                                     <td>
                                         <v-btn 

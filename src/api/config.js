@@ -4,7 +4,7 @@ var pack = require('axios');
 
 var axios = pack.create({
   //baseURL: 'http://localhost/peruven/',
-  baseURL: 'http://104.197.180.47/sistema-administrativo/api/'
+  baseURL: 'http://104.197.180.47/peruven/api/'
 });
 
 localStorage.on('change', ( key, value ) => {
