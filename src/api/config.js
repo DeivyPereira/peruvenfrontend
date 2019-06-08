@@ -3,8 +3,8 @@ import localStorage from 'reactive-localstorage';
 var pack = require('axios');
 
 var axios = pack.create({
-  //baseURL: 'http://localhost/peruven/',
-  baseURL: 'http://104.197.180.47/peruven/api/'
+  baseURL: 'http://localhost/peruven-api/',
+  //baseURL: 'https://www.enviosperuven.com/api/'
 });
 
 localStorage.on('change', ( key, value ) => {

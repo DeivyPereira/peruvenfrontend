@@ -258,7 +258,6 @@ export default {
           this.$refs.form.resetValidation()
       },
       save( id = null ){
-
           if( this.$refs.form.validate() ){
               var data = {
                 name: this.name,
