@@ -646,7 +646,7 @@
                         >{{ items.product_price }} {{ form.details.currency_ensurance }}</td>
                         <td>{{ items.qty }} Und</td>
                         <td>{{ items.weight }} Kg</td>
-                        <td>{{ items.price_ensurance }} {{ order.currency_ensurance }}</td>
+                        <td>{{ items.price_ensurance }} {{ form.details.currency_ensurance }}</td>
                         <td></td>
                       </tr>
 
@@ -981,7 +981,6 @@
                         :key="item.value"
                         :label="item.text"
                         :value="item.value"
-                        @change="getTotalProductToInsertEnsurance()"
                         @input="getTotalProductToInsertEnsurance()"
                       ></v-radio>
                     </v-radio-group>
