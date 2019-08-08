@@ -99,14 +99,10 @@ export default {
     },
     checkLog() {
       axios.get( 'check-token' ).then( response => {
-        if( response.data.status == false ){
-          localStorage.removeItem( 'country' )
-          localStorage.removeItem( 'role' )
-          localStorage.removeItem( 'token' )
-          localStorage.removeItem( 'session' )
-          this.$router.push( '/' )
+        if( !response.data.status ){
+          this.$router.push( '/logout' );
         }
-      })
+      });
     }
   },
 };

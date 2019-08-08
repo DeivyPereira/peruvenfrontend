@@ -34,10 +34,11 @@
                 :headers="complex.headers"
                 :search="search"
                 :items="complex.items"
-                :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
+                :rows-per-page-items="[10,25,50,{text:'Todos','value':-1}]"
                 item-key="name"
               >
                 <template slot="items" slot-scope="props">
+                  <td>{{ props.item.created }}</td>
                   <td>{{ props.item.tracking }}</td>
                   <td>{{ props.item.package.tracking }}</td>
                   <td
@@ -77,12 +78,92 @@
                     >
                       <v-icon>delete</v-icon>
                     </v-btn>
+                    <v-btn color="info" @click="Comprobante( props.item.id)">Imprimir Comprobante</v-btn>
+                    <v-btn color="info" @click="Declaracion( props.item.id)">Imprimir Declaración</v-btn>
                   </td>
                 </template>
               </v-data-table>
             </v-tab-item>
-            <v-tab-item id="tab-2">Diseño 2</v-tab-item>
-            <v-tab-item id="tab-3">Diseño 3</v-tab-item>
+            <v-tab-item id="tab-2">
+              <v-data-table
+                :headers="complex.headers"
+                :search="search"
+                :items="complex.itemsenviados"
+                :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
+                item-key="name"
+              >
+                <template slot="items" slot-scope="props">
+                  <td>{{ props.item.created }}</td>
+                  <td>{{ props.item.tracking }}</td>
+                  <td>{{ props.item.package.tracking }}</td>
+                  <td
+                    @click="editClient( props.item.clients_id )"
+                    style="cursor: pointer"
+                    class="hover"
+                  >{{ props.item.clients.shipper }}</td>
+                  <td
+                    @click="editAfiliated( props.item.client_afiliated_id )"
+                    style="cursor: pointer"
+                    class="hover"
+                  >{{ props.item.client_afiliated.destination_name }}</td>
+                  <td>{{ props.item.package.out_date }}</td>
+                  <td>
+                    <v-btn
+                      depressed
+                      outline
+                      icon
+                      fab
+                      dark
+                      color="primary"
+                      small
+                      @click="view( props.item.id )"
+                    >
+                      <v-icon>fa fa-eye</v-icon>
+                    </v-btn>
+                  </td>
+                </template>
+              </v-data-table>
+            </v-tab-item>
+            <v-tab-item id="tab-3">
+              <v-data-table
+                :headers="complex.headers"
+                :search="search"
+                :items="complex.itemscompletadas"
+                :rows-per-page-items="[10,25,50,{text:'All','value':-1}]"
+                item-key="name"
+              >
+                <template slot="items" slot-scope="props">
+                  <td>{{ props.item.created }}</td>
+                  <td>{{ props.item.tracking }}</td>
+                  <td>{{ props.item.package.tracking }}</td>
+                  <td
+                    @click="editClient( props.item.clients_id )"
+                    style="cursor: pointer"
+                    class="hover"
+                  >{{ props.item.clients.shipper }}</td>
+                  <td
+                    @click="editAfiliated( props.item.client_afiliated_id )"
+                    style="cursor: pointer"
+                    class="hover"
+                  >{{ props.item.client_afiliated.destination_name }}</td>
+                  <td>{{ props.item.package.out_date }}</td>
+                  <td>
+                    <v-btn
+                      depressed
+                      outline
+                      icon
+                      fab
+                      dark
+                      color="primary"
+                      small
+                      @click="view( props.item.id )"
+                    >
+                      <v-icon>fa fa-eye</v-icon>
+                    </v-btn>
+                  </td>
+                </template>
+              </v-data-table>
+            </v-tab-item>
           </v-tabs-items>
         </v-flex>
       </v-layout>
@@ -326,7 +407,8 @@ export default {
       modalLoader: false,
       saveLoader: false,
       admin: true,
-      selectedTab: null,
+      loading: true,
+      selectedTab: "tab-1",
       snackbar: {
         show: false,
         text: "",
@@ -389,6 +471,10 @@ export default {
       complex: {
         headers: [
           {
+            text: "Fecha de recepción",
+            value: "created"
+          },
+          {
             text: "Tracking",
             value: "tracking"
           },
@@ -412,13 +498,25 @@ export default {
             text: "",
             value: ""
           }
-        ],
-        items: []
+        ]
+      },
+      items: [],
+      itemsenviados: [],
+      itemscompletadas: [],
+      date: undefined,
+      limit: undefined,
+      listQuery: {
+        page: 1,
+        limit: 50,
+        sort: "ASC",
+        date: ""
       }
     };
   },
-  created() {
+  mounted () {
     this.getOrders();
+    this.getOrdersSend();
+    this.getOrdersComplete();
   },
   methods: {
     editClient(id) {
@@ -455,17 +553,63 @@ export default {
     },
     getOrders() {
       var url = "ship-order-list";
+      var url =
+        "ship-order-list?limit=500&date=" + this.listQuery.date + "&status=0";
       if (
         localStorage.getItem("role") == '"2"' ||
         localStorage.getItem("role") == '"3"'
       ) {
         var country = localStorage.getItem("country");
         country = country.replace(/[ '"]+/g, "");
-        var url = "ship-order-list?country=" + country;
+        url = url + "&country=" + country;
         this.admin = true;
       }
       axios.get(url).then(response => {
+        console.log(response.data.items);
         this.complex.items = response.data.items;
+        this.loading = false;
+      });
+    },
+    getOrdersSend() {
+      var url =
+        "ship-order-list?limit=" +
+        this.listQuery.LIMIT +
+        "&date=" +
+        this.listQuery.date +
+        "&status=1";
+      if (
+        localStorage.getItem("role") == '"2"' ||
+        localStorage.getItem("role") == '"3"'
+      ) {
+        var country = localStorage.getItem("country");
+        country = country.replace(/[ '"]+/g, "");
+        url = url + "&country=" + country;
+        this.admin = true;
+      }
+      axios.get(url).then(response => {
+        this.complex.itemsenviados = response.data.items;
+        this.loading = false;
+      });
+    },
+    getOrdersComplete() {
+      var url =
+        "ship-order-list?limit=" +
+        this.listQuery.limit +
+        "&date=" +
+        this.listQuery.date +
+        "&status=2";
+      if (
+        localStorage.getItem("role") == '"2"' ||
+        localStorage.getItem("role") == '"3"'
+      ) {
+        var country = localStorage.getItem("country");
+        country = country.replace(/[ '"]+/g, "");
+        url = url + "&country=" + country;
+        this.admin = true;
+      }
+      axios.get(url).then(response => {
+        this.complex.itemscompletadas = response.data.items;
+        this.loading = false;
       });
     },
     view(id) {
@@ -569,6 +713,18 @@ export default {
           };
         });
     },
+    Comprobante(id) {
+      window.open(
+        "https://www.enviosperuven.com/api//printer-comprobante/" + id,
+        "_blank"
+      );
+    },
+    Declaracion(id) {
+      window.open(
+        "https://www.enviosperuven.com/api//printer-declaracion/" + id,
+        "_blank"
+      );
+    },
     validateAfiliated() {
       if (this.$refs.formAfiliated.validate()) {
         this.saveAfiliated();
@@ -622,7 +778,7 @@ export default {
       import("@/vendor/Export2Excel").then(excel => {
         const tHeader = [
           "Fecha",
-          "N Boleta",
+          "N Tracking - Guia",
           "Ciudad",
           "Nombre y Apellido",
           "DNI/Pasaporte/Cedula",
@@ -631,7 +787,9 @@ export default {
           "Peso Peruven",
           "Descripción Encomienda",
           "Total Boleta Dolares",
+          "Moneda de Boleta",
           "Total Boleta Seguro",
+          "Moneda de Seguro",
           "Nombre y Apellido",
           "Telefono",
           "Cedula",
@@ -652,9 +810,11 @@ export default {
           { phone: "clients" },
           "tealca_office",
           "actual_weight",
-          "productos" ,
+          "productos",
           "total",
+          "currency",
           "total_ensurance",
+          "currency_ensurance",
           { attention: "client_afiliated" },
           { phone: "client_afiliated" },
           { number: "client_afiliated" },

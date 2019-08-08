@@ -251,6 +251,15 @@ export default [
     meta: { requiresAuth: true }
   },
   {
+    path: '/herramientas/tealca',
+    meta: { breadcrumb: true },
+    name: 'Tealca',
+    component: () => import(
+      `@/views/herramientas/Tealca.vue`
+    ),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/logout',
     meta: { breadcrumb: true },
     name: 'logOut',

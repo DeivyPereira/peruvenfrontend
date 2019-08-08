@@ -17,9 +17,6 @@
         <v-stepper-items>
           <v-stepper-content step="1">
             <v-layout wrap>
-              <v-flex lg6 md6 sm12 xs12>
-                <v-text-field v-model="form.details.tracking" disabled label="Tracking"></v-text-field>
-              </v-flex>
               <v-flex sm12 md12 lg12>
                 <v-label>Asignar impuestos</v-label>
                 <v-layout wrap>
@@ -1172,8 +1169,9 @@
                   <h4 style="margin-top: 15px; margin-bottom: 0">
                     <small>Peso a cobrar Kg: {{ weightToInsert.weight }}</small>
                   </h4>
-                  <v-text-field label="Total" disabled v-model="weightToInsert.price"></v-text-field>
-                </v-flex>
+                  <v-text-field label="Total" disabled    v-if="weightToInsert.product_type == 1 || weightToInsert.product_type == 3" v-model="weightToInsert.price" ></v-text-field>
+                  <v-text-field label="Total"  else v-model="weightToInsert.price" ></v-text-field>
+                  </v-flex>
               </v-layout>
             </v-container>
           </v-card-title>
@@ -1388,8 +1386,8 @@ export default {
         ],
         product_type: [
           { value: 1, text: "Por Kilos" },
-          { value: 3, text: "Kilo volumétrico" }
-          /*     { value: 2, text: "Por Productos" }*/
+          { value: 3, text: "Kilo volumétrico" },
+          { value: 2, text: "Manual" }
         ],
         product_element: [
           { value: 1, text: "Incluido" },
@@ -1747,8 +1745,10 @@ export default {
       this.blurValidateOrder();
     },
     addProduct() {
+            console.log('Entro a addProduct')
       var rows = this.form.products.length;
       var rows = rows + 1;
+        console.log('Paso rows + 1')
       var data = {
         package: rows,
         product_type: this.productToInsert.product_type,
@@ -1768,8 +1768,11 @@ export default {
         price_ensurance: this.productToInsert.price_ensurance,
         product_price: this.productToInsert.product_price
       };
+      console.log('Paso el data')
+      console.log(data)
       this.cleanFields();
       this.form.products.push(data);
+      console.log(this.form.products)
       this.getTotal();
       this.getTotalEnsurance();
       this.dialog.addProduct = false;
@@ -1820,13 +1823,13 @@ export default {
         this.weightToInsert.price = total;
       } else if (this.weightToInsert.product_type == 2) {
         // Por Producto
-
+/*
         var price = this.weightToInsert.subtotal,
           qty = this.productToInsert.qty,
           product_price = this.weightToInsert.product_price;
         var total = parseFloat(price) * parseInt(qty);
         total = total.toFixed(2);
-
+*/
         this.weightToInsert.price = total;
       } else if (this.weightToInsert.product_type == 3) {
         // Por Peso Volumetrico
@@ -2034,7 +2037,10 @@ export default {
       this.blurValidate();
     },
     removeProduct(index) {
-      this.form.products.shift(index);
+      console.log('Entro a remover producto')
+      console.log(index)
+      console.log(this.form.products)
+      this.form.products.splice(index,1);
       var count = this.form.products.length;
       for (var i = 0; i < count; i++) {
         this.form.products[i].package = i + 1;
@@ -2138,8 +2144,8 @@ export default {
         });
     },
     save() {
-      // this.disabledBtn.goBackBeforeSave = true
-      // this.loading.saveBtn = true
+       this.disabledBtn.goBackBeforeSave = true
+       this.loading.saveBtn = true
       if (this.form.client.id == null) {
         this.saveClientIfNot();
       } else if (

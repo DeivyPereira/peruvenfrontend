@@ -6,7 +6,8 @@ const tealca = [
       "Av. Bolivar Edificio Arónica P.B Local 1 Sector Centro Municipio Anaco, Parroquia Anaco Zp 6003 Estado Anzoátegui",
     phone: "(0282) 424.76.57",
     horario: " Lunes a Viernes 8:00AM A 12:00PM 1:00 PM A 5:00 PM",
-    state: "Anzoátegui"
+    state: "Anzoátegui",
+    code: "2910"
   },
   {
     value: "Barcelona en Barcelona, estado Anzoátegui",
@@ -15,7 +16,8 @@ const tealca = [
       "Av Fuerzas Armadas, Centro Comercial Los Chaguaramos, modulo I, Local Nº 13, Barcelona, Estado Anzoátegui",
     phone: "(0281) 275.17.94",
     horario: "Lunes a Viernes8:00 AM a 12:00 M / 2:00 PM a 5:00 PM",
-    state: "Anzoátegui"
+    state: "Anzoátegui",
+    code: "2907"
   },
   {
     value: "El Tigre en El Tigre, estado Anzoátegui",
@@ -24,7 +26,8 @@ const tealca = [
       "Tercera Carrera Sur con Tercera Calle, Nº 45. Pueblo Nuevo Sur.",
     phone: "(0283) 235.24.85 / 30.91 (Fax)",
     horario: " Lunes a Viernes 8:00 am a 12:00pm / 1:00 pm a 5:00 pm",
-    state: "Anzoátegui"
+    state: "Anzoátegui",
+    code: "2901"
   },
   {
     value: "Lechería en Lecherías, estado Anzoátegui",
@@ -33,7 +36,8 @@ const tealca = [
       "AV. Intercomunal Jorge Rodriguez, Centro Comercial Intannos Cneter, PB, local 05. Lecheria-Edo. Anzoategui, Municipio Urbaneja. Punto referencia: al lado del BBVA Provincial de lecheria.",
     phone: "(0281) 287.10.62 / 422.65.50",
     horario: "Lunes a Viernes 8:00 am a 12:00 pm / 1:00 pm a 5:00 pm",
-    state: "Anzoátegui"
+    state: "Anzoátegui",
+    code: "2906"
   },
   {
     value: "Puerto La Cruz en Puerto La Cruz, estado Anzoátegui",
@@ -42,7 +46,27 @@ const tealca = [
       "Av. El estadio C.C. Cardón, Nivel P.B Local 16 y 17. Puerto La Cruz.",
     phone: " (0281) 269.54.12",
     horario: "Lunes a Viernes 8:00 AM a 12:00 M / 1:00 PM a 5:00 PM",
-    state: "Anzoátegui"
+    state: "Anzoátegui",
+    code: "2909"
+  },
+    {
+    value: "Valle de la pascua, estado Anzoategui",
+    label: "Valle de la pascua, estado Anzoategui",
+    direction:
+      "Av. Calle Atarraya Edif. Guirenella Planta Baja Local Numero 1 Sector Centro Municipio Leonardo Infante ",
+    phone: " (0281) 269.54.12",
+    horario: "Lunes a Viernes 8:00 AM a 12:00 M / 1:00 PM a 5:00 PM",
+    state: "Anzoátegui",
+    code: "5303"
+  },
+      {
+    value: "Carupano",
+    label: "Carupano",
+    direction:"Sin dirección fisica acuerdo con el cliente",
+    phone: " (0281) 269.54.12",
+    horario: "Lunes a Viernes 8:00 AM a 12:00 M / 1:00 PM a 5:00 PM",
+    state: "Anzoátegui",
+    code: "N/A"
   },
   {
     value: "Cagua en Cagua, estado Aragua",
@@ -51,8 +75,10 @@ const tealca = [
       "Calle Sucre, C.C La Piramide, Nivel P.B Local A-30, Sector Centro, Cagua. Edo Aragua.",
     phone: "0244-935.28.23 / 0244-447.37.24",
     horario: "Lunes a Viernes 8:00AM A 12:00PM 1:00 PM A 5:00 PM",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5115"
   },
+  
   {
     value: "La Morita en Turmero, estado Aragua",
     label: "La Morita en Turmero, estado Aragua",
@@ -60,7 +86,8 @@ const tealca = [
       "Av. Doctor Montoya, CC Estación de Servicio Casa Gómez (frente a la Casa Portuguesa), Nivel PB, Local 7-3, La Morita, Turmero, Estado Aragua, Zona Postal 2116.",
     phone: "(0243) 673.85.79 / 267.94.47.",
     horario: "Lunes a Viernes 8:00 AM a 5:00 PM (Horario Corrido)",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5117"
   },
   {
     value: "Turmero en Turmero, estado Aragua",
@@ -70,7 +97,8 @@ const tealca = [
     phone: "(0244) 661.06.67 / 661.45.45",
     horario:
       "Horario de Trabajo: Lunes a Viernes: 8:00 AM a 5:00 PM (Horario Corrido)",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5117C"
   },
   {
     value: "La Victoria en La Victoria, estado Aragua",
@@ -79,7 +107,8 @@ const tealca = [
       "Urb. Nueva Victoria, CC Cilento, Local PB-09, Parroquia Castor Nieves, Municipio José Félix Ribas, La Victoria, Estado Aragua, Zona Postal 2121.",
     phone: "( (0244) 419.25.34",
     horario: "Lunes a Viernes 8:00 AM a 5:00 PM (Horario Corrido)",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5118"
   },
   {
     value: "Maracay (Oficina Principal) en Maracay, estado Aragua",
@@ -88,16 +117,18 @@ const tealca = [
       "Av. Bermúdez con Av. Aragua, Centro Comercial Maracay Plaza, PB, Edificio C, Local80 F, Parroquia José Casanova Godoy, Municipio Girardot, Maracay, Estado Aragua, ZP 2103.",
     phone: "(0243) 935.29.03 / 935.29.02",
     horario: " Lunes a Viernes: 8:00 AM a 12:00 PM y de 1:00 PM a 5:00 PM",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5116"
   },
   {
     value: "Maracay Este en Maracay, estado Aragua",
     label: "Maracay Este en Maracay, estado Aragua",
     direction:
-      "Calle Sucre Norte Local N°49. (Frente a la Biblioteca Virtual) Urb. Calicanto, Maracay",
+      "Av Sucre Norte, Centro Empresarial Sucre planta Bajaa Local Num 4",
     phone: " (0243) 233.22.11 / 0243-233.22.11 / 0243-935.01.34",
     horario: " Lunes a Viernes 8:00am a 12:00pm 1:00pm a 5:00pm",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5113"
   },
   {
     value: "Maracay Este (Calle Brión) en Maracay, estado Aragua",
@@ -106,7 +137,8 @@ const tealca = [
       "Calle Brión con calle 10 de Diciembre sector Centro Este Parroquia Madre María Municipio Girardot. ZP 2103 Maracay Estado Aragua",
     phone: "0243-233.33.33 / 0243-232.81.85",
     horario: "Lunes a Viernes 8:00am a 12:00pm 1:00pm a 5:00pm",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5113B"
   },
   {
     value: "Maracay Oeste en Maracay, estado Aragua",
@@ -116,7 +148,8 @@ const tealca = [
     phone: "(0243-551-33-53",
     horario:
       "Lunes a Viernes: 8:00 AM a 12:00 PM y de 1:00 PM a 5:00 PM Sábados: 9:00 AM a 1:00 PM",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5114"
   },
   {
     value: "Maracay Sur (Av. Aragua) en Maracay, estado Aragua",
@@ -126,7 +159,8 @@ const tealca = [
     phone: " (0243) 615.46.31 / 234.92.42",
     horario:
       "Lunes a Viernes: De 8:00 AM a 5:00 PM (Horario Corrido) Sábados: De 9:00 AM a 1:00 PM",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5116"
   },
   {
     value: "Maracay Sur (Santa Rosa) en Maracay, estado Aragua",
@@ -136,7 +170,8 @@ const tealca = [
     phone: "(0243) 553.56.67 / 219.51.98. / 556.06.74",
     horario:
       "Lunes a Viernes: De 8:00 AM a 5:00 PM (Horario Corrido) Sábados: De 9:00 AM a 1:00 PM",
-    state: "Aragua"
+    state: "Aragua",
+    code: "5116B"
   },
 
   /* 1 por cada estado */
@@ -147,16 +182,8 @@ const tealca = [
       "Av. El Progreso, Cruce con calle 03, C.C Plaza Premium, Nivel PB, Local 04, Sector Alto Barinas Norte, Barinas, Estado Barinas, Zona Postal 5201.",
     phone: " (0273) 935.13.92",
     horario: " Lunes a Viernes: 8:00 AM a 6:00 Pm (Horario Corrido)",
-    state: "Barinas"
-  },
-  {
-    value: "Barinas (Oficina Principal) en Barinas, estado Barinas",
-    label: "Barinas (Oficina Principal) en Barinas, estado Barinas",
-    direction:
-      ": Sector La Floresta, Centro Comercial Forum, Locales 17 y 1F, Parroquia El Carmen Municipio Barinas, ZP 5201",
-    phone: " (0273) 532.46.04 / 532.58.52",
-    horario: " Lunes a Viernes: 8:00 AM a 12:00 PM y de 1:00 PM a 5:00 PM",
-    state: "Barinas"
+    state: "Barinas",
+    code: "8005"
   },
   {
     value: "Ciudad Bolívar en Ciudad Bolívar, estado Bolívar",
@@ -165,7 +192,8 @@ const tealca = [
       "Avenida Jesus Soto, sector Aeropuerto Tomas de Heres, hangar distribuidoraTom`s.",
     phone: "(0285) 634.06.80",
     horario: "Lunes a Viernes: 8:00 am a 12:00 pm 1:00 pm a 5:00 pm",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "3102"
   },
   {
     value: "Puerto Ordaz (Alta Vista) en Ciudad Guayana, estado Bolívar",
@@ -175,7 +203,8 @@ const tealca = [
     phone: "(0286) 415.56.74 / 415.67.22 / 514.84.57",
     horario:
       " Lunes a Viernes: 8:00 AM a 5:00 PM (Horario Corrido) Sábado: 8:00 AM a 12:00 PM",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "2205B"
   },
   {
     value: "Puerto Ordaz (Av. Atlantico) en Ciudad Guayana, estado Bolívar",
@@ -184,7 +213,8 @@ const tealca = [
       ": Av. Atlántico cruce con Av. Norte Sur 4, Estación de Servicio Ventuari, Urb. Ventuari, Manzana 13, Local 2, Parroquia Unare, Municipio Caroní, Puerto Ordaz, Estado Bolívar",
     phone: " (0286) 415.51.59",
     horario: "Lunes a Viernes: 8:00 AM a 5:00 PM (Horario Corrido)",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "3309"
   },
   {
     value: "Puerto Ordaz (Castillito) en Ciudad Guayana, estado Bolívar",
@@ -193,7 +223,8 @@ const tealca = [
       ": Calle Santa Rosalía con Calle Las Bonitas, Edificio Padovan,P.B, Sector Castillito, Puerto Ordaz, Estado Bolívar",
     phone: "N/A",
     horario: "N/A",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "3205"
   },
   {
     value: "Puerto Ordaz (Unare) en Ciudad Guayana, estado Bolívar",
@@ -202,7 +233,8 @@ const tealca = [
       "A.v 1 Sector 2, Unare 2 Edificio, Ipeca planta baja local N·2, Puerto Ordaz Edo . Bolivar",
     phone: "N/A",
     horario: "N/A",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "3207"
   },
   {
     value: "San Félix (Av. Guayana) en Ciudad Guayana, estado Bolívar        ",
@@ -211,7 +243,8 @@ const tealca = [
       "Av. Guayana Casa N° 27, Sector La Unidad, Parroquia Simón Bolívar, Municipio Caroní, San Félix, Estado Bolívar, Zona Postal 8050.",
     phone: "N/A",
     horario: "N/A",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "3208"
   },
   {
     value: "San Félix (Av. Manuel Piar) en Ciudad Guayana, estado Bolívar",
@@ -220,7 +253,8 @@ const tealca = [
       "Av Manuel Piar, Sector Chirica, Edificio Reyfeca, Local 4B, al lado de Placa Centro, Parroquia Chirica, Municipio Caroní, San Félix, Estado Bolívar, Zona Postal 8050",
     phone: "N/A",
     horario: "N/A",
-    state: "Bolívar"
+    state: "Bolívar",
+    code: "3208B"
   },
   {
     value: "Guacara en Guacara, estado Carabobo",
@@ -229,7 +263,8 @@ const tealca = [
       "Calle Piar con calle Arévalo Méndez. Centro Comercial y Profesional Guacara Plaza, Nivel P.B. Local 40. Guacara",
     phone: "(0245) 995.13.43",
     horario: "De Lunes a Viernes De 8:30 am a 5:30 pm (Horario Corrido)",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5204"
   },
   {
     value: "Naguanagua en Naguanagua, estado Carabobo",
@@ -238,15 +273,17 @@ const tealca = [
       "Av. 96b, Sector las Quintas, Local 175-55, Naguanagua. Municipio Naguanagua, Parroquia Naguanagua ZP.2005 (Frente al Centro Comercial Concepto La Granja)",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5209"
   },
   {
     value: "Puerto Cabello en Puerto Cabello, estado Carabobo",
     label: "Puerto Cabello en Puerto Cabello, estado Carabobo",
-    direction: "Calle Rondòn, Edf Rondòn, P.B, Local 6. Puerto Cabello",
+    direction: "Entrega a domicilio se acuerda con cliente",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "N/A"
   },
   {
     value: "Tocuyito en Tocuyito, estado Carabobo",
@@ -255,7 +292,8 @@ const tealca = [
       "Av. De servicio Valencia, Campo de Carabobo. Local Nro 6. Urb. Pocaterra, Tocuyito, Edo. Carabobo. Zona Postal 2035",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5201"
   },
   {
     value: "Valencia en Valencia, estado Carabobo",
@@ -264,22 +302,60 @@ const tealca = [
       "Av. Andrés Eloy Blanco, CC Beverly Center PB, Local L-/-24 Municipio Valencia ZP 2001",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
-  },
-  {
-    value: "Valencia (Av. Lara) en Valencia, estado Carabobo",
-    label: "Valencia (Av. Lara) en Valencia, estado Carabobo",
-    direction:
-      "Av. Lara Centro Comercial la Primera Parada local b1d, diagonal a Renault antes del distribuidor San Blas",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5201"
   },
   {
     value: "La Candelaria en Valencia, estado Carabobo",
     label: "La Candelaria en Valencia, estado Carabobo",
     direction:
       "Calle Cantaura con Calle Carabobo, C.C. Plaza Candelaria local #5. La Candelaria, Valencia Edo. Carabobo.",
+    phone: "N/A",
+    horario: "N/A",
+    state: "Carabobo",
+    code: "5207B"
+  },
+  {
+    value: "Oficina Comercial Valencia ",
+    label: "Oficina Comercial Valencia ",
+    direction:
+      "Los Guayos, Fundación Félix Ríos, Araguaney y Cdad. Industrial La Unió",
+    phone: "N/A",
+    horario: "N/A",
+    state: "Carabobo"
+  },
+  {
+    value: "Valencia Sur (Paseo Las Industrias) - Carabobo",
+    label: "Valencia Sur (Paseo Las Industrias) - Carabobo",
+    direction:
+      "LZ. industrial Sur, Sta. Inés, 13 de Abril, Araguaney y Flor Amarillo",
+    phone: "N/A",
+    horario: "N/A",
+    state: "Carabobo"
+  },
+  {
+    value: "Valencia (Av. Bolivar Sur) - Carabobo",
+    label: "Valencia (Av. Bolivar Sur) - Carabobo",
+    direction:
+      "Calle Negro Primero, No. 97-31, Distribuidor San Blas, Parroquia San Blas, Municipico Valencia, Valencia, Estado Carabobo.",
+    phone: "N/A",
+    horario: "N/A",
+    state: "Carabobo"
+  },
+  {
+    value: "Valencia (Zona Industrial Norte) - Carabobo",
+    label: "Valencia (Zona Industrial Norte) - Caraboboo",
+    direction:
+      "Av. Michelena, C.C ARA Nave  Local 87-A-421, Valencia, Municipio Valencia, Parroquia Rafael Urdaneta, Zp. 2003..",
+    phone: "N/A",
+    horario: "N/A",
+    state: "Carabobo"
+  },
+  {
+    value: "Valencia (Plaza La Candelaria) - Carabobo",
+    label: "Valencia (Plaza La Candelaria) - Carabobo",
+    direction:
+      "Calle Cantaura con Calle Carabobo, CC Plaza Candelaria, Local No. 5, Parroquia La Candelaria, Municipio Valencia, Valencia, Estado Carabobo.",
     phone: "N/A",
     horario: "N/A",
     state: "Carabobo"
@@ -291,7 +367,8 @@ const tealca = [
       "Av. Bolívar, Edificio Zevola N° 20-782, Planta Baja, Local 1, Sector Los Silos, San Carlos, Estado Cojedes, Zona Postal 2201.",
     phone: "(0258) 433.75.56",
     horario: "Lunes a Viernes: 8:00 AM a 12:00 PM 1:30 PM a 5:30 PM",
-    state: "Cojedes"
+    state: "Cojedes",
+    code: "5201"
   },
   {
     value: "Boleíta en Caracas, estado Distrito Capital",
@@ -300,7 +377,8 @@ const tealca = [
       ": Av. Principal de Boleita Sur, entre 3era.y 4ta transversal, Local Tealca, Nro. 13-13. Frente a Autoservicios Jumbo, Caracas.",
     phone: "(0212) 234.15.76 / 232.25.14/ 232.63.97",
     horario: "Lunes a Viernes: 8:30 am a 5:30 pm (Horario Corrido)",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: ""
   },
   {
     value: "C.C.C.T en Caracas, estado Distrito Capital",
