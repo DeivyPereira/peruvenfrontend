@@ -71,50 +71,6 @@ export default [
     ),
     meta: { requiresAuth: true }
   },
-
-  /*
-  {
-    path: '/chat',
-    meta: {
-      public: true,
-    },
-    name: 'Chat',
-    component: () => import(
-      `@/components/chat/ChatLayout.vue`
-    ),
-    redirect: {
-      path: '/chat/messaging'
-    },
-    children: [
-      {
-        path: '/chat/messaging/:uuid?',
-        meta: {
-          public: true,
-        },
-        name: 'ChatMessaging',
-        props: true,
-        components: {
-          default: () => import(
-            `@/components/chat/ChatMessaging.vue`
-          ),  
-        }   
-      },
-      {
-        path: '/chat/contact/:uuid?',
-        meta: {
-          public: true,
-        },
-        name: 'ChatContact',
-        components: {
-          default: () => import(
-            `@/components/chat/ChatContact.vue`
-          ),  
-
-        }     
-      }             
-    ]
-  },    
-  */
   // Rutas de la app
   {
     path: '/impuestos',
@@ -123,6 +79,16 @@ export default [
     component: () => import(
       /* webpackChunkName: "routes" */
       `@/views/taxes/Taxes.vue`
+    ),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/offices',
+    meta: { breadcrumb: true },
+    name: 'Oficinas',
+    component: () => import(
+      /* webpackChunkName: "routes" */
+      `@/views/offices/Offices.vue`
     ),
     meta: { requiresAuth: true }
   },
@@ -224,7 +190,16 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: '/ordenes-de-envios/fecha-de-salida',
+    path: '/almacen/ensamblar',
+    meta: { breadcrumb: true },
+    name: 'Assemble',
+    component: () => import(
+      `@/views/sales/packaging/Assemble.vue`
+    ),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/almacen/fecha-de-salida',
     meta: { breadcrumb: true },
     name: 'Packaging',
     component: () => import(
@@ -233,7 +208,7 @@ export default [
     meta: { requiresAuth: true }
   },
   {
-    path: '/ordenes-de-envios/tracking-paquetes',
+    path: '/almacen/tracking-paquetes',
     meta: { breadcrumb: true },
     name: 'PackageTracking',
     component: () => import(

@@ -7,6 +7,13 @@ const Menu =  [
     roles: [ {n:1} ]
   },
   {
+    title: 'Oficinas',
+    group: 'apps',
+    icon: 'fa fa-building',
+    name: 'Oficinas',
+    roles: [ {n:1} ]
+  },
+  {
     title: 'Impuestos',
     group: 'apps',
     icon: 'fa fa-percent',
@@ -68,6 +75,7 @@ const Menu =  [
     roles: [ {n:1}, {n:2}, {n:3} ],
     items: [
       { name: 'Packaging', title: 'Fecha de Salida', component: 'Packaging', roles: [ {n:1}, {n:2} ] },
+      { name: 'Assemble', title: 'Ensamblar', component: 'Assemble', roles: [ {n:1}, {n:2} ] },
       { name: 'PackageTracking', title: 'Rastreo de Consolidados', component: 'PackageTracking', roles: [ {n:1}, {n:2}, {n:3} ] }
     ]
   },

@@ -90,6 +90,17 @@
                                     item-value="value"     
                                     ></v-select>
                               </v-flex>
+                               <v-flex xs12 sm6 md6>
+                                <v-select
+                                    label="Oficina"
+                                    :items="offices"
+                                    v-model="office_id"
+                                    required
+                                    :rules="[v => !!v || 'Campo requerido']"
+                                    item-text="name"
+                                    item-value="id"     
+                                    ></v-select>
+                              </v-flex>
                             </v-layout>
                           </v-container>
                         </v-card-text>
@@ -129,6 +140,7 @@
                   <td>{{ props.item.email }}</td>
                   <td>{{ props.item.country }}</td>
                   <td>{{ props.item.role | roleFilter }}</td>
+                  <td>{{ props.item.office.name }} - {{ props.item.office.code }}</td>
                   <td>{{ props.item.status | statusFilter }}</td>
                   <td>
                     <v-btn depressed outline icon fab dark color="primary" small @click="edit( props.item.id )">
@@ -182,6 +194,7 @@ export default {
       status: '',
       email: '',
       password: '',
+      office_id: '',
       countries: countriesList.pais,
       rols: [
           { value: 1, text: 'Administrador' },
@@ -196,6 +209,7 @@ export default {
         required: (value) => !!value || 'Campo requerido.'
       },
       appEvents: [],
+      offices: [],
       complex: {
         headers: [
           {
@@ -213,6 +227,10 @@ export default {
           {
             text: 'Rol',
             value: 'role'
+          },
+          {
+            text: 'Oficina',
+            value: 'office'
           },
           {
             text: 'Estado',
@@ -260,8 +278,18 @@ export default {
   },
   mounted (){
     this.getList()
+    this.getListOffice()
   },
   methods: {
+     getListOffice(){
+          this.generalLoader = true
+          axios.get( 'offices' ).then( response => {
+              this.offices = response.data.items
+              this.generalLoader = false
+          }). catch( error => {
+              console.log( error )
+          })
+      },
       getList(){
           this.generalLoader = true
           axios.get( 'user' ).then( response => {
@@ -296,6 +324,7 @@ export default {
               this.role = parseInt( response.data.data.role )
               this.status = parseInt( response.data.data.status )
               this.email = response.data.data.email
+              this.office_id = response.data.data.office_id
               this.modalLoader = false
               this.disabled = false
           }).catch( error => {
@@ -319,7 +348,8 @@ export default {
             role: this.role,
             status: this.status,
             email: this.email,
-            password: this.password
+            password: this.password,
+            office_id: this.office_id
           }
           this.saveLoader = true
           if( ! this.isEdit ){  

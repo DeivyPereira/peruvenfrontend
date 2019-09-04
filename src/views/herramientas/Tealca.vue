@@ -163,6 +163,7 @@ export default {
           "DNI/Pasaporte/Cedula",
           "Telefono",
           "Ciudad donde envia",
+          "Codigo Tealca Oficina",
           "Peso Peruven",
           "Descripción Encomienda",
           "Total Boleta Dolares",
@@ -176,13 +177,14 @@ export default {
           "Precio Copa",
         ];
         const filterVal = [
-          "date",
+          "created",
           "tracking",
           { city: "clients" },
           { shipper: "clients" },
           { number: "clients" },
           { phone: "clients" },
           "tealca_office",
+          "tealca_code",
           "actual_weight",
           "productos",
           "total",

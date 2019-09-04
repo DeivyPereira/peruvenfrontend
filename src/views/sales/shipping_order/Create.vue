@@ -363,7 +363,7 @@
 
                       <td>
                         {{ items.category_name }}
-                        <br>
+                        <br />
                         <small>{{ items.subcategory_name }}</small>
                       </td>
                       <td v-if="items.ensurance == 0">NO</td>
@@ -420,19 +420,19 @@
                       <td v-if="form.products.length > 0">%</td>
                     </tr>
                     <tr v-if="form.weight.length > 0">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td style="background: rgb( 230,230,230 ); text-align: right">
-                          <strong>Peso Total:</strong>
-                        </td>
-                        <td
-                          style="background: rgb( 230,230,230 ); text-align: right"
-                        >{{ form.weight[0].actual_weight }}</td>
-                        <td style="background: rgb( 230,230,230 );">Kg</td>
-                      </tr>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                      <td style="background: rgb( 230,230,230 ); text-align: right">
+                        <strong>Peso Total:</strong>
+                      </td>
+                      <td
+                        style="background: rgb( 230,230,230 ); text-align: right"
+                      >{{ form.weight[0].actual_weight }}</td>
+                      <td style="background: rgb( 230,230,230 );">Kg</td>
+                    </tr>
                     <tr v-if="form.weight.length > 0">
                       <td></td>
                       <td></td>
@@ -544,70 +544,70 @@
                 <strong>Remitente:</strong>
                 &nbsp;
                 {{ form.client.shipper }}
-                <br>
+                <br />
                 <strong>Persona de Contacto:</strong>
                 &nbsp;
                 {{ form.client.contact_person }}
-                <br>
+                <br />
                 <strong>Dirección:</strong>
                 &nbsp;
                 {{ form.client.address }}
-                <br>
+                <br />
                 <strong>País:</strong>
                 &nbsp;
                 {{ form.client.country }}
-                <br>
+                <br />
                 <strong>Ciudad:</strong>
                 &nbsp;
                 {{ form.client.city }}
-                <br>
+                <br />
                 <strong>Teléfono:</strong>
                 &nbsp;
                 {{ form.client.phone }}
-                <br>
+                <br />
                 <strong>Correo Electrónico:</strong>
                 &nbsp;
                 {{ form.client.email }}
-                <br>
+                <br />
                 <strong>Fecha de salida</strong>
                 &nbsp;
                 {{ form.details.out_date }}
-                <br>
+                <br />
               </v-flex>
               <v-flex lg6 md6 sm12>
                 <h4>Destino</h4>
                 <strong>Destinatario:</strong>
                 &nbsp;
                 {{ form.afiliates.destination_name }}
-                <br>
+                <br />
                 <strong>Atención:</strong>
                 &nbsp;
                 {{ form.afiliates.attention }}
-                <br>
+                <br />
                 <strong>Dirección:</strong>
                 &nbsp;
                 {{ form.afiliates.address }}
-                <br>
+                <br />
                 <strong>País:</strong>
                 &nbsp;
                 {{ form.afiliates.country }}
-                <br>
+                <br />
                 <strong>Ciudad:</strong>
                 &nbsp;
                 {{ form.afiliates.city }}
-                <br>
+                <br />
                 <strong>Oficina Tealca:</strong>
                 &nbsp;
                 {{form.details.tealca_direction }}
-                <br>
+                <br />
                 <strong>Teléfono:</strong>
                 &nbsp;
                 {{ form.afiliates.phone }}
-                <br>
+                <br />
                 <strong>Correo Elecrónico:</strong>
                 &nbsp;
                 {{ form.afiliates.email }}
-                <br>
+                <br />
               </v-flex>
               <v-spacer></v-spacer>
               <v-flex lg12 md12 sm12>
@@ -633,7 +633,7 @@
 
                         <td>
                           {{ items.category_name }}
-                          <br>
+                          <br />
                           <small>{{ items.subcategory_name }}</small>
                         </td>
                         <td v-if="items.ensurance == 0">NO</td>
@@ -759,7 +759,7 @@
               </v-flex>
               <v-flex lg12 md12 sm12>
                 <strong>Razón de exportación</strong>
-                <br>
+                <br />
                 {{ form.details.reason }}
               </v-flex>
             </v-layout>
@@ -964,7 +964,6 @@
                     persistent-hint
                     hint="Solo valores numéricos"
                     v-model="productToInsert.product_price"
-
                   ></v-text-field>
                 </v-flex>
 
@@ -1125,7 +1124,7 @@
                 <v-flex lg3 md3 sm8 xs8>
                   <h4 style="margin-top: 15px; margin-bottom: 0">{{ form.details.currency }}</h4>
                 </v-flex>
-                <v-flex lg3 md3 sm8 xs8 v-if="weightToInsert.product_type == 1">
+                <v-flex lg3 md3 sm8 xs8 v-if="weightToInsert.product_type != 3">
                   <v-text-field
                     :rules="onlyNumbers"
                     label="Peso total"
@@ -1169,9 +1168,14 @@
                   <h4 style="margin-top: 15px; margin-bottom: 0">
                     <small>Peso a cobrar Kg: {{ weightToInsert.weight }}</small>
                   </h4>
-                  <v-text-field label="Total" disabled    v-if="weightToInsert.product_type == 1 || weightToInsert.product_type == 3" v-model="weightToInsert.price" ></v-text-field>
-                  <v-text-field label="Total"  else v-model="weightToInsert.price" ></v-text-field>
-                  </v-flex>
+                  <v-text-field
+                    label="Total"
+                    disabled
+                    v-if="weightToInsert.product_type == 1 || weightToInsert.product_type == 3"
+                    v-model="weightToInsert.price"
+                  ></v-text-field>
+                  <v-text-field label="Total" else v-model="weightToInsert.price"></v-text-field>
+                </v-flex>
               </v-layout>
             </v-container>
           </v-card-title>
@@ -1356,6 +1360,7 @@ export default {
           currency: "",
           tealca_office: "",
           tealca_direction: "",
+          tealca_code: "",
           currency: "",
           total_ensurance: "",
           currency_ensurance: "",
@@ -1604,8 +1609,10 @@ export default {
       var result = this.basic.citys.find(
         tealca => tealca.value == this.form.details.tealca_office
       );
-      console.log(result.direction);
       this.form.details.tealca_direction = result.direction;
+      this.form.details.tealca_code = result.code;
+      console.log(this.form.details.tealca_direction)
+      console.log(this.form.details.tealca_code)
     },
     getAfiliated() {
       this.loading.searchAfiliate = true;
@@ -1745,10 +1752,10 @@ export default {
       this.blurValidateOrder();
     },
     addProduct() {
-            console.log('Entro a addProduct')
+      console.log("Entro a addProduct");
       var rows = this.form.products.length;
       var rows = rows + 1;
-        console.log('Paso rows + 1')
+      console.log("Paso rows + 1");
       var data = {
         package: rows,
         product_type: this.productToInsert.product_type,
@@ -1768,11 +1775,11 @@ export default {
         price_ensurance: this.productToInsert.price_ensurance,
         product_price: this.productToInsert.product_price
       };
-      console.log('Paso el data')
-      console.log(data)
+      console.log("Paso el data");
+      console.log(data);
       this.cleanFields();
       this.form.products.push(data);
-      console.log(this.form.products)
+      console.log(this.form.products);
       this.getTotal();
       this.getTotalEnsurance();
       this.dialog.addProduct = false;
@@ -1823,7 +1830,7 @@ export default {
         this.weightToInsert.price = total;
       } else if (this.weightToInsert.product_type == 2) {
         // Por Producto
-/*
+        /*
         var price = this.weightToInsert.subtotal,
           qty = this.productToInsert.qty,
           product_price = this.weightToInsert.product_price;
@@ -1851,7 +1858,7 @@ export default {
         this.weightToInsert.price = total;
       }
     },
-    refreshToEnsurance(){
+    refreshToEnsurance() {
       if (this.productToInsert.ensurance == 1) {
         var product_price = this.productToInsert.product_price,
           ensurance = this.productToInsert.ensurance_value;
@@ -2037,10 +2044,10 @@ export default {
       this.blurValidate();
     },
     removeProduct(index) {
-      console.log('Entro a remover producto')
-      console.log(index)
-      console.log(this.form.products)
-      this.form.products.splice(index,1);
+      console.log("Entro a remover producto");
+      console.log(index);
+      console.log(this.form.products);
+      this.form.products.splice(index, 1);
       var count = this.form.products.length;
       for (var i = 0; i < count; i++) {
         this.form.products[i].package = i + 1;
@@ -2144,8 +2151,8 @@ export default {
         });
     },
     save() {
-       this.disabledBtn.goBackBeforeSave = true
-       this.loading.saveBtn = true
+     // this.disabledBtn.goBackBeforeSave = true;
+     // this.loading.saveBtn = true;
       if (this.form.client.id == null) {
         this.saveClientIfNot();
       } else if (
@@ -2173,6 +2180,7 @@ export default {
         reason: this.form.details.reason,
         tealca_office: this.form.details.tealca_office,
         tealca_direction: this.form.details.tealca_direction,
+        tealca_code: this.form.details.tealca_code,
         modality: this.form.details.modality,
         currency: this.form.details.currency,
         product_type: this.form.details.product_type,
@@ -2199,8 +2207,11 @@ export default {
               color: "success",
               icon: "fa fa-check"
             };
-           // this.$router.push("/ordenes-de-envios/listado");
-             this.$router.push({ name: 'shipOrderView', params: { id: response.data.id } })
+            // this.$router.push("/ordenes-de-envios/listado");
+            this.$router.push({
+              name: "shipOrderView",
+              params: { id: response.data.id }
+            });
           } else {
             this.snackbar = {
               show: true,

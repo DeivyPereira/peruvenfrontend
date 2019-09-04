@@ -293,7 +293,7 @@ const tealca = [
     phone: "N/A",
     horario: "N/A",
     state: "Carabobo",
-    code: "5201"
+    code: "5211"
   },
   {
     value: "Valencia en Valencia, estado Carabobo",
@@ -316,31 +316,14 @@ const tealca = [
     code: "5207B"
   },
   {
-    value: "Oficina Comercial Valencia ",
-    label: "Oficina Comercial Valencia ",
-    direction:
-      "Los Guayos, Fundación Félix Ríos, Araguaney y Cdad. Industrial La Unió",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Carabobo"
-  },
-  {
-    value: "Valencia Sur (Paseo Las Industrias) - Carabobo",
-    label: "Valencia Sur (Paseo Las Industrias) - Carabobo",
-    direction:
-      "LZ. industrial Sur, Sta. Inés, 13 de Abril, Araguaney y Flor Amarillo",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Carabobo"
-  },
-  {
     value: "Valencia (Av. Bolivar Sur) - Carabobo",
     label: "Valencia (Av. Bolivar Sur) - Carabobo",
     direction:
       "Calle Negro Primero, No. 97-31, Distribuidor San Blas, Parroquia San Blas, Municipico Valencia, Valencia, Estado Carabobo.",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5207"
   },
   {
     value: "Valencia (Zona Industrial Norte) - Carabobo",
@@ -349,7 +332,8 @@ const tealca = [
       "Av. Michelena, C.C ARA Nave  Local 87-A-421, Valencia, Municipio Valencia, Parroquia Rafael Urdaneta, Zp. 2003..",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5208"
   },
   {
     value: "Valencia (Plaza La Candelaria) - Carabobo",
@@ -358,7 +342,8 @@ const tealca = [
       "Calle Cantaura con Calle Carabobo, CC Plaza Candelaria, Local No. 5, Parroquia La Candelaria, Municipio Valencia, Valencia, Estado Carabobo.",
     phone: "N/A",
     horario: "N/A",
-    state: "Carabobo"
+    state: "Carabobo",
+    code: "5207B"
   },
   {
     value: "San Carlos en San Carlos, estado Cojedes",
@@ -368,7 +353,7 @@ const tealca = [
     phone: "(0258) 433.75.56",
     horario: "Lunes a Viernes: 8:00 AM a 12:00 PM 1:30 PM a 5:30 PM",
     state: "Cojedes",
-    code: "5201"
+    code: "5401"
   },
   {
     value: "Boleíta en Caracas, estado Distrito Capital",
@@ -378,7 +363,7 @@ const tealca = [
     phone: "(0212) 234.15.76 / 232.25.14/ 232.63.97",
     horario: "Lunes a Viernes: 8:30 am a 5:30 pm (Horario Corrido)",
     state: "Distrito Capital",
-    code: ""
+    code: "1114"
   },
   {
     value: "C.C.C.T en Caracas, estado Distrito Capital",
@@ -387,7 +372,8 @@ const tealca = [
       "Av. La Estancia, C.C.C.T., Nivel P.B. Norte, Local 10-22. (Bajando por las escaleras de BECO",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1109"
   },
   {
     value: "Catia en Caracas, estado Distrito Capital",
@@ -396,7 +382,8 @@ const tealca = [
       "Av. México, entre Av. Panamericana y 2da. Avenida, Quinta Mary, Nro. 5, Urb.  Nueva Caracas, Parroquia Sucre, Municipio Libertador. Caracas. (A 2 cuadras Estac. Metro  Plaza Sucre)",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1125"
   },
   {
     value: "Centro en Caracas, estado Distrito Capital",
@@ -405,7 +392,8 @@ const tealca = [
       "Santa Rosa a Santa Inés, Edif. Arichuna. Local 1 P. B San José, Caracas. Entre Av. Fuerzas Armadas y Panteón",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital" ,
+    code: "1120"
   },
   {
     value: "El Cafetal en Caracas, estado Distrito Capital",
@@ -414,16 +402,8 @@ const tealca = [
       "Boulevard Raúl Leoni, Urbanización el Cafetal. C.C. Plaza las Américas, Etapa 1, PB  Nivel Oro Local 108B Estado Miranda Municipio Baruta ZIP 1080 ",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
-  },
-  {
-    value: "El Hatillo en Caracas, estado Distrito Capital",
-    label: "El Hatillo en Caracas, estado Distrito Capital",
-    direction:
-      "Centro Comercial La Boyera Piso 3 Local B-29 Urbanización Los Pinos. El Hatillo, Parroquia El Hatillo Municipio El Hatillo, Estado Miranda ZP 1083",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1129"
   },
   {
     value: "El Paraíso en Caracas, estado Distrito Capital",
@@ -432,7 +412,8 @@ const tealca = [
       " Av. Washington, Qta. Nina Local P.B., Urb. El Paraíso. Caracas",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1126"
   },
   {
     value: "El Rosal en Caracas, estado Distrito Capital",
@@ -441,7 +422,8 @@ const tealca = [
       " Av. Libertador, Edificio EXA, PB, Local 10, Urb. El Retiro, El Rosal, Caracas, Municipio Chacao, Estado Miranda, Zona Postal 1060",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1137"
   },
   {
     value: "La California en Caracas, estado Distrito Capital",
@@ -450,7 +432,8 @@ const tealca = [
       "Urb. California Norte, Av. París con Santiago de León, Edificio Premier (antes de llegar al INTT y a una cuadra del Metro La California).",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1114-C"
   },
   {
     value: "La Candelaria en Caracas, estado Distrito Capital",
@@ -459,7 +442,8 @@ const tealca = [
       "Av. Fuerzas Armadas, Esq. Socorro, Edif. Residencias Dorado, PB, Local 2, Parroquia  Altagracia, Caracas, DC, Zona Postal 1010",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1128"
   },
   {
     value: "La Trinidad en Caracas, estado Distrito Capital",
@@ -468,7 +452,8 @@ const tealca = [
       "Vía Los Guayabitos, Edif. Kinky, P.B., locales 3 y 4, Urb. Piedra Azul, Baruta. Edo. Miranda",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1107"
   },
   {
     value: "La Urbina en Caracas, estado Distrito Capital",
@@ -477,7 +462,8 @@ const tealca = [
       " Calle 5 con calle 10 de La Urbina, Centro Empresarial Orinoco, Local P.B. Teléfono: (0212) 241.52.54 / 816.82.84",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1112"
   },
   {
     value: "Los Caobos en Caracas, estado Distrito Capital",
@@ -486,7 +472,8 @@ const tealca = [
       "Transversal Colon entre Principal De Maripérez y Montevideo, Edificio Tirrenia, Local C, Parroquia El Recreo, Municipio Libertador, Caracas, Venezuela, Zona Postal 1050",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1131"
   },
   {
     value: "Los Chaguaramos en Caracas, estado Distrito Capital",
@@ -495,7 +482,8 @@ const tealca = [
       "Urb. Los Chaguaramos Edif. Llaeco Pb Local A-1 Torre A Av. Ciudad Universitaria C/C. Codazzi Parroquia San Pedro Municipio Libertador Caracas",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1130"
   },
   {
     value: "Los Palos Grandes en Caracas, estado Distrito Capital",
@@ -504,7 +492,8 @@ const tealca = [
       "URB. LOS PALOS GRANDES, AV. ANDRES BELLO, RESIDENCIAS PLAZA 1, LOCAL 4. (REF. MISMO EDIFICIO DONDE FUNCIONA EL RESTAURANT BOSTON BAKERY)",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1127"
   },
   {
     value: "Montecristo - Los Chorros en Caracas, estado Distrito Capital",
@@ -513,7 +502,8 @@ const tealca = [
       "1era Avenida de Monte Cristo con 5ta transversal, Casa nº 39. Urbanización Monte Cristo. Caracas",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1114-B"
   },
   {
     value: "Prados del Este en Caracas, estado Distrito Capital",
@@ -522,7 +512,8 @@ const tealca = [
       "Sector Prado del Este Local Av. Rio Paragua. CC La Pirámide, PB, Local 5-C, Prados del Este Parroquia Baruta Municipio Baruta Gran Caracas Miranda Venezuela Zp 1080",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1133"
   },
   {
     value: "Sabana Grande 1102 en Caracas, estado Distrito Capital",
@@ -531,7 +522,8 @@ const tealca = [
       "Urbanización Sabana Grande, Calle Las Flores con Avenida Los Jabillos, Edif. Paramacay P.B. Local C. Caracas",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1102"
   },
   {
     value: "San Martín en Caracas, estado Distrito Capital",
@@ -540,7 +532,8 @@ const tealca = [
       " Av. José Ángel Lamas, con calle Sevilla, Edf Indaragua, P.B Local 1 San Martín",
     phone: "N/A",
     horario: "N/A",
-    state: "Distrito Capital"
+    state: "Distrito Capital",
+    code: "1118"
   },
 
   {
@@ -550,7 +543,8 @@ const tealca = [
       "Calle Domino esquina Democracia. Edif. Colina. Piso P.B. Local S/N, Sector Centro",
     phone: "(0268) 251.04.87",
     horario: "Lunes a Viernes: 8:00 am a 12:00 pm1:00 pm a 5:00 pm",
-    state: "Falcón"
+    state: "Falcón",  
+    code: "7606"
   },
 
   {
@@ -560,7 +554,8 @@ const tealca = [
       "Avenida Luis Beltrán Prieto Figueroa entre Calle Los Rosales y Monagas. Edificio Mirimire Parroquia Carirubana Municipio Carirubana Punto Fijo Falcón Venezuela Zp. 4102",
     phone: "N/A",
     horario: "N/A",
-    state: "Falcón"
+    state: "Falcón",  
+    code: "7606B"
   },
   {
     value: "Valle de la Pascua en Valle de La Pascua, estado Guárico",
@@ -570,17 +565,8 @@ const tealca = [
     phone: "0235-3416262",
     horario:
       " Lunes a Viernes 8:00am – 12:00pm 2:00pm – 6:00pm Sábados: 8:30am - 12:00pm",
-    state: "Guárico"
-  },
-
-  {
-    value: "Barquisimeto (Oficina Principal) en Barquisimeto, estado Lara",
-    label: "Barquisimeto (Oficina Principal) en Barquisimeto, estado Lara",
-    direction:
-      "Calle 22 con Carrera 23, Edif. Profesional Barreto, P.B. Locales 1 y 2, Barquisimeto.",
-    phone: "(0251) 231.95.69 / 93.32 / 233.13.73 (Fax)",
-    horario: "Lunes a Viernes: 8:00 am a 12:00 pm 2:00 pm a 5:00 pm",
-    state: "Lara"
+    state: "Guárico",  
+    code: "5303"
   },
 
   {
@@ -590,7 +576,8 @@ const tealca = [
       " Carrera 24 con av. Moran, local nº 2, planta alta (local de pasapalos Tato) Sector Este. Barquisimeto",
     phone: "N/A",
     horario: "N/A",
-    state: "Lara"
+    state: "Lara",
+    code: "7910"
   },
 
   {
@@ -602,7 +589,8 @@ const tealca = [
       "Av. las Industrias,Centro Comercial Isaac PB, local N° 3, Municipio Iribarren, Parroquia Juan de Villegas, Barquisimeto, Estado Lara. Zona Postal 3001",
     phone: "N/A",
     horario: "N/A",
-    state: "Lara"
+    state: "Lara",
+    code: "7909B"
   },
 
   {
@@ -612,7 +600,8 @@ const tealca = [
       "Barrio Nuevo, Calle 59, Carrera entre 13 y 13A, Nº 1369, Barquisimeto. Edo. Lara.",
     phone: "N/A",
     horario: "N/A",
-    state: "Lara"
+    state: "Lara",
+    code: "7909"
   },
   {
     value: "Cabudare en Barquisimeto, estado Lara",
@@ -621,7 +610,8 @@ const tealca = [
       " Av. Libertador, entre Calle Juarez y Guillermo Alvizu, Centro Comercial La Muralla Nivel S/N Local 11 Sector Centro Cabudare Lara Zona Postal 3023",
     phone: "N/A",
     horario: "N/A",
-    state: "Lara"
+    state: "Lara",
+    code: "7914"
   },
   {
     value: "Caja Seca en Nueva Bolivia, estado Mérida",
@@ -630,7 +620,8 @@ const tealca = [
       "Carretera Panamericana Local N° 2 Sector Latino. Parroquia nueva Bolivia Municipio Febres Cordero. Nueva Bolivia Edo. Mérida. ZONA POSTAL 3158",
     phone: " (0271) 772.28.57",
     horario: " Lunes a Viernes: 8:00 AM A 12 M 1:00PM A 5:00 PM",
-    state: "Mérida"
+    state: "Mérida",
+    code: "8204C"
   },
 
   {
@@ -640,7 +631,8 @@ const tealca = [
       " Av. Fernández Peña, Edificio Tinajero, PB , Local No. 1, Ejido, Estado Mérida",
     phone: "N/A",
     horario: "N/A",
-    state: "Mérida"
+    state: "Mérida",
+    code: "8301C"
   },
   {
     value: "El Vigia en El Vigía, estado Mérida",
@@ -649,7 +641,8 @@ const tealca = [
       "Sector La Inmaculada Calle Nro 9 entre Avenidas 11 y 12 Local 11-22 Parroquia Presidente Paez Municipio Alberto Adriani ZP 5145. El Vigía estado Mérida",
     phone: "N/A",
     horario: "N/A",
-    state: "Mérida"
+    state: "Mérida",
+    code: "8301"
   },
   {
     value: "Mérida en Mérida, estado Mérida",
@@ -658,7 +651,8 @@ const tealca = [
       ":Final de la Avenida Don Tulio Febres Cordero frente a las canchas de Tenis. Parroquia Domingo Peña, Municipio Libertador Edo Mérida Z.P 5101",
     phone: "N/A",
     horario: "N/A",
-    state: "Mérida"
+    state: "Mérida",
+    code: "8301B"
   },
   {
     value: "Charallave en Charallave, estado Miranda",
@@ -667,7 +661,8 @@ const tealca = [
       "Carretera Charallave - Cua Kilómetro 1 Centro Comercial Industrial Franfil P.B. Local Nro 2 Municipio Cristóbal Rojas Parroquia Charallave ZP 1210 Puntos de referencia: A 100 metros de Intercable, debajo de la Discoteca Life Club.",
     phone: "0239 248.27.11",
     horario: "Lunes a Viernes: 8:00 AM a 12:00 PM y de 1:00 PM a 4:00 PM",
-    state: "Miranda"
+    state: "Miranda",
+    code: "1501"
   },
   {
     value: "Fila de Mariches en Fila de Mariches, estado Miranda",
@@ -676,7 +671,8 @@ const tealca = [
       ":Carretera Petare Santa Lucía, kilómetro 9, Sector El Limoncito, Urbanización Hacienda La Candelaria, Parroquia Filas de Mariche Municipio Sucre,Zp 1073",
     phone: "N/A",
     horario: "N/A",
-    state: "Miranda"
+    state: "Miranda",
+    code: "1132"
   },
   {
     value: "Guatire en Guatire, estado Miranda",
@@ -685,7 +681,8 @@ const tealca = [
       ":Calle Zamora Casa Nro. 45 Local B Municipio Zamora Parroquia Guatire Zp 1221",
     phone: "N/A",
     horario: "N/A",
-    state: "Miranda"
+    state: "Miranda",
+    code: "1302"
   },
   {
     value: "Los Teques en Los Teques, estado Miranda",
@@ -694,7 +691,8 @@ const tealca = [
       "Av. Pedro Russo Ferrer Sector El Tambor Centro Comercial Vasconia PB Local L 12  Parroquia Los Teques Municipio Guaicaipuro Los Teques Miranda Venezuela Zp. 1201",
     phone: "N/A",
     horario: "N/A",
-    state: "Miranda"
+    state: "Miranda",
+    code: "1404B"
   },
   {
     value:
@@ -705,28 +703,11 @@ const tealca = [
       "Av Perimetral Centro Comercial Los Castores Edf. E Local L-E diagonal a Domino's Pizza San Antonio de Los Altos Municipio Los Salías Parroquia San Antonio de Los Altos ZP 1204",
     phone: "N/A",
     horario: "N/A",
-    state: "Miranda"
+    state: "Miranda",
+    code: "1404"
   },
 
-  {
-    value: "Maturín (Oficina Principal) en Maturín, estado Monagas",
-    label: "Maturín (Oficina Principal) en Maturín, estado Monagas",
-    direction:
-      "Av. Raul Leoni, Galpón Nº 1, adyacente a la Escuela Técnica Industrial, Municipio Maturin, parroquia Las Cocuizas, Monagas Zp. 6201",
-    phone: "(0291) 643.93.50 / 642.23.10",
-    horario: "8:00 am a 5:30 pm",
-    state: "Monagas"
-  },
-  {
-    value: "Maturín (Oficina Principal) en Maturín, estado Monagas",
-    label: "Maturín (Oficina Principal) en Maturín, estado Monagas",
-    direction:
-      "Av. Raul Leoni, Galpón Nº 1, adyacente a la Escuela Técnica Industrial, Municipio Maturin, parroquia Las Cocuizas, Monagas Zp. 6201",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Monagas"
-  },
-
+ 
   {
     value: "Maturín Centro 3004 en Maturín, estado Monagas",
     label: "Maturín Centro 3004 en Maturín, estado Monagas",
@@ -734,7 +715,8 @@ const tealca = [
       "Av. Miranda con Carrera 11, Edificio Tealca, Planta Baja, Centro San Simón, Parroquia Bolívar, Municipio Maturín, Estado Monagas, Venezuela, Zp. 6201.",
     phone: "N/A",
     horario: "N/A",
-    state: "Monagas"
+    state: "Monagas",
+    code: "3004"
   },
 
   {
@@ -744,7 +726,8 @@ const tealca = [
       "Carrera 6B con calle 7, casa nº 20, sector las Cocuizas, a 1/2 cuadra de la Iglesia Santo Domingo cuzando a mano izquierda",
     phone: "N/A",
     horario: "N/A",
-    state: "Monagas"
+    state: "Monagas",
+    code: "3005"
   },
   {
     value: "Maturín Norte 3006 en Maturín, estado Monagas",
@@ -753,17 +736,8 @@ const tealca = [
       "Av. Alirio Ugarte Pelayo, Edif. Centro Empresarial San Miguel, Planta Baja, Local PB-04, Urb. Sector Tipuro, Zona Postal 6201, Maturín, Estado Monagas",
     phone: "N/A",
     horario: "N/A",
-    state: "Monagas"
-  },
-
-  {
-    value: "Porlamar (Oficina Principal) en Porlamar, estado Nueva Esparta",
-    label: "Porlamar (Oficina Principal) en Porlamar, estado Nueva Esparta",
-    direction:
-      "Calle Lozada cruce con calle principal de Conejeros Edf. Coromoto P.B. SectorConejeros Municipio Mariño Parroquia Mariño Z.P. 6301 Al lado de repuestos Mi Compayito.",
-    phone: "(0295) 415.86.61 / 415.86.27",
-    horario: "7:00 am a 4:00 pm. Horario Corrido.",
-    state: "Porlamar"
+    state: "Monagas",
+    code: "3006"
   },
   {
     value: "Porlamar 4 de Mayo en Porlamar, estado Nueva Esparta",
@@ -771,15 +745,26 @@ const tealca = [
     direction: "Av. 4 de Mayo, CC 4 de Mayo, Nivel PB, Local 09 (frente al Restaurante Remo), Porlamar, Estado Nueva Esparta, Zona Postal 6310",
     phone: "N/A",
     horario: "N/A",
-    state: "Porlamar"
+    state: "Porlamar",
+    code: "2706"
+  },
+  {
+    value: "Paraguachi, El Tirano, La Mira,, estado Nueva Esparta",
+    label: "Paraguachi, El Tirano, La Mira, estado Nueva Esparta",
+    direction: "Entregas y recolectas en el Estado Nueva Esparta, cubre las zonas de  Paraguachi, El Tirano, La Mira, Playa El Agua, Juangriego, La Guardia, Av. Juan Bautista Arismendi hasta Punta de Piedra, la Av. Simplicio Rodriguez, Av. 31 de Julio.    ",
+    phone: "N/A",
+    horario: "N/A",
+    state: "Porlamar",
+    code: "J2706"
   },
   {
     value: "Acarigua en Acarigua, estado Portuguesa",
     label: "Acarigua en Acarigua, estado Portuguesa",
-    direction: "Sector Araure Centro de Araure calle 4 Esquina Av. 25. Municipio Araure, Parroquia Araure ZP 3302Portuguesa. Acarigua",
+    direction: "Calle 30 cruce con Avenida 35, CC Páez, Nivel PB, Local 15, sector centro, Acarigua. Estado Portuguesa.",
     phone: "N/A",
     horario: "N/A",
-    state: "Portuguesa"
+    state: "Portuguesa",
+    code: "5401-B"
   },
   {
     value: "Cumaná en Cumaná, estado Sucre",
@@ -788,7 +773,8 @@ const tealca = [
       "Av. Aristides Rojas, sector Perimetral C.C Marigamar, P.B, antiguo 89x, frente a Serma Compute",
     phone: "N/A",
     horario: "N/A",
-    state: "Sucre"
+    state: "Sucre",
+    code: "2802"
   },
   {
     value: "Barrio Obrero en San Cristóbal, estado Táchira",
@@ -797,7 +783,8 @@ const tealca = [
       "Carrera 16, Esquina calle 13 No. 12-83 (a 1 cuadra de la residencia de Gobernadores), Barrio Obrero, Municipio San Cristóbal, Parroquia Pedro María Morantes, ZP 5001",
     phone: "N/A",
     horario: "N/A",
-    state: "Táchira"
+    state: "Táchira",
+    code: "8111"
   },
   {
     value: "La Concordia en San Cristóbal, estado Táchira",
@@ -806,7 +793,8 @@ const tealca = [
       "Carrera 12, Local # 2-49 a 100 metros bajando de la iglesia el Carmen saliendo por la Av. 19 de Abril. Barrio el Carmen, Zona Postal 5001. San Cristóbal.",
     phone: "N/A",
     horario: "N/A",
-    state: "Táchira"
+    state: "Táchira",
+    code: "8110"
   },
   {
     value: "San Antonio del Táchira en San Antonio del Táchira, estado Táchira",
@@ -815,7 +803,8 @@ const tealca = [
       "Calle 11, Edf Charly, local OA-156- 160, via aeropuerto, diagonal a la iglesia la sagrada familia",
     phone: "N/A",
     horario: "N/A",
-    state: "Táchira"
+    state: "Táchira",
+    code: "8103"
   },
   {
     value: "San Cristóbal en San Cristóbal, estado Táchira",
@@ -824,17 +813,8 @@ const tealca = [
       " Av. Cuatricentenaria No. H-40 frente a la torre FIAT y diagonal a MADECO.",
     phone: "N/A",
     horario: "N/A",
-    state: "Táchira"
-  },
-
-  {
-    value: "San Cristóbal (Oficina Principal) en San Cristóbal, estado Táchira",
-    label: "San Cristóbal (Oficina Principal) en San Cristóbal, estado Táchira",
-    direction:
-      "Sector San Cristóbal, Redoma del Educador, Carrera 2 con Calle Palmira, Galpón sin número. A dos calles de la Clínica el Samán a mano derecha. Parroquia San Sebastián, Municipio San Cristóbal, San Cristóbal, Estado Táchira, Venezuela. ZP 5001",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Táchira"
+    state: "Táchira",
+    code: "8109"
   },
   {
     value: "Ureña en Ureña, estado Táchira",
@@ -842,7 +822,8 @@ const tealca = [
     direction: "Calle 5 Casa Nro. 5-13. Barrio la Guajira, Ureña",
     phone: "N/A",
     horario: "N/A",
-    state: "Táchira"
+    state: "Táchira",
+    code: "8107"
   },
   {
     value: "Valera en Valera, estado Trujillo",
@@ -851,7 +832,8 @@ const tealca = [
       " Av. Bolívar sector las Acacias entre calle 17 y 18. Edf San Rafael, local Nº 1, Valera",
     phone: "N/A",
     horario: "N/A",
-    state: "Trujillo"
+    state: "Trujillo",
+    code: "8204"
   },
   {
     value: "Caribe en Caraballeda, estado Vargas",
@@ -860,7 +842,8 @@ const tealca = [
       "Av. Boulevard Naiguatá, Quinta Yudimar, Local 01, Urb. Tanaguarena, Parroquia  Caraballeda, Edo. Vargas. (Al lado del Restaurant Junkomar), Zona Postal 1165",
     phone: "N/A",
     horario: "N/A",
-    state: "Vargas"
+    state: "Vargas",
+    code: "1204"
   },
   {
     value: "La Guaira en La Guaira, estado Vargas",
@@ -869,7 +852,8 @@ const tealca = [
       "Urb. José María Vargas Calle 4 Local TEALCA Parroquia Maiquetía Municipio Vargas Venezuela Zp. 1161",
     phone: "N/A",
     horario: "N/A",
-    state: "Vargas"
+    state: "Vargas",
+    code: "1203"
   },
   {
     value: "San Felipe en San Felipe, estado Yaracuy",
@@ -878,7 +862,8 @@ const tealca = [
       "Sector Punta Brava, Avenida La Patria entre Avenidas 8 y 9, Parroquia San Felipe, Municipio San Felipe, San Felipe, Estado Yaracuy, Zona Postal 3201",
     phone: "N/A",
     horario: "N/A",
-    state: "Yaracuy"
+    state: "Yaracuy",
+    code: "7801"
   },
   {
     value: "Cabimas en Cabimas, estado Zulia",
@@ -887,7 +872,8 @@ const tealca = [
       "Carretera H, Centro Comercial Borjas (Centro 99), PB, Local 16, Parroquia Carmen Herrera, Municipio Cabimas, Estado Zulia, Venezuela, Zp. 4013",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",
+    code: "8405"
   },
   {
     value: "Ciudad Ojeda en Ciudad Ojeda, estado Zulia",
@@ -896,16 +882,8 @@ const tealca = [
       ": Av. Intercomunal Sector Las Morochas Edf. Comercial Tamare C.A (Cotaca) Local 2 Municipio Lagunillas Parroquia Alonzo de Ojeda Z.P 4019",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
-  },
-  {
-    value: "Maracaibo (Oficina Principal) en Maracaibo, estado Zulia",
-    label: "Maracaibo (Oficina Principal) en Maracaibo, estado Zulia",
-    direction:
-      "Av. 24, con calle 68 sector Santa Maria a una cuadra de la oficina principal de Net",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",
+    code: "8406"
   },
   {
     value: "Maracaibo Centro (Av. Las Delicias) en Maracaibo, estado Zulia",
@@ -914,7 +892,8 @@ const tealca = [
       "Avenida 15 (Av. Las Delicias) entre calles 74 y 75,Municipio Maracaibo, Parroquia Olegario Villalobos, ZP 4001 , Maracaibo, Edo. Zulia",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",
+    code:"8502B"
   },
   {
     value: "Maracaibo Centro (La Consolación) en Maracaibo, estado Zulia",
@@ -923,7 +902,8 @@ const tealca = [
       "Av. 4, Bella vista con calle 79. CC Shalom, PB, Local Nº 7, frente a la Iglesia de la Consolaciòn",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",
+    code:"8502"
   },
   {
     value: "Maracaibo Circunvalación 2 en Maracaibo, estado Zulia",
@@ -932,7 +912,8 @@ const tealca = [
       "Av. Circunvalación 2. CC Dividive Local G11. A 100mts del Hotel Maruma frente al supermercado De Candido",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",
+    code:"8510"
   },
   {
     value: "Maracaibo Dr. Portillo en Maracaibo, estado Zulia",
@@ -941,25 +922,8 @@ const tealca = [
       "Calle 78, Sector Dr. Portillo, Centro Comercial Framel, PB, Locales 3 y 4, Parroquia Chiquinquirá, Municipio Maracaibo, Maracaibo, Estado Zulia, Zona Postal 4001",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
-  },
-  {
-    value: "Maracaibo Norte en Maracaibo, estado Zulia",
-    label: "Maracaibo Norte en Maracaibo, estado Zulia",
-    direction:
-      "Av. 3F con Calle 64, Centro Comercial San Rafael Local 2 al lado de Hogar Clinica San Rafael ",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Zulia"
-  },
-  {
-    value: "Maracaibo Norte (Las Delicias) en Maracaibo, estado Zulia",
-    label: "Maracaibo Norte (Las Delicias) en Maracaibo, estado Zulia",
-    direction:
-      "Av. 15 Las Delicias entre calles 66A y 67 (Cecilio Acosto), C.C El Tucán, Local 2, PB, Maracaibo, Estado Zulia",
-    phone: "N/A",
-    horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",
+    code:"8511"
   },
   {
     value: "Maracaibo Norte Barrio San Agustin en Maracaibo, estado Zulia",
@@ -968,7 +932,8 @@ const tealca = [
       "Barrio San Agustin. Av. Goajira, con calle 46, Nº 16-05, local 2. A una cuadra del Centro Médico del Norte Via al Sambil",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",  
+    code:"8504"
   },
   {
     value: "Maracaibo Oeste en Maracaibo, estado Zulia",
@@ -977,7 +942,8 @@ const tealca = [
       "Calle 79 Edif. Orsara PB Local 48-56 Sector La Limpia. Maracaibo",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",  
+    code:"8508"
   },
   {
     value: "Maracaibo Sur en Maracaibo, estado Zulia",
@@ -986,7 +952,8 @@ const tealca = [
       "Urbanización Sierra Maestra Calle 18 entre Av 11 y 12 Local 11-80 al lado del Registro Civil. Municipio San Francisco Parroquia Franciosco Ochoa Zp 4004",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",  
+    code:"8509"
   },
   {
     value: "Maracaibo Sur (La Coromoto) en Maracaibo, estado Zulia",
@@ -995,7 +962,8 @@ const tealca = [
       "Urb. Coromoto, Av. 40, CC Vistana, Local No. 5, Parroquia San Francisco, Municipio San Francisco, Maracaibo, Estado Zulia, Zona Postal 4005",
     phone: "N/A",
     horario: "N/A",
-    state: "Zulia"
+    state: "Zulia",  
+    code:"8509B"
   }
 ];
 

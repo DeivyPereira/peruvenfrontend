@@ -784,6 +784,7 @@ export default {
           "DNI/Pasaporte/Cedula",
           "Telefono",
           "Ciudad donde envia",
+          "Tealca Codigo Oficina",
           "Peso Peruven",
           "Descripción Encomienda",
           "Total Boleta Dolares",
@@ -793,22 +794,18 @@ export default {
           "Nombre y Apellido",
           "Telefono",
           "Cedula",
-          "Peso TEALCA",
+          "Dirección",
           "Codigo TEALCA",
-          "Precio KG TEALCA",
-          "Flete Copa",
-          "Total",
-          "Utilidad",
-          "Estado"
         ];
         const filterVal = [
-          "date",
+          "created",
           "tracking",
           { city: "clients" },
           { shipper: "clients" },
           { number: "clients" },
           { phone: "clients" },
           "tealca_office",
+          "tealca_code",
           "actual_weight",
           "productos",
           "total",
@@ -818,12 +815,8 @@ export default {
           { attention: "client_afiliated" },
           { phone: "client_afiliated" },
           { number: "client_afiliated" },
+          { address: "client_afiliated" },
           "-",
-          "-",
-          "-",
-          "-",
-          "-",
-          "-"
         ];
         const data = this.formatJson(filterVal, this.complex.items);
         excel.export_json_to_excel({
