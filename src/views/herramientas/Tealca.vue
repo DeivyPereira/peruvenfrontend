@@ -1,16 +1,78 @@
 <template>
   <div id="shippingOrder">
-    <v-container grid-list-xl fluid>
-      <v-layout row wrap>
-        <v-flex lg12>
-                <v-btn color="success" @click="handleDownload()" flat>
-                  <i class="fa fa-file-excel"></i>&nbsp;
-                  Exportar
-                </v-btn>
-        </v-flex>
-      </v-layout>
-    </v-container>
+    <v-container class="grey lighten-5">
+      <v-row no-gutters>
+        <v-col cols="12">
+          <h4>Selecciona las fechas que deseas obtener información</h4>
+        </v-col>
+        <v-col cols="12" xs="4">
+          <v-menu
+            v-model="menu2"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="out_date"
+                :rules="[v => !!v || 'Campo requerido']"
+                label="Fecha de Inicio"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="out_date" @input="menu2 = false" locale="es-es"></v-date-picker>
+          </v-menu>
+        </v-col>
 
+        <v-col cols="12" xs="4">
+          <v-menu
+            v-model="menu1"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            lazy
+            transition="scale-transition"
+            offset-y
+            full-width
+            min-width="290px"
+          >
+            <template v-slot:activator="{ on }">
+              <v-text-field
+                v-model="arriving_date"
+                :rules="[v => !!v || 'Campo requerido']"
+                label="Fecha Final"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker v-model="arriving_date" @input="menu1 = false" locale="es-es"></v-date-picker>
+          </v-menu>
+        </v-col>
+        <v-col cols="12" xs="12">
+          <v-btn color="success" @click="getOrders()" flat>
+            <i class="fa fa-search"></i>&nbsp;
+            Buscar
+          </v-btn>
+
+          <v-btn color="success" @click="handleDownload()" flat :disabled="this.downloadLoading">
+            <i class="fa fa-file-excel"></i>&nbsp;
+            Exportar
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" xs="12" v-if="loading">
+          Cargando
+          <div class="lds-ring">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
     <v-snackbar :timeout="3000" top right :color="snackbar.color" v-model="snackbar.show">
       <p style="margin: 0">
         <i :class="snackbar.icon"></i>
@@ -32,11 +94,15 @@ export default {
   data() {
     return {
       search: "",
+      loading: false,
       disabled: false,
       modalLoader: false,
       saveLoader: false,
       admin: true,
+      downloadLoading: true,
       selectedTab: null,
+      arriving_date: "",
+      out_date: "",
       snackbar: {
         show: false,
         text: "",
@@ -98,7 +164,7 @@ export default {
       },
       complex: {
         headers: [
-           {
+          {
             text: "Fecha de recepción",
             value: "fecha"
           },
@@ -134,11 +200,15 @@ export default {
     };
   },
   created() {
-    this.getOrders();
+    //this.getOrders();
   },
   methods: {
     getOrders() {
-      var url = "ship-order";
+      var url =
+        "ship-order?datestart=" +
+        this.out_date +
+        "&dateend=" +
+        this.arriving_date;
       if (
         localStorage.getItem("role") == '"2"' ||
         localStorage.getItem("role") == '"3"'
@@ -148,8 +218,11 @@ export default {
         var url = "ship-order";
         this.admin = true;
       }
+      this.loading = true;
       axios.get(url).then(response => {
         this.complex.items = response.data.items;
+        this.loading = false;
+        this.downloadLoading = false;
       });
     },
     handleDownload() {
@@ -174,7 +247,7 @@ export default {
           "Telefono",
           "Cedula",
           "Precio Tealca",
-          "Precio Copa",
+          "Precio Copa"
         ];
         const filterVal = [
           "created",
@@ -216,8 +289,10 @@ export default {
             Object.keys(j).forEach(function(key) {
               let object = j[key];
               let value = key;
+              
               val = v[object][value] + " " + val;
             });
+           
             return val;
           } else {
             return v[j];
@@ -230,10 +305,46 @@ export default {
     }
   }
 };
+
 </script>
 
 <style scoped>
 .hover:hover {
   background: rgb(210, 210, 210);
+}
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid blue;
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: blue transparent transparent transparent;
+}
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+@keyframes lds-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>

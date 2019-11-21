@@ -101,8 +101,8 @@
               <v-card-title>
                 <v-layout row>
                   <v-flex lg-10 xs-10 md-10>
-                    <span class="headline" v-if="isEdit == false">Nuevo Seguro</span>
-                    <span class="headline" v-if="isEdit">Editar Seguro</span>
+                    <span class="headline" v-if="isEdit == false">Nuevo Salida</span>
+                    <span class="headline" v-if="isEdit">Editar Salida</span>
                   </v-flex>
                   <v-flex lg-2 xs-2 md-2 style="text-align: right">
                     <v-progress-circular

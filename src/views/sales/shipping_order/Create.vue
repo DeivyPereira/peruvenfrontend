@@ -257,6 +257,14 @@
                     item-value="value"
                   ></v-select>
                 </v-flex>
+                
+                <v-flex lg4 md4 sm6 xs6>
+                  <v-checkbox
+                      v-model="form.details.door_to_door"
+                      label="Encomienda puerta a puerta"
+                    ></v-checkbox>
+                </v-flex>
+
                 <v-flex lg12 md12 sm12 xs12 v-if="form.details.tealca_direction">
                   <p>{{form.details.tealca_direction }}</p>
                 </v-flex>
@@ -766,7 +774,7 @@
             <v-layout>
               <v-flex lg6 md6 sm12 xs12>
                 <v-btn flat @click="e1 = 4" :disabled="disabledBtn.goBackBeforeSave">Regresar</v-btn>
-                <v-btn color="primary" @click="save()" :loading="loading.saveBtn">Generar</v-btn>
+                <v-btn color="primary" @click="save()" :loading="loading.saveBtn" :disabled="disabledBtn.goBackBeforeSave">Generar</v-btn>
               </v-flex>
             </v-layout>
           </v-stepper-content>
@@ -1361,6 +1369,7 @@ export default {
           tealca_office: "",
           tealca_direction: "",
           tealca_code: "",
+          door_to_door: false,
           currency: "",
           total_ensurance: "",
           currency_ensurance: "",
@@ -2151,8 +2160,8 @@ export default {
         });
     },
     save() {
-     // this.disabledBtn.goBackBeforeSave = true;
-     // this.loading.saveBtn = true;
+      this.disabledBtn.goBackBeforeSave = true;
+      this.loading.saveBtn = true;
       if (this.form.client.id == null) {
         this.saveClientIfNot();
       } else if (
@@ -2181,6 +2190,7 @@ export default {
         tealca_office: this.form.details.tealca_office,
         tealca_direction: this.form.details.tealca_direction,
         tealca_code: this.form.details.tealca_code,
+        door_to_door: this.form.details.door_to_door,
         modality: this.form.details.modality,
         currency: this.form.details.currency,
         product_type: this.form.details.product_type,

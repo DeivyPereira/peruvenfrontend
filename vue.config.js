@@ -1,3 +1,3 @@
-/*module.exports = {
-    publicPath: '/peruven/'
-}*/
+module.exports = {
+    publicPath: '/sistema/'
+}

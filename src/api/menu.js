@@ -64,7 +64,7 @@ const Menu =  [
     roles: [ {n:1}, {n:2}, {n:3} ],
     items: [
       { name: 'newShippOrder', title: 'Ordenes de Envío', component: 'ShippOrder', roles: [ {n:1}, {n:2}, {n:3} ] },
-      { name: 'OrderTracking', title: 'Rastreo Ordenes de envío', component: 'OrderTracking', roles: [ {n:1}, {n:2}, {n:3} ] },
+      { name: 'OrderTracking', title: 'Tracking Ordenes de envío', component: 'OrderTracking', roles: [ {n:1}, {n:2}, {n:3} ] },
     ]
   },
   {
@@ -76,7 +76,7 @@ const Menu =  [
     items: [
       { name: 'Packaging', title: 'Fecha de Salida', component: 'Packaging', roles: [ {n:1}, {n:2} ] },
       { name: 'Assemble', title: 'Ensamblar', component: 'Assemble', roles: [ {n:1}, {n:2} ] },
-      { name: 'PackageTracking', title: 'Rastreo de Consolidados', component: 'PackageTracking', roles: [ {n:1}, {n:2}, {n:3} ] }
+      { name: 'PackageTracking', title: 'Tracking de Consolidado', component: 'PackageTracking', roles: [ {n:1}, {n:2}, {n:3} ] }
     ]
   },
   {
@@ -86,7 +86,7 @@ const Menu =  [
     icon: 'fa fa-cogs',
     roles: [ {n:1}, {n:2}, {n:3} ],
     items: [
-      { name: 'Tealca', title: 'Reporte Tealca', component: 'Tealca', roles: [ {n:1}, {n:2} ] },
+      { name: 'Tealca', title: 'Base de Datos', component: 'Tealca', roles: [ {n:1}, {n:2} ] },
     ]
   },
   {

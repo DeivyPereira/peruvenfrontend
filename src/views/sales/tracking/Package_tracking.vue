@@ -47,9 +47,21 @@
                       dark
                       color="primary"
                       small
-                      @click="edit( props.item.id )"
+                      @click.native="basic.dialog = true; edit( props.item.id )"
                     >
                       <v-icon>edit</v-icon>
+                    </v-btn>
+                    <v-btn
+                      depressed
+                      outline
+                      icon
+                      fab
+                      dark
+                      color="primary"
+                      small
+                      @click.native="basicAdd.dialog=true; edit( props.item.id )"
+                    >
+                      <i class="fa fa-plus"></i>
                     </v-btn>
                   </td>
                 </template>
@@ -81,15 +93,17 @@
                       <v-flex xs12 sm6 md6>
                         <v-text-field v-model="tracking" disabled label="Tracking"></v-text-field>
                       </v-flex>
+
                       <v-flex xs12 sm6 md6>
-                        <v-text-field v-model="location" label="Ubicación Actual"></v-text-field>
+                        <v-select
+                          label="Ubicación Actual"
+                          :items="basicAdd.location"
+                          v-model="location"
+                          item-text="text"
+                          item-value="value"
+                        ></v-select>
                       </v-flex>
-                      <v-flex xs6 sm3 md3>
-                        <v-text-field v-model="lat" label="Latitud"></v-text-field>
-                      </v-flex>
-                      <v-flex xs6 sm3 md3>
-                        <v-text-field v-model="lng" label="Longitud"></v-text-field>
-                      </v-flex>
+
                       <v-flex xs12 sm6 md6>
                         <v-select
                           label="Estado Actual"
@@ -113,8 +127,59 @@
                     color="success"
                     :loading="saveLoader"
                     :disabled="saveLoader"
-                    @click="save()"
-                  >Guardar</v-btn>
+                    @click="edit()"
+                  >Editar</v-btn>
+                </v-card-actions>
+              </v-form>
+            </v-card>
+          </v-dialog>
+
+          <v-dialog v-model="basicAdd.dialog" persistent max-width="1024px">
+            <v-card>
+              <v-card-title>
+                <v-layout row>
+                  <v-flex lg-2 xs-2 md-2 style="text-align: right">
+                    <v-progress-circular
+                      indeterminate
+                      v-if="modalLoader == true"
+                      :size="30"
+                      color="primary"
+                    ></v-progress-circular>
+                  </v-flex>
+                </v-layout>
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-form ref="form">
+                <v-card-text style="padding: 10px">
+                  <v-container grid-list-md>
+                    <v-layout wrap>
+                      <v-flex xs12 sm6 md6>
+                        <v-text-field v-model="tracking" disabled label="Tracking"></v-text-field>
+                      </v-flex>
+                      <v-flex xs12 sm6 md6>
+                        <v-select
+                          label="Ubicación Actual"
+                          :items="basicAdd.location"
+                          v-model="location"
+                          item-text="text"
+                          item-value="value"
+                        ></v-select>
+                      </v-flex>
+                      <v-flex xs12 sm12 md12>
+                        <v-textarea v-model="description" label="Descripción"></v-textarea>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="error" @click.native="basicAdd.dialog = false">Cerrar</v-btn>
+                  <v-btn
+                    color="success"
+                    :loading="saveLoader"
+                    :disabled="saveLoader"
+                    @click="addStatusTracking()"
+                  >Agregar Tracking</v-btn>
                 </v-card-actions>
               </v-form>
             </v-card>
@@ -156,6 +221,7 @@ export default {
       search: "",
       isEdit: false,
       id: null,
+      idpackage:null,
       selectedTab: null,
       description: "",
       location: "",
@@ -207,6 +273,24 @@ export default {
           { value: "2", text: "Finalizado" }
         ]
       },
+      basicAdd: {
+        dialog: false,
+        location: [
+          { value: "Almacén", text: "Almacén" },
+          { value: "Carga Aeropuertaria", text: "Carga Aeropuertaria" },
+          { value: "En Transito", text: "En Transito" },
+          { value: "Pais de Destino", text: "Pais de Destino" },
+          { value: "Desembarque de paquete", text: "Desembarque de paquete" },
+          { value: "Almacen de Tealca", text: "Almacen de Tealca" },
+          { value: "Distribucción de Tealca", text: "Distribucción de Tealca" },
+          { value: "Oficina de Tealca", text: "Oficina de Tealca" },
+          { value: "En Destino final", text: "En Destino final" },
+          { value: "Devolución", text: "Devolución" },
+          { value: "Error", text: "Error" },
+          { value: "Rechazado", text: "Rechazado" },
+          { value: "Por verificar", text: "Por verificar" }
+        ]
+      },
       saveLoader: false,
       removeLoader: false,
       generalLoader: false,
@@ -251,7 +335,6 @@ export default {
     },
     edit(id) {
       this.isEdit = true;
-      this.basic.dialog = true;
       this.modalLoader = true;
       this.disabled = true;
       axios
@@ -264,6 +347,7 @@ export default {
           this.lng = response.data.data.lng;
           this.status = response.data.data.status;
           this.tracking = response.data.data.package.tracking;
+          this.idpackage = response.data.data.package.id
           this.lng = response.data.data.lng;
           this.modalLoader = false;
           this.disabled = false;
@@ -273,6 +357,7 @@ export default {
         });
     },
     clearInputs() {
+      this.idpackage = null;
       this.id = null;
       this.description = "";
       this.location = "";
@@ -303,6 +388,33 @@ export default {
               icon: "fa fa-check"
             };
             this.saveLoader = false;
+            this.getList();
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
+    },
+
+    addStatusTracking(id = null) {
+      if (this.$refs.form.validate()) {
+        var data = {
+          description: this.description,
+          location: this.location,
+          status: this.status
+        };
+        this.saveLoader = true;
+        axios
+          .put("addtracking/" + this.idpackage, data)
+          .then(response => {
+            this.snackbar = {
+              show: true,
+              text: "Tracking Agregado con Exito",
+              color: "success",
+              icon: "fa fa-check"
+            };
+            this.saveLoader = false;
+            this.basicAdd.dialog = false;
             this.getList();
           })
           .catch(error => {
